@@ -29,16 +29,25 @@ export function ProductCard({ product }: ProductCardProps) {
               {tag}
             </span>
           ))}
-          {product.originalPrice && (
+          {product.original_price && (
             <span className="bg-error text-on-error text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-              -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+              -{Math.round(((product.original_price - product.price) / product.original_price) * 100)}%
             </span>
           )}
         </div>
 
         {/* Image Placeholder */}
-        <div className="absolute inset-0 flex items-center justify-center text-7xl group-hover:scale-110 transition-transform duration-500 select-none">
-          {product.image}
+        <div className="absolute inset-0 flex items-center justify-center bg-surface-variant overflow-hidden group-hover:scale-105 transition-transform duration-500">
+          {product.image && (product.image.startsWith('/') || product.image.startsWith('http')) ? (
+             /* eslint-disable-next-line @next/next/no-img-element */
+             <img
+               src={product.image}
+               alt={product.name}
+               className="w-full h-full object-cover"
+             />
+          ) : (
+            <span className="text-7xl select-none">{product.image || '🍵'}</span>
+          )}
         </div>
 
         {/* Quick Add Overlay */}
@@ -52,8 +61,8 @@ export function ProductCard({ product }: ProductCardProps) {
                 id: product.id,
                 name: product.name,
                 priceVnd: product.price,
-                weight: product.weight,
-                image: product.image
+                weight: product.weight ?? '',
+                image: product.image ?? '🍵'
               });
             }}
           >
@@ -86,9 +95,9 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-end justify-between mt-auto pt-4 border-t border-outline-variant">
           <div className="flex flex-col">
-             {product.originalPrice && (
+             {product.original_price && (
               <Typography variant="label-medium" className="text-on-surface-variant line-through text-xs opacity-70">
-                {product.originalPrice.toLocaleString('vi-VN')}đ
+                {product.original_price.toLocaleString('vi-VN')}đ
               </Typography>
              )}
             <Typography variant="title-medium" className="text-primary font-bold">

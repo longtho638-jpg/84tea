@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { AuthButton } from "@/components/auth/auth-button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -98,6 +99,8 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
 
         {/* Navigation Links */}
         <nav className="p-4 space-y-2">
+          <AuthButton variant="full" className="mb-4" />
+
           {navLinks.map((link) => (
             <Link
               key={link.href}

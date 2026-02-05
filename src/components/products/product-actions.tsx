@@ -14,8 +14,8 @@ export function ProductActions({ product }: { product: Product }) {
       id: product.id,
       name: product.name,
       priceVnd: product.price,
-      weight: product.weight,
-      image: product.image
+      weight: product.weight || '100g',
+      image: product.image || '🍵'
     });
 
     setIsAdded(true);

@@ -6,7 +6,7 @@ import { MainLayout, FooterSection } from "@/components/layout";
 import { ProductGallery } from "@/components/products/product-gallery";
 import { ProductActions } from "@/components/products/product-actions";
 import { ProductCard } from "@/components/products/product-card";
-import { PRODUCTS } from "@/lib/data/products";
+import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/data/server-products";
 
 interface ProductPageProps {
   params: Promise<{
@@ -15,22 +15,21 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  const products = await getProducts();
+  return (products || []).map((product) => ({
     slug: product.slug,
   }));
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id
-  ).slice(0, 3);
+  const relatedProducts = await getRelatedProducts(product.category, product.id);
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
@@ -57,8 +56,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Left: Gallery */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
               <ProductGallery
-                mainImage={product.image}
-                images={product.images}
+                mainImage={product.image || ''}
+                images={product.images || []}
               />
             </div>
 
@@ -88,24 +87,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 <div className="flex items-center gap-2 text-on-surface-variant mb-6">
                    <span className="material-symbols-rounded text-secondary fill-1">star</span>
-                   <span className="font-bold text-on-surface">{product.rating}</span>
+                   <span className="font-bold text-on-surface">{product.rating || 0}</span>
                    <span className="text-outline-variant">|</span>
-                   <span>{product.reviews} đánh giá</span>
+                   <span>{product.reviews_count || 0} đánh giá</span>
                 </div>
 
                 <div className="flex items-baseline gap-4 mb-6">
                   <Typography variant="display-medium" className="text-primary font-bold">
                     {product.price.toLocaleString('vi-VN')}đ
                   </Typography>
-                  {product.originalPrice && (
+                  {product.original_price && (
                     <Typography variant="title-large" className="text-outline line-through">
-                      {product.originalPrice.toLocaleString('vi-VN')}đ
+                      {product.original_price.toLocaleString('vi-VN')}đ
                     </Typography>
                   )}
                 </div>
 
                 <Typography variant="body-large" className="text-on-surface-variant leading-relaxed">
-                  {product.longDescription || product.description}
+                  {product.long_description || product.description}
                 </Typography>
               </div>
 
@@ -176,7 +175,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           {/* Related Products */}
-          {relatedProducts.length > 0 && (
+          {relatedProducts && relatedProducts.length > 0 && (
             <div className="border-t border-outline-variant pt-16">
               <div className="flex items-center justify-between mb-8">
                 <Typography variant="headline-medium" className="font-display text-primary">

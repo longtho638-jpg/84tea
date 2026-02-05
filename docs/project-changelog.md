@@ -1,5 +1,12 @@
 # Project Changelog
 
+## [1.0.1] - 2026-02-06
+
+### Fixed
+- **Code Quality**: Resolved all ESLint warnings (removed unused imports in dialog.tsx).
+- **Resilience**: Implemented `react-error-boundary` with a global fallback UI wrapper.
+- **Type Safety**: Verified TypeScript strict mode compliance (0 errors).
+
 ## [1.0.0] - 2026-02-06
 
 ### Added

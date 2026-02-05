@@ -1,14 +1,11 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { ProductCard } from "@/components/products/product-card";
-import { PRODUCTS } from "@/lib/data/products";
+import { getFeaturedProducts } from "@/lib/data/server-products";
 
-export function FeaturedProducts() {
-  // Filter featured products and take the first 4
-  const featuredProducts = PRODUCTS.filter(p => p.featured).slice(0, 4);
+export async function FeaturedProducts() {
+  const featuredProducts = await getFeaturedProducts();
 
   return (
     <section className="py-24 bg-surface-container-low">

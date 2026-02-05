@@ -1,0 +1,106 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth-context";
+import { AuthModal } from "./auth-modal";
+
+export function AuthButton({ className, variant = "icon" }: { className?: string, variant?: "icon" | "full" }) {
+  const { user, profile, isLoading, signOut } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (isLoading) {
+    return (
+      <div className={`w-10 h-10 rounded-full bg-surface-container-high animate-pulse ${className}`} />
+    );
+  }
+
+  if (user) {
+    if (variant === "full") {
+      return (
+        <div className={`flex flex-col gap-2 ${className}`}>
+           <div className="flex items-center gap-3 px-2 mb-2">
+              {profile?.avatar_url ? (
+                 /* eslint-disable-next-line @next/next/no-img-element */
+                 <img
+                   src={profile.avatar_url}
+                   alt={profile.full_name || "User"}
+                   className="w-10 h-10 rounded-full object-cover border border-outline-variant"
+                 />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg">
+                  {(profile?.full_name?.[0] || user.email?.[0] || "U").toUpperCase()}
+                </div>
+              )}
+              <div className="flex flex-col overflow-hidden">
+                <span className="font-medium truncate">{profile?.full_name || "Thành viên"}</span>
+                <span className="text-xs text-on-surface-variant truncate">{user.email}</span>
+              </div>
+           </div>
+
+           <Link href="/profile">
+             <Button variant="outlined" className="w-full justify-start">
+               <span className="material-symbols-rounded mr-2">person</span>
+               Tài khoản
+             </Button>
+           </Link>
+
+           <Button variant="text" className="w-full justify-start text-error" onClick={() => signOut()}>
+             <span className="material-symbols-rounded mr-2">logout</span>
+             Đăng xuất
+           </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`relative group ${className}`}>
+        <Link href="/profile">
+          {profile?.avatar_url ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={profile.avatar_url}
+              alt={profile.full_name || "User"}
+              className="w-10 h-10 rounded-full object-cover border border-outline-variant hover:border-primary transition-colors cursor-pointer"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg cursor-pointer hover:opacity-80 transition-opacity">
+              {(profile?.full_name?.[0] || user.email?.[0] || "U").toUpperCase()}
+            </div>
+          )}
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {variant === "full" ? (
+        <Button
+          variant="filled"
+          onClick={() => setIsModalOpen(true)}
+          className={`w-full ${className}`}
+        >
+          <span className="material-symbols-rounded mr-2">login</span>
+          Đăng nhập / Đăng ký
+        </Button>
+      ) : (
+        <Button
+          variant="text"
+          size="icon"
+          onClick={() => setIsModalOpen(true)}
+          className={`rounded-full ${className}`}
+          aria-label="Đăng nhập"
+        >
+          <span className="material-symbols-rounded">person</span>
+        </Button>
+      )}
+
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
+  );
+}

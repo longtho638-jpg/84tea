@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { playfairDisplay, inter } from "@/lib/fonts";
 import { CartProvider } from "@/lib/cart-context";
+import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -77,12 +79,16 @@ export default function RootLayout({
       <body
         className={`${playfairDisplay.variable} ${inter.variable} antialiased bg-surface text-on-surface`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <AuthProvider>
+              <CartProvider>
+                {children}
+                <CartDrawer />
+              </CartProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

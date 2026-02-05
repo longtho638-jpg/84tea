@@ -16,9 +16,18 @@ export function ProductGallery({ mainImage, images = [] }: ProductGalleryProps) 
     <div className="flex flex-col gap-4">
       {/* Main Image */}
       <div className="aspect-square bg-surface-container-low rounded-2xl overflow-hidden relative flex items-center justify-center border border-outline-variant">
-        <div className="text-9xl select-none animate-in fade-in zoom-in duration-500">
-          {selectedImage}
-        </div>
+        {selectedImage && (selectedImage.startsWith('/') || selectedImage.startsWith('http')) ? (
+           /* eslint-disable-next-line @next/next/no-img-element */
+           <img
+             src={selectedImage}
+             alt="Product"
+             className="w-full h-full object-cover animate-in fade-in zoom-in duration-500"
+           />
+        ) : (
+          <div className="text-9xl select-none animate-in fade-in zoom-in duration-500">
+            {selectedImage || '🍵'}
+          </div>
+        )}
       </div>
 
       {/* Thumbnails */}
@@ -28,13 +37,22 @@ export function ProductGallery({ mainImage, images = [] }: ProductGalleryProps) 
             <button
               key={index}
               onClick={() => setSelectedImage(img)}
-              className={`aspect-square rounded-xl flex items-center justify-center text-3xl bg-surface-container-high transition-all ${
+              className={`aspect-square rounded-xl flex items-center justify-center overflow-hidden bg-surface-container-high transition-all ${
                 selectedImage === img
                   ? "border-2 border-primary"
                   : "border border-transparent hover:border-outline-variant"
               }`}
             >
-              {img}
+               {img && (img.startsWith('/') || img.startsWith('http')) ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={img}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+               ) : (
+                 <span className="text-3xl">{img}</span>
+               )}
             </button>
           ))}
         </div>
