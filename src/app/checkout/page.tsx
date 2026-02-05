@@ -48,7 +48,8 @@ export default function CheckoutPage() {
     setIsProcessing(true);
 
     try {
-      const response = await fetch("/api/payos/create-payment", {
+      // Step 1: Create payment with PayOS
+      const paymentResponse = await fetch("/api/payos/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -62,12 +63,36 @@ export default function CheckoutPage() {
         }),
       });
 
-      const data = await response.json();
+      const paymentData = await paymentResponse.json();
 
-      if (data.checkoutUrl) {
-        setPaymentUrl(data.checkoutUrl);
+      if (!paymentData.orderCode) {
+        throw new Error("Failed to create payment");
+      }
+
+      // Step 2: Save order to database
+      await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderCode: String(paymentData.orderCode),
+          items: items.map((item) => ({
+            productId: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.priceVnd,
+            weight: item.weight,
+            image: item.image,
+          })),
+          total: grandTotal,
+          customerInfo,
+          paymentMethod: "payos",
+        }),
+      });
+
+      if (paymentData.checkoutUrl) {
+        setPaymentUrl(paymentData.checkoutUrl);
         // Redirect to PayOS checkout
-        window.location.href = data.checkoutUrl;
+        window.location.href = paymentData.checkoutUrl;
       } else {
         alert("Có lỗi xảy ra. Vui lòng thử lại.");
       }
