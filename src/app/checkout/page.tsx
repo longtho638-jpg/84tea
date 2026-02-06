@@ -27,7 +27,7 @@ interface CustomerInfo {
 }
 
 export default function CheckoutPage() {
-  const { items, totalPrice } = useCart();
+  const { items, total } = useCart();
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: "",
     phone: "",
@@ -40,8 +40,8 @@ export default function CheckoutPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
 
-  const shippingFee = totalPrice >= 500000 ? 0 : 30000;
-  const grandTotal = totalPrice + shippingFee;
+  const shippingFee = total >= 500000 ? 0 : 30000;
+  const grandTotal = total + shippingFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ export default function CheckoutPage() {
           items: items.map((item) => ({
             name: item.name,
             quantity: item.quantity,
-            price: item.priceVnd,
+            price: item.price,
           })),
           customerInfo,
         }),
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
             productId: item.id,
             name: item.name,
             quantity: item.quantity,
-            price: item.priceVnd,
+            price: item.price,
             weight: item.weight,
             image: item.image,
           })),
@@ -340,7 +340,7 @@ export default function CheckoutPage() {
                             variant="label-large"
                             className="text-on-surface font-bold"
                           >
-                            {(item.priceVnd * item.quantity).toLocaleString(
+                            {(item.price * item.quantity).toLocaleString(
                               "vi-VN"
                             )}
                             đ
@@ -353,7 +353,7 @@ export default function CheckoutPage() {
                       <div className="flex justify-between text-on-surface-variant">
                         <Typography variant="body-medium">Tạm tính</Typography>
                         <Typography variant="body-medium">
-                          {totalPrice.toLocaleString("vi-VN")}đ
+                          {total.toLocaleString("vi-VN")}đ
                         </Typography>
                       </div>
                       <div className="flex justify-between text-on-surface-variant">
@@ -382,7 +382,7 @@ export default function CheckoutPage() {
                       </div>
                     </div>
 
-                    {totalPrice < 500000 && (
+                    {total < 500000 && (
                       <div className="mt-4 p-3 bg-secondary-container/30 rounded-lg border border-secondary/20">
                         <Typography
                           variant="body-small"
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
                           <span>
                             Thêm{" "}
                             <strong>
-                              {(500000 - totalPrice).toLocaleString("vi-VN")}đ
+                              {(500000 - total).toLocaleString("vi-VN")}đ
                             </strong>{" "}
                             để được miễn phí vận chuyển
                           </span>

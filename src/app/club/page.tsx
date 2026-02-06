@@ -1,0 +1,168 @@
+import { MainLayout, FooterSection } from "@/components/layout";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import Link from "next/link";
+import { AuthButton } from "@/components/auth/auth-button";
+
+export default function ClubPage() {
+  return (
+    <div className="min-h-screen bg-surface flex flex-col">
+      <MainLayout>
+        {/* Hero Section */}
+        <div className="relative h-[50vh] min-h-[400px] flex items-center justify-center bg-primary-container overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-30 mix-blend-multiply" />
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary text-secondary-dark font-medium text-sm tracking-wide animate-in fade-in slide-in-from-bottom-4 duration-700">
+              Thành viên độc quyền
+            </span>
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-on-surface-variant animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
+              84tea <span className="text-primary">Club</span>
+            </h1>
+            <p className="text-lg md:text-xl text-on-surface-variant/80 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+              Tham gia cộng đồng yêu trà cổ thụ, tích điểm đổi quà và tận hưởng những đặc quyền riêng biệt.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
+              <AuthButton variant="filled" className="min-w-[160px]" />
+              <Link href="/products">
+                <Button variant="outlined" className="min-w-[160px] border-primary text-primary hover:bg-primary/5">
+                  Khám phá trà
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Benefits Section */}
+        <section className="py-20 px-6 max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-3xl font-display font-bold text-on-surface">Đặc quyền thành viên</h2>
+            <p className="text-on-surface-variant">Những ưu đãi dành riêng cho bạn khi đồng hành cùng 84tea</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <BenefitCard
+              icon="savings"
+              title="Tích điểm mỗi đơn hàng"
+              description="Nhận ngay 1 điểm cho mỗi 10.000đ chi tiêu. Đổi điểm lấy voucher giảm giá hoặc quà tặng độc quyền."
+            />
+            <BenefitCard
+              icon="card_giftcard"
+              title="Quà tặng sinh nhật"
+              description="Nhận quà tặng đặc biệt và ưu đãi giảm giá lên đến 30% trong tháng sinh nhật của bạn."
+            />
+            <BenefitCard
+              icon="local_cafe"
+              title="Thử trà miễn phí"
+              description="Được mời tham dự các buổi thử nếm trà mới và workshop văn hóa trà định kỳ tại cửa hàng."
+            />
+          </div>
+        </section>
+
+        {/* Tiers Section */}
+        <section className="py-20 px-6 bg-surface-container-low">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-display font-bold text-on-surface">Hạng thành viên</h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <TierCard
+                name="Silver"
+                color="bg-slate-300"
+                requirement="Đăng ký tài khoản"
+                benefits={[
+                  "Tích điểm 1% giá trị đơn hàng",
+                  "Ưu đãi sinh nhật giảm 10%",
+                  "Cập nhật tin tức mới nhất"
+                ]}
+              />
+              <TierCard
+                name="Gold"
+                color="bg-amber-300"
+                requirement="Chi tiêu 5.000.000đ/năm"
+                benefits={[
+                  "Tích điểm 2% giá trị đơn hàng",
+                  "Ưu đãi sinh nhật giảm 20%",
+                  "Quà tặng thăng hạng",
+                  "Miễn phí vận chuyển đơn > 500k"
+                ]}
+                isPopular
+              />
+              <TierCard
+                name="Platinum"
+                color="bg-slate-800 text-white"
+                requirement="Chi tiêu 15.000.000đ/năm"
+                benefits={[
+                  "Tích điểm 3% giá trị đơn hàng",
+                  "Ưu đãi sinh nhật giảm 30%",
+                  "Quà tặng cao cấp dịp Lễ/Tết",
+                  "Miễn phí vận chuyển mọi đơn hàng",
+                  "Tham gia Private Tasting"
+                ]}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 px-6">
+          <div className="bg-primary rounded-3xl p-8 md:p-16 text-center text-white max-w-5xl mx-auto relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1594631252845-d9b50291300f?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay" />
+            <div className="relative z-10 space-y-6">
+              <h2 className="text-3xl md:text-4xl font-display font-bold">Bắt đầu hành trình trà đạo</h2>
+              <p className="text-primary-container/90 max-w-2xl mx-auto">
+                Đăng ký ngay hôm nay để nhận ngay 100 điểm thưởng chào mừng và bắt đầu tích lũy những đặc quyền.
+              </p>
+              <div className="pt-4">
+                 <AuthButton variant="filled" className="bg-white text-primary hover:bg-white/90" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <FooterSection />
+      </MainLayout>
+    </div>
+  );
+}
+
+function BenefitCard({ icon, title, description }: { icon: string; title: string; description: string }) {
+  return (
+    <Card className="p-6 text-center space-y-4 bg-surface hover:shadow-md transition-shadow border-none shadow-sm">
+      <div className="w-12 h-12 rounded-full bg-primary-container/30 text-primary flex items-center justify-center mx-auto">
+        <span className="material-symbols-rounded text-2xl">{icon}</span>
+      </div>
+      <h3 className="text-xl font-bold text-on-surface">{title}</h3>
+      <p className="text-sm text-on-surface-variant leading-relaxed">{description}</p>
+    </Card>
+  );
+}
+
+function TierCard({ name, color, requirement, benefits, isPopular }: { name: string; color: string; requirement: string; benefits: string[]; isPopular?: boolean }) {
+  return (
+    <Card className={`p-8 relative flex flex-col h-full ${isPopular ? 'border-primary shadow-lg scale-105 z-10' : 'border-outline-variant'}`}>
+      {isPopular && (
+        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          Phổ biến nhất
+        </span>
+      )}
+      <div className="text-center mb-6 space-y-2">
+        <h3 className="text-2xl font-display font-bold">{name}</h3>
+        <p className="text-sm text-on-surface-variant font-medium">{requirement}</p>
+      </div>
+
+      <div className={`h-2 w-full rounded-full mb-8 ${color}`} />
+
+      <ul className="space-y-4 mb-8 flex-1">
+        {benefits.map((benefit, i) => (
+          <li key={i} className="flex items-start gap-3 text-sm text-on-surface-variant">
+            <span className="material-symbols-rounded text-primary text-lg shrink-0">check_circle</span>
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
+
+      <AuthButton variant={isPopular ? "filled" : "outlined"} className="w-full" />
+    </Card>
+  );
+}

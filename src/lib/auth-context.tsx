@@ -6,8 +6,9 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
-import { User, Session } from "@supabase/supabase-js";
+import { User, Session, AuthError, PostgrestError } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/database.types";
 import { useRouter } from "next/navigation";
@@ -19,10 +20,11 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   isLoading: boolean;
-  signInWithOtp: (email: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
-  signOut: () => Promise<{ error: any }>;
+  signInWithOtp: (email: string) => Promise<{ error: AuthError | null }>;
+  signInWithGoogle: () => Promise<{ error: AuthError | null }>;
+  signOut: () => Promise<{ error: AuthError | null }>;
   refreshProfile: () => Promise<void>;
+  updateProfile: (data: Partial<Profile>) => Promise<{ error: PostgrestError | Error | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const supabase = createClient();
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string) => {
     try {
       const { data, error } = await supabase
         .from("profiles")
@@ -51,11 +53,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Unexpected error fetching profile:", error);
     }
-  };
+  }, [supabase]);
 
   const refreshProfile = async () => {
     if (user) {
       await fetchProfile(user.id);
+    }
+  };
+
+  const updateProfile = async (data: Partial<Profile>) => {
+    if (!user) return { error: new Error("Not authenticated") };
+
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update(data)
+        .eq("id", user.id);
+
+      if (!error) {
+        await refreshProfile();
+      }
+      return { error };
+    } catch (err) {
+      return { error: err as Error };
     }
   };
 
@@ -105,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [router, supabase]);
+  }, [router, supabase, fetchProfile]);
 
   const signInWithOtp = async (email: string) => {
     const { error } = await supabase.auth.signInWithOtp({
@@ -143,6 +163,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signInWithGoogle,
         signOut,
         refreshProfile,
+        updateProfile,
       }}
     >
       {children}

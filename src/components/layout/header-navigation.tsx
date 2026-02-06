@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/products", label: "Sản phẩm" },
   { href: "/about", label: "Về chúng tôi" },
   { href: "/franchise", label: "Nhượng quyền" },
+  { href: "/club", label: "84tea Club" },
   { href: "/contact", label: "Liên hệ" },
 ];
 

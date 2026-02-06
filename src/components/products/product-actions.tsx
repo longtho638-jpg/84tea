@@ -12,8 +12,9 @@ export function ProductActions({ product }: { product: Product }) {
   const handleAddToCart = () => {
     addItem({
       id: product.id,
+      slug: product.slug,
       name: product.name,
-      priceVnd: product.price,
+      price: product.price,
       weight: product.weight || '100g',
       image: product.image || '🍵'
     });

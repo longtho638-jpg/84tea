@@ -59,8 +59,9 @@ export function ProductCard({ product }: ProductCardProps) {
               e.preventDefault();
               addItem({
                 id: product.id,
+                slug: product.slug,
                 name: product.name,
-                priceVnd: product.price,
+                price: product.price,
                 weight: product.weight ?? '',
                 image: product.image ?? '🍵'
               });

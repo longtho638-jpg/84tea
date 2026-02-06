@@ -6,13 +6,26 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { AuthModal } from "./auth-modal";
 
-export function AuthButton({ className, variant = "icon" }: { className?: string, variant?: "icon" | "full" }) {
+export function AuthButton({
+  className,
+  variant = "icon",
+  children
+}: {
+  className?: string;
+  variant?: "icon" | "full" | "filled" | "outlined";
+  children?: React.ReactNode;
+}) {
   const { user, profile, isLoading, signOut } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (isLoading) {
+    if (variant === "icon") {
+      return (
+        <div className={`w-10 h-10 rounded-full bg-surface-container-high animate-pulse ${className}`} />
+      );
+    }
     return (
-      <div className={`w-10 h-10 rounded-full bg-surface-container-high animate-pulse ${className}`} />
+      <div className={`h-10 rounded-full bg-surface-container-high animate-pulse ${className} w-32`} />
     );
   }
 
@@ -54,6 +67,17 @@ export function AuthButton({ className, variant = "icon" }: { className?: string
       );
     }
 
+    if (variant === "filled" || variant === "outlined") {
+      return (
+        <Link href="/profile">
+          <Button variant={variant} className={className}>
+            <span className="material-symbols-rounded mr-2">person</span>
+            {children || "Trang cá nhân"}
+          </Button>
+        </Link>
+      );
+    }
+
     return (
       <div className={`relative group ${className}`}>
         <Link href="/profile">
@@ -76,16 +100,7 @@ export function AuthButton({ className, variant = "icon" }: { className?: string
 
   return (
     <>
-      {variant === "full" ? (
-        <Button
-          variant="filled"
-          onClick={() => setIsModalOpen(true)}
-          className={`w-full ${className}`}
-        >
-          <span className="material-symbols-rounded mr-2">login</span>
-          Đăng nhập / Đăng ký
-        </Button>
-      ) : (
+      {variant === "icon" ? (
         <Button
           variant="text"
           size="icon"
@@ -94,6 +109,15 @@ export function AuthButton({ className, variant = "icon" }: { className?: string
           aria-label="Đăng nhập"
         >
           <span className="material-symbols-rounded">person</span>
+        </Button>
+      ) : (
+        <Button
+          variant={variant === "full" ? "filled" : variant}
+          onClick={() => setIsModalOpen(true)}
+          className={className}
+        >
+          {variant !== "outlined" && variant !== "filled" && <span className="material-symbols-rounded mr-2">login</span>}
+          {children || "Đăng nhập / Đăng ký"}
         </Button>
       )}
 

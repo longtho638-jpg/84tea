@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export function CartDrawer() {
-  const { items, removeItem, updateQuantity, totalPrice, isOpen, setIsOpen } =
+  const { items, removeItem, updateQuantity, total, isOpen, setIsOpen } =
     useCart();
   const [mounted, setMounted] = useState(false);
 
@@ -104,7 +104,7 @@ export function CartDrawer() {
                         variant="label-large"
                         className="text-primary font-bold"
                       >
-                        {item.priceVnd.toLocaleString("vi-VN")}đ
+                        {item.price.toLocaleString("vi-VN")}đ
                       </Typography>
 
                       <div className="flex items-center gap-1 bg-surface rounded-full border border-outline-variant px-1 h-8">
@@ -146,7 +146,7 @@ export function CartDrawer() {
                 Tổng cộng
               </Typography>
               <Typography variant="headline-small" className="text-primary font-bold">
-                {totalPrice.toLocaleString("vi-VN")}đ
+                {total.toLocaleString("vi-VN")}đ
               </Typography>
             </div>
             <Button
