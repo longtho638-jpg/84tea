@@ -1,6 +1,21 @@
+import withPWAInit from "@ducanh2912/next-pwa";
+import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
+const withPWA = withPWAInit({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  disable: process.env.NODE_ENV === "development",
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+});
+
+const nextConfig = {
   /* config options here */
   reactCompiler: true,
 
@@ -17,4 +32,4 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 };
 
-export default nextConfig;
+export default withPWA(withNextIntl(nextConfig as any) as any);

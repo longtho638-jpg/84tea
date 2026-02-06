@@ -724,5 +724,159 @@
     "update": "Update Information",
     "errorGeneric": "An error occurred. Please try again.",
     "errorMissingInfo": "Please provide full information"
+  },
+  "RefundPage": {
+    "title": "Return & Refund Policy",
+    "highlight": {
+      "title": "Free returns within 7 days",
+      "desc": "Applies to products with original seal, unused"
+    },
+    "conditions": {
+      "title": "Return Conditions",
+      "items": [
+        "Product still sealed, unopened",
+        "Original packaging intact, not damaged",
+        "Have invoice or order code",
+        "Return request within 7 days from delivery"
+      ]
+    },
+    "eligible": {
+      "title": "Eligible for Return",
+      "titleYes": "✓ Accepted",
+      "titleNo": "✗ Not Accepted",
+      "yes": [
+        "Manufacturer defect",
+        "Wrong product delivered",
+        "Damaged during shipping",
+        "Size/type exchange (sealed)"
+      ],
+      "no": [
+        "Seal opened, used",
+        "Packaging not intact",
+        "Over 7 days from delivery",
+        "Damage caused by user"
+      ]
+    },
+    "process": {
+      "title": "Return Process",
+      "steps": [
+        {
+          "title": "Contact Support",
+          "desc": "Call hotline 0988 030 204 or email support@84tea.com"
+        },
+        {
+          "title": "Send Product",
+          "desc": "Pack carefully and send to the provided address"
+        },
+        {
+          "title": "Process Request",
+          "desc": "We will inspect and process within 2-3 business days"
+        },
+        {
+          "title": "Exchange / Refund",
+          "desc": "Send new product or refund via bank transfer"
+        }
+      ]
+    },
+    "refund": {
+      "title": "Refund",
+      "desc": "Money will be refunded via bank transfer within 5-7 business days from approval."
+    },
+    "hotline": {
+      "title": "Return Hotline",
+      "hours": "(8:00 - 21:00 daily)"
+    }
+  },
+  "ShippingPage": {
+    "title": "Shipping Policy",
+    "freeShipping": "🚚 Free shipping for orders from 500,000đ",
+    "fees": {
+      "title": "Shipping Fees",
+      "headers": {
+        "area": "Area",
+        "fee": "Fee",
+        "time": "Time"
+      },
+      "rows": [
+        { "area": "Hanoi (inner city)", "price": "20,000đ", "time": "1-2 days" },
+        { "area": "Hanoi (suburbs)", "price": "25,000đ", "time": "2-3 days" },
+        { "area": "Ho Chi Minh City", "price": "30,000đ", "time": "3-4 days" },
+        { "area": "Northern provinces", "price": "30,000đ", "time": "2-4 days" },
+        { "area": "Central region", "price": "35,000đ", "time": "3-5 days" },
+        { "area": "Southern region", "price": "35,000đ", "time": "4-5 days" }
+      ]
+    },
+    "carriers": {
+      "title": "Shipping Partners",
+      "intro": "We partner with reputable shipping companies:",
+      "list": [
+        "Giao Hang Nhanh (GHN)",
+        "Giao Hang Tiet Kiem (GHTK)",
+        "Viettel Post",
+        "J&T Express"
+      ]
+    },
+    "tracking": {
+      "title": "Order Tracking",
+      "desc": "After your order is shipped, you will receive an SMS or email notification with tracking number."
+    },
+    "notes": {
+      "title": "Delivery Notes",
+      "items": [
+        "Please inspect before accepting",
+        "Record video when unboxing as evidence if issues arise",
+        "Refuse delivery if external damage visible",
+        "Contact hotline immediately if any issues"
+      ]
+    },
+    "support": {
+      "title": "Need Help?"
+    }
+  },
+  "TermsPage": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: February 2026",
+    "sections": {
+      "intro": {
+        "title": "1. Introduction",
+        "content": "Welcome to 84tea. By accessing and using the website 84tea.com, you agree to comply with the terms and conditions stated in this document."
+      },
+      "company": {
+        "title": "2. Company Information",
+        "name": "3704 Co., LTD",
+        "license": "Business License: 011 070 44 89",
+        "founded": "Founded: 04/05/2024",
+        "address": "Address: 134 Nguyen Hoang Ton, Phu Thuong, Tay Ho, Hanoi"
+      },
+      "products": {
+        "title": "3. Products and Services",
+        "content": "84tea provides premium tea products from Vietnamese ancient Shan Tuyet tea trees. All products are manufactured according to food safety standards with clear origin."
+      },
+      "orders": {
+        "title": "4. Orders and Payment",
+        "items": [
+          "Orders are confirmed after successful payment",
+          "We accept payment via VietQR (PayOS)",
+          "Product prices include VAT",
+          "Shipping fees are calculated separately based on delivery address"
+        ]
+      },
+      "delivery": {
+        "title": "5. Delivery",
+        "content": "Orders will be delivered within 2-5 business days depending on location. Free shipping for orders from 500,000đ."
+      },
+      "returns": {
+        "title": "6. Returns and Refunds",
+        "content": "Customers can return products within 7 days from delivery date, provided the product is still sealed and unused. See details on the Return Policy page."
+      },
+      "ip": {
+        "title": "7. Intellectual Property",
+        "content": "All content on 84tea.com including logo, images, and text is property of 3704 Co., LTD and protected by intellectual property law."
+      },
+      "contact": {
+        "title": "8. Contact",
+        "intro": "For inquiries please contact:"
+      }
+    }
   }
 }

@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export function CartDrawer() {
   const { items, removeItem, updateQuantity, total, isOpen, setIsOpen } =
     useCart();
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations("Cart");
 
   useEffect(() => {
     // Defer to avoid synchronous set state warning
@@ -41,7 +43,7 @@ export function CartDrawer() {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-outline-variant">
           <Typography variant="headline-small" className="text-on-surface">
-            Giỏ hàng
+            {t("title")}
           </Typography>
           <Button
             variant="text"
@@ -64,14 +66,14 @@ export function CartDrawer() {
                 variant="body-large"
                 className="text-on-surface-variant mb-4"
               >
-                Giỏ hàng của bạn đang trống
+                {t("empty.message")}
               </Typography>
               <Button
                 variant="filled"
                 onClick={() => setIsOpen(false)}
                 asChild
               >
-                <Link href="/products">Khám phá Trà Cổ Thụ</Link>
+                <Link href="/products">{t("empty.cta")}</Link>
               </Button>
             </div>
           ) : (
@@ -143,7 +145,7 @@ export function CartDrawer() {
           <div className="p-6 border-t border-outline-variant bg-surface">
             <div className="flex justify-between items-center mb-4">
               <Typography variant="title-medium" className="text-on-surface-variant">
-                Tổng cộng
+                {t("total")}
               </Typography>
               <Typography variant="headline-small" className="text-primary font-bold">
                 {total.toLocaleString("vi-VN")}đ
@@ -156,10 +158,10 @@ export function CartDrawer() {
               asChild
               onClick={() => setIsOpen(false)}
             >
-              <Link href="/checkout">Thanh toán</Link>
+              <Link href="/checkout">{t("checkout")}</Link>
             </Button>
             <Typography variant="body-small" className="text-center text-on-surface-variant mt-3">
-              Miễn phí vận chuyển cho đơn hàng từ 500.000đ
+              {t("freeShipping")}
             </Typography>
           </div>
         )}

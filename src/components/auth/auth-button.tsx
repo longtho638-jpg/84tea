@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { AuthModal } from "./auth-modal";
@@ -17,6 +18,7 @@ export function AuthButton({
 }) {
   const { user, profile, isLoading, signOut } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const t = useTranslations("Auth");
 
   if (isLoading) {
     if (variant === "icon") {
@@ -47,12 +49,12 @@ export function AuthButton({
                 </div>
               )}
               <div className="flex flex-col overflow-hidden">
-                <span className="font-medium truncate">{profile?.full_name || "Thành viên"}</span>
+                <span className="font-medium truncate">{profile?.full_name || t("member")}</span>
                 <span className="text-xs text-on-surface-variant truncate">{user.email}</span>
                 {profile?.loyalty_points !== undefined && (
                   <div className="flex items-center gap-1 mt-0.5 text-primary">
                     <span className="material-symbols-rounded text-[10px]">stars</span>
-                    <span className="text-xs font-semibold">{profile.loyalty_points.toLocaleString()} điểm</span>
+                    <span className="text-xs font-semibold">{profile.loyalty_points.toLocaleString()} {t("points")}</span>
                   </div>
                 )}
               </div>
@@ -61,13 +63,13 @@ export function AuthButton({
            <Link href="/profile">
              <Button variant="outlined" className="w-full justify-start">
                <span className="material-symbols-rounded mr-2">person</span>
-               Tài khoản
+               {t("account")}
              </Button>
            </Link>
 
            <Button variant="text" className="w-full justify-start text-error" onClick={() => signOut()}>
              <span className="material-symbols-rounded mr-2">logout</span>
-             Đăng xuất
+             {t("logout")}
            </Button>
         </div>
       );
@@ -78,7 +80,7 @@ export function AuthButton({
         <Link href="/profile">
           <Button variant={variant} className={className}>
             <span className="material-symbols-rounded mr-2">person</span>
-            {children || "Trang cá nhân"}
+            {children || t("profile")}
           </Button>
         </Link>
       );
@@ -112,7 +114,7 @@ export function AuthButton({
           size="icon"
           onClick={() => setIsModalOpen(true)}
           className={`rounded-full ${className}`}
-          aria-label="Đăng nhập"
+          aria-label={t("login")}
         >
           <span className="material-symbols-rounded">person</span>
         </Button>
@@ -123,7 +125,7 @@ export function AuthButton({
           className={className}
         >
           {variant !== "outlined" && variant !== "filled" && <span className="material-symbols-rounded mr-2">login</span>}
-          {children || "Đăng nhập / Đăng ký"}
+          {children || t("login")}
         </Button>
       )}
 

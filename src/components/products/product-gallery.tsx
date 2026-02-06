@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface ProductGalleryProps {
   mainImage: string;
@@ -11,6 +12,7 @@ export function ProductGallery({ mainImage, images = [] }: ProductGalleryProps) 
   // Combine main image with additional images, ensuring unique list
   const allImages = [mainImage, ...images.filter(img => img !== mainImage)];
   const [selectedImage, setSelectedImage] = useState(allImages[0]);
+  const t = useTranslations("Products.Detail.Gallery");
 
   return (
     <div className="flex flex-col gap-4">
@@ -20,7 +22,7 @@ export function ProductGallery({ mainImage, images = [] }: ProductGalleryProps) 
            /* eslint-disable-next-line @next/next/no-img-element */
            <img
              src={selectedImage}
-             alt="Product"
+             alt={t("altMain")}
              className="w-full h-full object-cover animate-in fade-in zoom-in duration-500"
            />
         ) : (
@@ -47,7 +49,7 @@ export function ProductGallery({ mainImage, images = [] }: ProductGalleryProps) 
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={img}
-                    alt={`Thumbnail ${index + 1}`}
+                    alt={`${t("altThumb")} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                ) : (

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -9,18 +10,20 @@ import { CartButton } from "@/components/cart";
 import { AuthButton } from "@/components/auth/auth-button";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/products", label: "Sản phẩm" },
-  { href: "/about", label: "Về chúng tôi" },
-  { href: "/franchise", label: "Nhượng quyền" },
-  { href: "/contact", label: "Liên hệ" },
-];
-
 interface TopAppBarProps {
   onMenuClick: () => void;
 }
 
 export function TopAppBar({ onMenuClick }: TopAppBarProps) {
+  const t = useTranslations("Navigation");
+
+  const navLinks = [
+    { href: "/products", label: t("products") },
+    { href: "/about", label: t("about") },
+    { href: "/franchise", label: t("franchise") },
+    { href: "/contact", label: t("contact") },
+  ];
+
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -101,7 +104,7 @@ export function TopAppBar({ onMenuClick }: TopAppBarProps) {
           <div className="flex items-center gap-2">
             <Link href="/products" className="hidden md:block">
               <Button variant="filled" size="default">
-                Mua ngay
+                {t("buyNow")}
               </Button>
             </Link>
             <ThemeToggle />

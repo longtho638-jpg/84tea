@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-// Create untyped client for flexibility (tables may not exist yet)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// Create client lazily to avoid build-time errors
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+  );
+}
 
 interface OrderItem {
   productId: string;
@@ -57,6 +59,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create order in database
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("orders")
       .insert({
@@ -138,6 +141,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("orders")
       .select("*")

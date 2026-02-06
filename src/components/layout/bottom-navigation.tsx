@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { href: "/", label: "Trang chủ", icon: "home" },
-  { href: "/products", label: "Sản phẩm", icon: "inventory_2" },
-  { href: "/franchise", label: "Nhượng quyền", icon: "storefront" },
-  { href: "/contact", label: "Liên hệ", icon: "mail" },
-];
 
 export function BottomNavigation() {
   const pathname = usePathname();
+  const t = useTranslations("Navigation");
+
+  const navItems = [
+    { href: "/", label: t("home"), icon: "home" },
+    { href: "/products", label: t("products"), icon: "inventory_2" },
+    { href: "/franchise", label: t("franchise"), icon: "storefront" },
+    { href: "/contact", label: t("contact"), icon: "mail" },
+  ];
 
   return (
     <nav

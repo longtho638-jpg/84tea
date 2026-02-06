@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { MainLayout, FooterSection } from "@/components/layout";
@@ -11,6 +12,7 @@ import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/data/se
 interface ProductPageProps {
   params: Promise<{
     slug: string;
+    locale: string;
   }>;
 }
 
@@ -24,6 +26,7 @@ export async function generateStaticParams() {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
+  const t = useTranslations("Products.Detail");
 
   if (!product) {
     notFound();
@@ -39,11 +42,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center gap-2 text-sm text-on-surface-variant">
               <Link href="/" className="hover:text-primary transition-colors">
-                Trang chủ
+                {t("Breadcrumb.home")}
               </Link>
               <span className="material-symbols-rounded text-base">chevron_right</span>
               <Link href="/products" className="hover:text-primary transition-colors">
-                Sản phẩm
+                {t("Breadcrumb.products")}
               </Link>
               <span className="material-symbols-rounded text-base">chevron_right</span>
               <span className="text-on-surface font-medium truncate">{product.name}</span>
@@ -67,16 +70,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="flex items-center gap-3 mb-4">
                   {product.type && (
                     <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                      {product.type === 'green' ? 'Trà Xanh' :
-                       product.type === 'black' ? 'Hồng Trà' :
-                       product.type === 'white' ? 'Bạch Trà' :
-                       product.type === 'oolong' ? 'Ô Long' :
-                       product.type === 'herbal' ? 'Thảo Mộc' : product.type}
+                      {product.type === 'green' ? t("Type.green") :
+                       product.type === 'black' ? t("Type.black") :
+                       product.type === 'white' ? t("Type.white") :
+                       product.type === 'oolong' ? t("Type.oolong") :
+                       product.type === 'herbal' ? t("Type.herbal") : product.type}
                     </span>
                   )}
                   {product.featured && (
                      <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                      Nổi bật
+                      {t("Type.featured")}
                     </span>
                   )}
                 </div>
@@ -89,7 +92,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                    <span className="material-symbols-rounded text-secondary fill-1">star</span>
                    <span className="font-bold text-on-surface">{product.rating || 0}</span>
                    <span className="text-outline-variant">|</span>
-                   <span>{product.reviews_count || 0} đánh giá</span>
+                   <span>{product.reviews_count || 0} {t("Stats.reviews")}</span>
                 </div>
 
                 <div className="flex items-baseline gap-4 mb-6">
@@ -115,7 +118,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                   <div className="flex items-center gap-2 text-primary mb-1">
                     <span className="material-symbols-rounded">scale</span>
-                    <span className="font-bold text-sm uppercase">Trọng lượng</span>
+                    <span className="font-bold text-sm uppercase">{t("Attributes.weight")}</span>
                   </div>
                   <p className="text-on-surface">{product.weight}</p>
                 </div>
@@ -124,7 +127,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
                       <span className="material-symbols-rounded">landscape</span>
-                      <span className="font-bold text-sm uppercase">Xuất xứ</span>
+                      <span className="font-bold text-sm uppercase">{t("Attributes.origin")}</span>
                     </div>
                     <p className="text-on-surface">{product.origin}</p>
                   </div>
@@ -134,7 +137,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
                       <span className="material-symbols-rounded">calendar_month</span>
-                      <span className="font-bold text-sm uppercase">Thu hái</span>
+                      <span className="font-bold text-sm uppercase">{t("Attributes.harvest")}</span>
                     </div>
                     <p className="text-on-surface">{product.harvest}</p>
                   </div>
@@ -144,7 +147,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
                       <span className="material-symbols-rounded">local_cafe</span>
-                      <span className="font-bold text-sm uppercase">Hương vị</span>
+                      <span className="font-bold text-sm uppercase">{t("Attributes.taste")}</span>
                     </div>
                     <p className="text-on-surface">{product.taste}</p>
                   </div>
@@ -160,15 +163,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <div className="flex items-center gap-6 pt-4 text-xs text-on-surface-variant">
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-rounded text-primary">verified_user</span>
-                  100% Chính hãng
+                  {t("Guarantee.authentic")}
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-rounded text-primary">local_shipping</span>
-                  Miễn phí vận chuyển đơn {">"} 500k
+                  {t("Guarantee.freeShipping")}
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-rounded text-primary">assignment_return</span>
-                  Đổi trả trong 7 ngày
+                  {t("Guarantee.returnPolicy")}
                 </div>
               </div>
             </div>
@@ -179,11 +182,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div className="border-t border-outline-variant pt-16">
               <div className="flex items-center justify-between mb-8">
                 <Typography variant="headline-medium" className="font-display text-primary">
-                  Sản phẩm liên quan
+                  {t("Related.title")}
                 </Typography>
                 <Link href="/products">
                   <Button variant="text" className="text-primary">
-                    Xem tất cả <span className="material-symbols-rounded ml-1">arrow_forward</span>
+                    {t("Related.viewAll")} <span className="material-symbols-rounded ml-1">arrow_forward</span>
                   </Button>
                 </Link>
               </div>

@@ -3,17 +3,17 @@ import { Database } from '@/types/database.types';
 export type Product = Database['public']['Tables']['products']['Row'];
 
 export const CATEGORIES = [
-  { id: "all", name: "Tất cả" },
-  { id: "tea", name: "Trà thưởng thức" },
-  { id: "teaware", name: "Ấm chén & Dụng cụ" },
-  { id: "gift", name: "Quà tặng" }
+  { id: "all", name: "all" },
+  { id: "tea", name: "tea" },
+  { id: "teaware", name: "teaware" },
+  { id: "gift", name: "gift" }
 ];
 
 export const TEA_TYPES = [
-  { id: "green", name: "Trà Xanh (Lục Trà)" },
-  { id: "black", name: "Hồng Trà" },
-  { id: "white", name: "Bạch Trà" },
-  { id: "oolong", name: "Trà Ô Long" },
-  { id: "herbal", name: "Trà Thảo Mộc" }
+  { id: "green", name: "green" },
+  { id: "black", name: "black" },
+  { id: "white", name: "white" },
+  { id: "oolong", name: "oolong" },
+  { id: "herbal", name: "herbal" }
 ];
 

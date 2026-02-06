@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
 import { CATEGORIES, TEA_TYPES } from "@/lib/data/products";
 
@@ -23,6 +24,7 @@ export function ProductFilter({
   onPriceChange,
   onClear
 }: ProductFilterProps) {
+  const t = useTranslations("Products.Filter");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -31,13 +33,13 @@ export function ProductFilter({
       <div className="flex items-center justify-between mb-6">
         <Typography variant="title-medium" className="font-bold flex items-center gap-2">
           <span className="material-symbols-rounded text-primary">filter_list</span>
-          Bộ lọc
+          {t("title")}
         </Typography>
         <button
           onClick={onClear}
           className="text-xs text-on-surface-variant hover:text-error transition-colors underline"
         >
-          Xóa tất cả
+          {t("clearAll")}
         </button>
       </div>
 
@@ -45,7 +47,7 @@ export function ProductFilter({
         {/* Categories */}
         <div>
           <Typography variant="title-small" className="font-bold mb-4 block">
-            Danh mục
+            {t("categories")}
           </Typography>
           <div className="space-y-2">
             {CATEGORIES.map((category) => (
@@ -79,7 +81,7 @@ export function ProductFilter({
                 <span className={`text-sm transition-colors ${
                   activeCategory === category.id ? 'text-primary font-medium' : 'text-on-surface-variant group-hover:text-on-surface'
                 }`}>
-                  {category.name}
+                  {t(`Category.${category.id}`)}
                 </span>
               </label>
             ))}
@@ -91,7 +93,7 @@ export function ProductFilter({
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
              <div className="h-px bg-outline-variant w-full mb-6" />
             <Typography variant="title-small" className="font-bold mb-4 block">
-              Loại trà
+              {t("teaTypes")}
             </Typography>
             <div className="space-y-2">
               <label className="flex items-center gap-3 cursor-pointer group">
@@ -112,7 +114,7 @@ export function ProductFilter({
                   className="hidden"
                 />
                 <span className={`text-sm ${activeType === null ? 'text-primary font-medium' : 'text-on-surface-variant'}`}>
-                  Tất cả loại trà
+                  {t("allTeaTypes")}
                 </span>
               </label>
 
@@ -138,7 +140,7 @@ export function ProductFilter({
                   <span className={`text-sm transition-colors ${
                     activeType === type.id ? 'text-primary font-medium' : 'text-on-surface-variant group-hover:text-on-surface'
                   }`}>
-                    {type.name}
+                    {t(`Type.${type.id}`)}
                   </span>
                 </label>
               ))}
@@ -150,7 +152,7 @@ export function ProductFilter({
         <div>
            <div className="h-px bg-outline-variant w-full mb-6" />
           <Typography variant="title-small" className="font-bold mb-4 block">
-            Khoảng giá
+            {t("priceRange")}
           </Typography>
           <div className="space-y-4">
              <div className="flex items-center justify-between text-sm text-on-surface-variant">
@@ -171,7 +173,7 @@ export function ProductFilter({
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
                   }`}
                >
-                 Dưới 500k
+                 {t("Price.under500k")}
                </button>
                <button
                   onClick={() => onPriceChange([500000, 1000000])}
@@ -181,7 +183,7 @@ export function ProductFilter({
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
                   }`}
                >
-                 500k - 1tr
+                 {t("Price.500kTo1m")}
                </button>
                <button
                   onClick={() => onPriceChange([1000000, 5000000])}
@@ -191,7 +193,7 @@ export function ProductFilter({
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
                   }`}
                >
-                 Trên 1tr
+                 {t("Price.above1m")}
                </button>
                <button
                   onClick={() => onPriceChange([0, 10000000])}
@@ -201,7 +203,7 @@ export function ProductFilter({
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
                   }`}
                >
-                 Tất cả
+                 {t("Price.all")}
                </button>
              </div>
           </div>

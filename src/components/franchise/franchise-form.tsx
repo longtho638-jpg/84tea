@@ -5,8 +5,11 @@ import { Typography } from "@/components/ui/typography";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export function FranchiseForm() {
+  const t = useTranslations("Franchise.Form");
+
   return (
     <section id="register-form" className="py-24 bg-surface">
       <div className="container mx-auto px-6">
@@ -15,32 +18,32 @@ export function FranchiseForm() {
           <div className="md:w-2/5 bg-primary text-on-primary p-12 flex flex-col justify-between">
             <div>
               <Typography variant="headline-medium" className="font-display mb-6">
-                Liên hệ hợp tác
+                {t("title")}
               </Typography>
               <Typography variant="body-medium" className="mb-8 text-on-primary">
-                Để lại thông tin để được tư vấn chi tiết về chính sách nhượng quyền và các ưu đãi mới nhất.
+                {t("description")}
               </Typography>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <span className="material-symbols-rounded text-secondary-container text-2xl">phone_in_talk</span>
                   <div>
-                    <Typography variant="title-small" className="font-bold block mb-1">Hotline</Typography>
+                    <Typography variant="title-small" className="font-bold block mb-1">{t("contact.hotline")}</Typography>
                     <Typography variant="body-medium">+84 988 030 204</Typography>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="material-symbols-rounded text-secondary-container text-2xl">mail</span>
                   <div>
-                    <Typography variant="title-small" className="font-bold block mb-1">Email</Typography>
+                    <Typography variant="title-small" className="font-bold block mb-1">{t("contact.email")}</Typography>
                     <Typography variant="body-medium">franchise@84tea.vn</Typography>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <span className="material-symbols-rounded text-secondary-container text-2xl">location_on</span>
                   <div>
-                    <Typography variant="title-small" className="font-bold block mb-1">Văn phòng</Typography>
-                    <Typography variant="body-medium">Tầng 1, Tòa nhà 84tea, Hà Nội, Việt Nam</Typography>
+                    <Typography variant="title-small" className="font-bold block mb-1">{t("contact.office")}</Typography>
+                    <Typography variant="body-medium">{t("contact.officeAddress")}</Typography>
                   </div>
                 </div>
               </div>
@@ -51,7 +54,7 @@ export function FranchiseForm() {
                  <span className="material-symbols-rounded text-3xl text-on-secondary-container">chat</span>
                </div>
                <Typography variant="body-small" className="italic text-on-primary">
-                 &quot;Thành công của bạn là sứ mệnh của chúng tôi.&quot;
+                 {t("quote")}
                </Typography>
             </div>
           </div>
@@ -61,58 +64,58 @@ export function FranchiseForm() {
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Họ và tên *</Label>
+                  <Label htmlFor="name">{t("fields.name")}</Label>
                   <Input
                     type="text"
                     id="name"
-                    placeholder="Nguyễn Văn A"
+                    placeholder={t("fields.namePlaceholder")}
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Số điện thoại *</Label>
+                  <Label htmlFor="phone">{t("fields.phone")}</Label>
                   <Input
                     type="tel"
                     id="phone"
-                    placeholder="0912 xxx xxx"
+                    placeholder={t("fields.phonePlaceholder")}
                     required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("fields.email")}</Label>
                 <Input
                   type="email"
                   id="email"
-                  placeholder="example@gmail.com"
+                  placeholder={t("fields.emailPlaceholder")}
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="area">Khu vực dự định</Label>
+                  <Label htmlFor="area">{t("fields.area")}</Label>
                   <Select id="area" defaultValue="">
-                    <option value="" disabled>Chọn khu vực</option>
-                    <option value="hanoi">Hà Nội</option>
-                    <option value="hcm">TP. Hồ Chí Minh</option>
-                    <option value="danang">Đà Nẵng</option>
-                    <option value="other">Khác</option>
+                    <option value="" disabled>{t("fields.areaPlaceholder")}</option>
+                    <option value="hanoi">{t("fields.areas.hanoi")}</option>
+                    <option value="hcm">{t("fields.areas.hcm")}</option>
+                    <option value="danang">{t("fields.areas.danang")}</option>
+                    <option value="other">{t("fields.areas.other")}</option>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="budget">Ngân sách dự kiến</Label>
+                  <Label htmlFor="budget">{t("fields.budget")}</Label>
                   <Select id="budget" defaultValue="">
-                    <option value="" disabled>Chọn mức ngân sách</option>
-                    <option value="under-500">Dưới 500 triệu</option>
-                    <option value="500-1b">500 triệu - 1 tỷ</option>
-                    <option value="over-1b">Trên 1 tỷ</option>
+                    <option value="" disabled>{t("fields.budgetPlaceholder")}</option>
+                    <option value="under-500">{t("fields.budgets.under500")}</option>
+                    <option value="500-1b">{t("fields.budgets.500to1b")}</option>
+                    <option value="over-1b">{t("fields.budgets.over1b")}</option>
                   </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Mô hình quan tâm</Label>
+                <Label>{t("fields.model")}</Label>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer p-3 border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
                     <input type="radio" name="model" value="kiosk" className="text-primary focus:ring-primary accent-primary w-4 h-4" />
@@ -131,10 +134,10 @@ export function FranchiseForm() {
 
               <div className="pt-4">
                 <Button type="submit" variant="filled" size="lg" className="w-full bg-secondary text-on-secondary hover:bg-secondary/90">
-                  Gửi đăng ký tư vấn
+                  {t("submit")}
                 </Button>
                 <p className="text-xs text-on-surface-variant text-center mt-3">
-                  Bằng việc gửi thông tin, bạn đồng ý với chính sách bảo mật của 84tea.
+                  {t("disclaimer")}
                 </p>
               </div>
             </form>

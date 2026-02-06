@@ -2,19 +2,12 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AuthButton } from "@/components/auth/auth-button";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { href: "/", label: "Trang chủ", icon: "home" },
-  { href: "/products", label: "Sản phẩm", icon: "inventory_2" },
-  { href: "/about", label: "Về chúng tôi", icon: "info" },
-  { href: "/franchise", label: "Nhượng quyền", icon: "storefront" },
-  { href: "/contact", label: "Liên hệ", icon: "mail" },
-];
 
 interface NavigationDrawerProps {
   open: boolean;
@@ -22,6 +15,16 @@ interface NavigationDrawerProps {
 }
 
 export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
+  const t = useTranslations("Navigation");
+
+  const navLinks = [
+    { href: "/", label: t("home"), icon: "home" },
+    { href: "/products", label: t("products"), icon: "inventory_2" },
+    { href: "/about", label: t("about"), icon: "info" },
+    { href: "/franchise", label: t("franchise"), icon: "storefront" },
+    { href: "/contact", label: t("contact"), icon: "mail" },
+  ];
+
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (open) {
@@ -127,7 +130,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
               <span className="material-symbols-rounded text-xl">
                 shopping_bag
               </span>
-              Mua ngay
+              {t("buyNow")}
             </Button>
           </Link>
         </div>

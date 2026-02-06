@@ -1,10 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 
 export function HeroSection() {
+  const t = useTranslations("Hero");
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -19,28 +22,27 @@ export function HeroSection() {
           variant="label-large"
           className="text-secondary tracking-[0.2em] uppercase mb-6 animate-fade-in-up"
         >
-          Di sản trà Việt
+          {t("subtitle")}
         </Typography>
 
         <Typography
           variant="display-large"
           className="text-on-tertiary mb-6 font-display font-medium leading-tight animate-fade-in-up delay-100"
         >
-          Tinh hoa trà cổ thụ <br />
-          <span className="italic text-secondary">ngàn năm tuổi</span>
+          {t("title")} <br />
+          <span className="italic text-secondary">{t("titleHighlight")}</span>
         </Typography>
 
         <Typography
           variant="body-large"
           className="text-on-tertiary/90 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-200"
         >
-          Hành trình tìm về cội nguồn hương vị từ những cây trà Shan Tuyết cổ thụ
-          sống trên đỉnh núi mờ sương, hấp thụ tinh khí đất trời qua hàng thế kỷ.
+          {t("description")}
         </Typography>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-300">
           <Button size="lg" variant="filled" className="min-w-[180px]" asChild>
-            <Link href="/products">Khám phá Bộ sưu tập</Link>
+            <Link href="/products">{t("ctaPrimary")}</Link>
           </Button>
           <Button
             size="lg"
@@ -48,7 +50,7 @@ export function HeroSection() {
             className="min-w-[180px] border-on-tertiary text-on-tertiary hover:bg-on-tertiary/10"
             asChild
           >
-            <Link href="/story">Câu chuyện của chúng tôi</Link>
+            <Link href="/story">{t("ctaSecondary")}</Link>
           </Button>
         </div>
       </div>

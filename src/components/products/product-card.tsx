@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const t = useTranslations("Products.Card");
 
   return (
     <Card variant="elevated" className="group h-full flex flex-col hover:-translate-y-1 transition-transform duration-300">
@@ -68,7 +70,7 @@ export function ProductCard({ product }: ProductCardProps) {
             }}
           >
             <span className="material-symbols-rounded mr-2">shopping_bag</span>
-            Thêm vào giỏ
+            {t("addToCart")}
           </Button>
         </div>
       </div>
@@ -76,7 +78,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardContent className="p-5 flex-1 flex flex-col">
         <div className="mb-2">
           <Typography variant="label-small" className="text-secondary uppercase tracking-wider">
-            {product.origin || "Việt Nam"}
+            {product.origin || t("originDefault")}
           </Typography>
         </div>
 

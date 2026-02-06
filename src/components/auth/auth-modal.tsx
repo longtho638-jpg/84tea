@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ interface AuthModalProps {
 type AuthStep = "login" | "otp-sent" | "profile-setup";
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const t = useTranslations("Auth");
   const { signInWithOtp, signInWithGoogle, isLoading, user, profile } = useAuth();
   const [step, setStep] = useState<AuthStep>("login");
   const [email, setEmail] = useState("");
@@ -63,7 +65,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         setStep("otp-sent");
       }
     } catch {
-      setError("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      setError(t("errorGeneric"));
     } finally {
       setIsSubmitting(false);
     }
@@ -76,7 +78,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       const { error } = await signInWithGoogle();
       if (error) setError(error.message);
     } catch {
-      setError("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      setError(t("errorGeneric"));
     } finally {
       setIsSubmitting(false);
     }
@@ -91,9 +93,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <span className="material-symbols-rounded text-4xl text-primary">mail</span>
             </div>
             <div className="text-center space-y-2">
-              <h3 className="text-xl font-bold text-primary">Kiểm tra Email của bạn</h3>
+              <h3 className="text-xl font-bold text-primary">{t("checkEmail")}</h3>
               <p className="text-on-surface-variant max-w-[280px] mx-auto">
-                Chúng tôi đã gửi liên kết đăng nhập đến <span className="font-semibold text-on-surface">{email}</span>
+                {t("checkEmailDesc")} <span className="font-semibold text-on-surface">{email}</span>
               </p>
             </div>
             <div className="w-full space-y-3">
@@ -102,14 +104,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 className="w-full"
                 onClick={() => window.open(`mailto:`, '_blank')}
               >
-                Mở ứng dụng Email
+                {t("openEmailApp")}
               </Button>
               <Button
                 variant="text"
                 className="w-full"
                 onClick={() => setStep("login")}
               >
-                Quay lại đăng nhập
+                {t("backToLogin")}
               </Button>
             </div>
           </div>
@@ -150,7 +152,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   fill="#EA4335"
                 />
               </svg>
-              <span className="font-medium">Tiếp tục với Google</span>
+              <span className="font-medium">{t("continueGoogle")}</span>
             </Button>
 
             <div className="relative">
@@ -159,7 +161,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-surface px-2 text-on-surface-variant font-medium">
-                  Hoặc tiếp tục với Email
+                  {t("continueEmail")}
                 </span>
               </div>
             </div>
@@ -170,7 +172,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="name@example.com"
+                  placeholder={t("emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSubmitting || isLoading}
@@ -197,21 +199,20 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 ) : (
                   <span className="material-symbols-rounded mr-2">mail</span>
                 )}
-                Gửi liên kết đăng nhập
+                {t("sendLink")}
               </Button>
             </form>
 
             <div className="text-center space-y-4">
               <p className="text-xs text-on-surface-variant px-4 leading-relaxed">
-                Bằng cách tiếp tục, bạn đồng ý với{" "}
+                {t("termsText")}{" "}
                 <a href="/terms" className="underline hover:text-primary font-medium">
-                  Điều khoản dịch vụ
+                  {t("terms")}
                 </a>{" "}
-                và{" "}
+                {t("and")}{" "}
                 <a href="/privacy" className="underline hover:text-primary font-medium">
-                  Chính sách bảo mật
-                </a>{" "}
-                của chúng tôi.
+                  {t("privacy")}
+                </a>
               </p>
             </div>
           </div>
@@ -223,8 +224,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
-      title={step === "profile-setup" ? "Cập nhật thông tin" : "Đăng nhập / Đăng ký"}
-      description={step === "profile-setup" ? "Hoàn tất hồ sơ của bạn" : "Tham gia cộng đồng 84tea"}
+      title={step === "profile-setup" ? t("setupTitle") : t("loginTitle")}
+      description={step === "profile-setup" ? t("setupDesc") : t("loginDesc")}
       className="sm:max-w-[400px]"
     >
       {renderContent()}

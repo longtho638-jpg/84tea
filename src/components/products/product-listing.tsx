@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FilterChips } from "@/components/ui/chips";
 import { Typography } from "@/components/ui/typography";
@@ -13,25 +14,25 @@ interface ProductListingProps {
 }
 
 export function ProductListing({ initialProducts }: ProductListingProps) {
+  const t = useTranslations("Products");
   const [activeCategoryId, setActiveCategoryId] = useState("all");
   const [activeType, setActiveType] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000000]);
   const [sortBy, setSortBy] = useState("featured");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Helper to get category name from ID
-  const activeCategoryName = useMemo(() => {
-    return CATEGORIES.find(c => c.id === activeCategoryId)?.name || "Tất cả";
-  }, [activeCategoryId]);
+  // Filter Options with Translations
+  const categoryOptions = useMemo(() => {
+    return CATEGORIES.map((category) => ({
+      value: category.id,
+      label: t(`Filter.Category.${category.id}`),
+    }));
+  }, [t]);
 
-  // Handle chip selection (by name)
-  const handleChipSelect = (categoryName: string) => {
-    const category = CATEGORIES.find(c => c.name === categoryName);
-    if (category) {
-      setActiveCategoryId(category.id);
-      if (category.id !== 'tea' && category.id !== 'all') {
-        setActiveType(null);
-      }
+  const handleChipSelect = (categoryId: string) => {
+    setActiveCategoryId(categoryId);
+    if (categoryId !== "tea" && categoryId !== "all") {
+      setActiveType(null);
     }
   };
 
@@ -74,8 +75,8 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
       {/* MD3 Filter Chips */}
       <div className="container mx-auto px-6 mt-8">
         <FilterChips
-          categories={CATEGORIES.map(c => c.name)}
-          selected={activeCategoryName}
+          options={categoryOptions}
+          selected={activeCategoryId}
           onSelect={handleChipSelect}
         />
       </div>
@@ -107,7 +108,7 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
               className="flex items-center gap-2"
             >
               <span className="material-symbols-rounded">filter_list</span>
-              Bộ lọc ({activeCategoryId !== 'all' ? 1 : 0})
+              {t("Filter.title")} ({activeCategoryId !== 'all' ? 1 : 0})
             </Button>
 
             <select
@@ -115,10 +116,10 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="featured">Nổi bật</option>
-              <option value="price-asc">Giá: Thấp đến Cao</option>
-              <option value="price-desc">Giá: Cao đến Thấp</option>
-              <option value="name">Tên A-Z</option>
+              <option value="featured">{t("Sort.featured")}</option>
+              <option value="price-asc">{t("Sort.priceAsc")}</option>
+              <option value="price-desc">{t("Sort.priceDesc")}</option>
+              <option value="name">{t("Sort.nameAsc")}</option>
             </select>
           </div>
 
@@ -146,20 +147,20 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
             {/* Toolbar */}
             <div className="hidden lg:flex items-center justify-between mb-8 pb-4 border-b border-outline-variant">
               <Typography variant="body-medium" className="text-on-surface-variant">
-                Hiển thị <span className="font-bold text-on-surface">{filteredProducts.length}</span> sản phẩm
+                {t("showing")} <span className="font-bold text-on-surface">{filteredProducts.length}</span> {t("productsCount")}
               </Typography>
 
               <div className="flex items-center gap-3">
-                <label className="text-sm text-on-surface-variant">Sắp xếp theo:</label>
+                <label className="text-sm text-on-surface-variant">{t("Sort.sortBy")}</label>
                 <select
                   className="px-4 py-2 rounded-lg border border-outline-variant bg-surface text-sm focus:border-primary outline-none cursor-pointer hover:border-primary transition-colors"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option value="featured">Nổi bật nhất</option>
-                  <option value="price-asc">Giá: Thấp đến Cao</option>
-                  <option value="price-desc">Giá: Cao đến Thấp</option>
-                  <option value="name">Tên A-Z</option>
+                  <option value="featured">{t("Sort.featured")}</option>
+                  <option value="price-asc">{t("Sort.priceAsc")}</option>
+                  <option value="price-desc">{t("Sort.priceDesc")}</option>
+                  <option value="name">{t("Sort.nameAsc")}</option>
                 </select>
               </div>
             </div>
@@ -177,10 +178,10 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
                   🤔
                 </div>
                 <Typography variant="title-large" className="mb-2">
-                  Không tìm thấy sản phẩm
+                  {t("Empty.title")}
                 </Typography>
                 <Typography variant="body-medium" className="text-on-surface-variant mb-6">
-                  Thử thay đổi bộ lọc hoặc tìm kiếm từ khóa khác.
+                  {t("Empty.description")}
                 </Typography>
                 <Button
                   variant="filled"
@@ -190,7 +191,7 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
                     setPriceRange([0, 10000000]);
                   }}
                 >
-                  Xóa bộ lọc
+                  {t("Empty.clearFilter")}
                 </Button>
               </div>
             )}

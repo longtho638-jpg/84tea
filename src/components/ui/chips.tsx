@@ -57,27 +57,32 @@ export function Chip({
   );
 }
 
-interface FilterChipsProps {
-  categories: string[];
-  selected: string;
-  onSelect: (category: string) => void;
+export interface FilterOption {
+  value: string;
+  label: string;
 }
 
-export function FilterChips({ categories, selected, onSelect }: FilterChipsProps) {
+interface FilterChipsProps {
+  options: FilterOption[];
+  selected: string;
+  onSelect: (value: string) => void;
+}
+
+export function FilterChips({ options, selected, onSelect }: FilterChipsProps) {
   return (
     <div
       role="group"
       aria-label="Lọc theo danh mục sản phẩm"
       className="flex flex-wrap gap-2"
     >
-      {categories.map((category) => (
+      {options.map((option) => (
         <Chip
-          key={category}
-          selected={selected === category}
-          onClick={() => onSelect(category)}
-          aria-pressed={selected === category}
+          key={option.value}
+          selected={selected === option.value}
+          onClick={() => onSelect(option.value)}
+          aria-pressed={selected === option.value}
         >
-          {category}
+          {option.label}
         </Chip>
       ))}
     </div>

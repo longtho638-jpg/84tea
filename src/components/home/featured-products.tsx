@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { ProductCard } from "@/components/products/product-card";
@@ -6,19 +7,20 @@ import { getFeaturedProducts } from "@/lib/data/server-products";
 
 export async function FeaturedProducts() {
   const featuredProducts = await getFeaturedProducts();
+  const t = useTranslations("Featured");
 
   return (
     <section className="py-24 bg-surface-container-low">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Typography variant="label-large" className="text-secondary tracking-widest uppercase mb-4">
-            Bộ sưu tập
+            {t("label")}
           </Typography>
           <Typography variant="headline-large" className="text-on-surface font-display mb-4">
-            Tuyệt phẩm trà Việt
+            {t("headline")}
           </Typography>
           <Typography variant="body-large" className="text-on-surface-variant">
-            Tuyển chọn những phẩm trà xuất sắc nhất từ các vùng nguyên liệu trứ danh.
+            {t("description")}
           </Typography>
         </div>
 
@@ -30,7 +32,7 @@ export async function FeaturedProducts() {
 
         <div className="mt-12 text-center">
           <Button variant="outlined" size="lg" asChild>
-            <Link href="/products">Xem tất cả sản phẩm</Link>
+            <Link href="/products">{t("viewAll")}</Link>
           </Button>
         </div>
       </div>

@@ -1,31 +1,34 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
 
-const BENEFITS = [
-  {
-    icon: "eco",
-    title: "100% Tự nhiên",
-    description: "Không hóa chất, không chất bảo quản, sinh trưởng hoàn toàn tự nhiên nơi rừng già."
-  },
-  {
-    icon: "history_edu",
-    title: "Di sản văn hóa",
-    description: "Mỗi búp trà mang trong mình câu chuyện văn hóa của đồng bào dân tộc thiểu số."
-  },
-  {
-    icon: "verified",
-    title: "Chuẩn OCOP 5 Sao",
-    description: "Được công nhận là sản phẩm quốc gia, đáp ứng các tiêu chuẩn khắt khe nhất."
-  },
-  {
-    icon: "handshake",
-    title: "Thương mại công bằng",
-    description: "Cam kết thu mua giá cao, đảm bảo sinh kế bền vững cho người dân bản địa."
-  }
-];
-
 export function BenefitsSection() {
+  const t = useTranslations("Benefits");
+
+  const BENEFITS = [
+    {
+      icon: "eco",
+      title: t("item1Title"),
+      description: t("item1Desc")
+    },
+    {
+      icon: "history_edu",
+      title: t("item2Title"),
+      description: t("item2Desc")
+    },
+    {
+      icon: "verified",
+      title: t("item3Title"),
+      description: t("item3Desc")
+    },
+    {
+      icon: "handshake",
+      title: t("item4Title"),
+      description: t("item4Desc")
+    }
+  ];
+
   return (
     <section className="py-24 bg-tertiary text-on-tertiary">
       <div className="container mx-auto px-6">

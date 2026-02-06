@@ -7,9 +7,11 @@ import Link from "next/link";
 import { AuthButton } from "@/components/auth/auth-button";
 import { useAuth } from "@/lib/auth-context";
 import { LoyaltyDashboard } from "./loyalty-dashboard-view";
+import { useTranslations } from "next-intl";
 
 export default function ClubPage() {
   const { user, profile, isLoading } = useAuth();
+  const t = useTranslations("Club");
 
   // Show loading state
   if (isLoading) {
@@ -53,19 +55,20 @@ export default function ClubPage() {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-30 mix-blend-multiply" />
           <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6">
             <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary text-secondary-dark font-medium text-sm tracking-wide animate-in fade-in slide-in-from-bottom-4 duration-700">
-              Thành viên độc quyền
+              {t("Hero.label")}
             </span>
             <h1 className="text-4xl md:text-6xl font-display font-bold text-on-surface-variant animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-              84tea <span className="text-primary">Club</span>
+              {t("Hero.title")}
             </h1>
             <p className="text-lg md:text-xl text-on-surface-variant/80 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-              Tham gia cộng đồng yêu trà cổ thụ, tích điểm đổi quà và tận hưởng những đặc quyền riêng biệt.
+              {t("Hero.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
               <AuthButton variant="filled" className="min-w-[160px]" />
+              {/* Note: AuthButton text should be handled internally or passed as prop if supported, assuming it toggles based on auth state or defaults to login/register */}
               <Link href="/products">
                 <Button variant="outlined" className="min-w-[160px] border-primary text-primary hover:bg-primary/5">
-                  Khám phá trà
+                  {t("Hero.join")}
                 </Button>
               </Link>
             </div>
@@ -75,25 +78,25 @@ export default function ClubPage() {
         {/* Benefits Section */}
         <section className="py-20 px-6 max-w-7xl mx-auto">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl font-display font-bold text-on-surface">Đặc quyền thành viên</h2>
-            <p className="text-on-surface-variant">Những ưu đãi dành riêng cho bạn khi đồng hành cùng 84tea</p>
+            <h2 className="text-3xl font-display font-bold text-on-surface">{t("Benefits.title")}</h2>
+            <p className="text-on-surface-variant">{t("Hero.description")}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <BenefitCard
               icon="savings"
-              title="Tích điểm mỗi đơn hàng"
-              description="Nhận ngay 1 điểm cho mỗi 10.000đ chi tiêu. Đổi điểm lấy voucher giảm giá hoặc quà tặng độc quyền."
+              title={t("Benefits.earnPoints.title")}
+              description={t("Benefits.earnPoints.desc")}
             />
             <BenefitCard
               icon="card_giftcard"
-              title="Quà tặng sinh nhật"
-              description="Nhận quà tặng đặc biệt và ưu đãi giảm giá lên đến 30% trong tháng sinh nhật của bạn."
+              title={t("Benefits.birthday.title")}
+              description={t("Benefits.birthday.desc")}
             />
             <BenefitCard
               icon="local_cafe"
-              title="Thử trà miễn phí"
-              description="Được mời tham dự các buổi thử nếm trà mới và workshop văn hóa trà định kỳ tại cửa hàng."
+              title={t("Benefits.events.title")}
+              description={t("Benefits.events.desc")}
             />
           </div>
         </section>
@@ -102,43 +105,28 @@ export default function ClubPage() {
         <section className="py-20 px-6 bg-surface-container-low">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-display font-bold text-on-surface">Hạng thành viên</h2>
+              <h2 className="text-3xl font-display font-bold text-on-surface">{t("Tiers.title")}</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <TierCard
-                name="Silver"
+                name={t("Tiers.items.silver.title")}
                 color="bg-outline-variant"
-                requirement="Đăng ký tài khoản"
-                benefits={[
-                  "Tích điểm 1% giá trị đơn hàng",
-                  "Ưu đãi sinh nhật giảm 10%",
-                  "Cập nhật tin tức mới nhất"
-                ]}
+                requirement="Đăng ký tài khoản" // TODO: Add translation for requirement or use description from JSON if added later
+                benefits={["Tiers.items.silver.benefits.0", "Tiers.items.silver.benefits.1"].map(k => t(k))}
               />
               <TierCard
-                name="Gold"
+                name={t("Tiers.items.gold.title")}
                 color="bg-secondary"
                 requirement="Chi tiêu 5.000.000đ/năm"
-                benefits={[
-                  "Tích điểm 2% giá trị đơn hàng",
-                  "Ưu đãi sinh nhật giảm 20%",
-                  "Quà tặng thăng hạng",
-                  "Miễn phí vận chuyển đơn > 500k"
-                ]}
+                benefits={["Tiers.items.gold.benefits.0", "Tiers.items.gold.benefits.1", "Tiers.items.gold.benefits.2"].map(k => t(k))}
                 isPopular
               />
               <TierCard
-                name="Platinum"
+                name={t("Tiers.items.diamond.title")}
                 color="bg-on-surface text-surface"
                 requirement="Chi tiêu 15.000.000đ/năm"
-                benefits={[
-                  "Tích điểm 3% giá trị đơn hàng",
-                  "Ưu đãi sinh nhật giảm 30%",
-                  "Quà tặng cao cấp dịp Lễ/Tết",
-                  "Miễn phí vận chuyển mọi đơn hàng",
-                  "Tham gia Private Tasting"
-                ]}
+                benefits={["Tiers.items.diamond.benefits.0", "Tiers.items.diamond.benefits.1", "Tiers.items.diamond.benefits.2", "Tiers.items.diamond.benefits.3"].map(k => t(k))}
               />
             </div>
           </div>
@@ -149,9 +137,9 @@ export default function ClubPage() {
           <div className="bg-primary rounded-3xl p-8 md:p-16 text-center text-white max-w-5xl mx-auto relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1594631252845-d9b50291300f?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay" />
             <div className="relative z-10 space-y-6">
-              <h2 className="text-3xl md:text-4xl font-display font-bold">Bắt đầu hành trình trà đạo</h2>
+              <h2 className="text-3xl md:text-4xl font-display font-bold">{t("CTA.title")}</h2>
               <p className="text-primary-container/90 max-w-2xl mx-auto">
-                Đăng ký ngay hôm nay để nhận ngay 100 điểm thưởng chào mừng và bắt đầu tích lũy những đặc quyền.
+                {t("CTA.description")}
               </p>
               <div className="pt-4">
                  <AuthButton variant="filled" className="bg-white text-primary hover:bg-white/90" />

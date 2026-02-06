@@ -1,26 +1,29 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Typography } from "@/components/ui/typography";
 import { Logo } from "@/components/ui/logo";
 
-const footerLinks = {
-  products: [
-    { href: "/products", label: "Tất cả sản phẩm" },
-    { href: "/products/tra-shan-6", label: "84 Limited Collection" },
-    { href: "/products/tra-luc-80", label: "Trà xanh" },
-  ],
-  company: [
-    { href: "/about", label: "Về chúng tôi" },
-    { href: "/franchise", label: "Nhượng quyền" },
-    { href: "/contact", label: "Liên hệ" },
-  ],
-  legal: [
-    { href: "/terms", label: "Điều khoản" },
-    { href: "/privacy", label: "Chính sách bảo mật" },
-    { href: "/shipping", label: "Giao hàng" },
-  ],
-};
-
 export function FooterSection() {
+  const t = useTranslations("Footer");
+
+  const footerLinks = {
+    products: [
+      { href: "/products", label: t("allProducts") },
+      { href: "/products/tra-shan-6", label: t("limitedCollection") },
+      { href: "/products/tra-luc-80", label: t("greenTea") },
+    ],
+    company: [
+      { href: "/about", label: t("about") },
+      { href: "/franchise", label: t("franchise") },
+      { href: "/contact", label: t("contact") },
+    ],
+    legal: [
+      { href: "/terms", label: t("terms") },
+      { href: "/privacy", label: t("privacy") },
+      { href: "/shipping", label: t("shipping") },
+    ],
+  };
+
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface py-16">
       <div className="max-w-7xl mx-auto px-6">
@@ -28,24 +31,25 @@ export function FooterSection() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Logo variant="light" />
+              <Link href="/">
+                <Logo variant="light" />
+              </Link>
             </div>
             <Typography variant="body-medium" className="text-inverse-on-surface mb-4">
-              Premium Vietnamese tea brand featuring the 84 Limited collection -
-              fermented tea from ancient Shan Tuyết trees.
+              {t("brandDescription")}
             </Typography>
             <Typography
               variant="title-medium"
               className="text-secondary-container font-display"
             >
-              Trà Năng Lượng Việt
+              {t("slogan")}
             </Typography>
           </div>
 
           {/* Products */}
           <div>
             <Typography variant="title-medium" className="text-primary-container font-semibold mb-4">
-              Sản phẩm
+              {t("products")}
             </Typography>
             <ul className="space-y-2">
               {footerLinks.products.map((link) => (
@@ -64,7 +68,7 @@ export function FooterSection() {
           {/* Company */}
           <div>
             <Typography variant="title-medium" className="text-primary-container font-semibold mb-4">
-              Công ty
+              {t("company")}
             </Typography>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
@@ -83,7 +87,7 @@ export function FooterSection() {
           {/* Contact & Legal */}
           <div>
             <Typography variant="title-medium" className="text-primary-container font-semibold mb-4">
-              Liên hệ
+              {t("contact")}
             </Typography>
             <ul className="space-y-2 text-inverse-on-surface text-sm mb-6">
               <li>📧 hello@84tea.com</li>
@@ -91,7 +95,7 @@ export function FooterSection() {
               <li>📍 Hà Nội, Vietnam</li>
             </ul>
             <Typography variant="title-small" className="text-primary-container font-semibold mb-2">
-              Pháp lý
+              {t("legal")}
             </Typography>
             <ul className="space-y-1">
               {footerLinks.legal.map((link) => (
@@ -110,10 +114,10 @@ export function FooterSection() {
 
         <div className="border-t border-outline-variant mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-inverse-on-surface text-sm">
-            © 2026 84tea. Powered by 3704 Co., LTD.
+            {t("copyright")}
           </p>
           <p className="text-inverse-on-surface text-sm">
-            Made with ❤️ in Vietnam
+            {t("madeWithLove")}
           </p>
         </div>
       </div>

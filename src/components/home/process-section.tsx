@@ -1,41 +1,44 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
 
-const PROCESS_STEPS = [
-  {
-    step: "01",
-    title: "Thu hái",
-    description: "Những búp trà Shan Tuyết 1 tôm 2 lá được thu hái thủ công bởi người dân bản địa vào sương sớm.",
-    icon: "spa"
-  },
-  {
-    step: "02",
-    title: "Lên men",
-    description: "Quá trình lên men tự nhiên kéo dài hàng chục năm trong chum sành, đánh thức hương vị tiềm ẩn.",
-    icon: "hourglass_bottom" // or similar for waiting/fermenting
-  },
-  {
-    step: "03",
-    title: "Thưởng thức",
-    description: "Pha chế đúng cách để cảm nhận trọn vẹn hương vị của núi rừng và thời gian cô đọng.",
-    icon: "local_cafe" // or emoji_food_beverage
-  }
-];
-
 export function ProcessSection() {
+  const t = useTranslations("Process");
+
+  const PROCESS_STEPS = [
+    {
+      step: "01",
+      title: t("step1Title"),
+      description: t("step1Desc"),
+      icon: "spa"
+    },
+    {
+      step: "02",
+      title: t("step2Title"),
+      description: t("step2Desc"),
+      icon: "hourglass_bottom"
+    },
+    {
+      step: "03",
+      title: t("step3Title"),
+      description: t("step3Desc"),
+      icon: "local_cafe"
+    }
+  ];
+
   return (
     <section className="py-24 bg-surface text-on-surface overflow-hidden relative">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Typography variant="label-large" className="text-primary tracking-widest uppercase mb-4">
-            Quy trình
+            {t("label")}
           </Typography>
           <Typography variant="headline-large" className="font-display mb-4">
-            Từ Đỉnh Núi Đến Chén Trà
+            {t("headline")}
           </Typography>
           <Typography variant="body-large" className="text-on-surface-variant">
-            Hành trình của những búp trà cổ thụ qua bàn tay nghệ nhân và sự tôi luyện của thời gian.
+            {t("description")}
           </Typography>
         </div>
 

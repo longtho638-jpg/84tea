@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-context";
 import { Product } from "@/lib/data/products";
@@ -8,6 +9,7 @@ import { Product } from "@/lib/data/products";
 export function ProductActions({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const t = useTranslations("Products.Detail.Actions");
 
   const handleAddToCart = () => {
     addItem({
@@ -34,7 +36,7 @@ export function ProductActions({ product }: { product: Product }) {
         <span className="material-symbols-rounded mr-2">
           {isAdded ? "check" : "shopping_bag"}
         </span>
-        {isAdded ? "Đã thêm vào giỏ" : "Thêm vào giỏ hàng"}
+        {isAdded ? t("added") : t("addToCart")}
       </Button>
       <Button variant="outlined" size="lg" className="px-6">
         <span className="material-symbols-rounded">favorite</span>

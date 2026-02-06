@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth-context";
@@ -10,6 +11,7 @@ interface ProfileSetupFormProps {
 }
 
 export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
+  const t = useTranslations("Auth");
   const { profile, updateProfile } = useAuth();
   const [fullName, setFullName] = useState(profile?.full_name || "");
   const [phone, setPhone] = useState(profile?.phone || "");
@@ -19,7 +21,7 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !phone) {
-      setError("Vui lòng nhập đầy đủ thông tin");
+      setError(t("errorMissingInfo"));
       return;
     }
 
@@ -34,7 +36,7 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
     setIsSubmitting(false);
 
     if (error) {
-      setError(error.message || "Đã có lỗi xảy ra");
+      setError(error.message || t("errorGeneric"));
     } else {
       onComplete();
     }
@@ -43,20 +45,20 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
   return (
     <div className="grid gap-6 py-4">
       <div className="text-center space-y-2">
-        <h3 className="text-lg font-semibold text-primary">Hoàn tất hồ sơ</h3>
+        <h3 className="text-lg font-semibold text-primary">{t("setupTitle")}</h3>
         <p className="text-sm text-on-surface-variant">
-          Vui lòng cập nhật thông tin để chúng tôi phục vụ bạn tốt hơn
+          {t("setupDesc")}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid gap-4">
         <div className="grid gap-2">
           <label htmlFor="fullName" className="text-sm font-medium">
-            Họ và tên
+            {t("fullName")}
           </label>
           <Input
             id="fullName"
-            placeholder="Nguyễn Văn A"
+            placeholder={t("fullNamePlaceholder")}
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             disabled={isSubmitting}
@@ -66,12 +68,12 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
 
         <div className="grid gap-2">
           <label htmlFor="phone" className="text-sm font-medium">
-            Số điện thoại
+            {t("phone")}
           </label>
           <Input
             id="phone"
             type="tel"
-            placeholder="0912345678"
+            placeholder={t("phonePlaceholder")}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             disabled={isSubmitting}
@@ -99,7 +101,7 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
           ) : (
             <span className="material-symbols-rounded mr-2">save</span>
           )}
-          Cập nhật thông tin
+          {t("update")}
         </Button>
       </form>
     </div>

@@ -2,17 +2,19 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const { clearCart } = useCart();
   const [orderCode, setOrderCode] = useState<string | null>(null);
+  const t = useTranslations("Checkout");
 
   useEffect(() => {
     const code = searchParams.get("orderCode");
@@ -39,21 +41,20 @@ function SuccessContent() {
             variant="headline-large"
             className="text-primary mb-4 font-bold"
           >
-            Đặt hàng thành công!
+            {t("Success.title")}
           </Typography>
 
           <Typography
             variant="body-large"
             className="text-on-surface-variant text-lg mb-8"
           >
-            Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng trong thời gian
-            sớm nhất.
+            {t("Success.message")}
           </Typography>
 
           {orderCode && (
             <div className="bg-surface-variant/30 rounded-xl p-4 mb-8 border border-outline-variant/30">
               <Typography variant="body-small" className="text-on-surface-variant mb-1">
-                Mã đơn hàng
+                {t("Success.orderCode")}
               </Typography>
               <Typography
                 variant="headline-small"
@@ -66,24 +67,26 @@ function SuccessContent() {
 
           <div className="space-y-4 text-left bg-surface-variant/30 rounded-xl p-6 mb-8 border border-outline-variant/30">
             <Typography variant="title-medium" className="text-on-surface font-bold mb-2">
-              Bước tiếp theo:
+              {t("Success.nextSteps")}
             </Typography>
             <div className="flex items-start gap-3">
               <span className="text-xl">📱</span>
               <Typography variant="body-medium" className="text-on-surface-variant">
-                Bạn sẽ nhận được SMS xác nhận đơn hàng trong ít phút
+                {t("Success.step1")}
               </Typography>
             </div>
             <div className="flex items-start gap-3">
               <span className="text-xl">📦</span>
               <Typography variant="body-medium" className="text-on-surface-variant">
-                Đơn hàng sẽ được giao trong 2-3 ngày làm việc
+                {t("Success.step2")}
               </Typography>
             </div>
             <div className="flex items-start gap-3">
               <span className="text-xl">📞</span>
               <Typography variant="body-medium" className="text-on-surface-variant">
-                Liên hệ hotline <strong>0988 030 204</strong> nếu cần hỗ trợ
+                {t.rich("Success.step3", {
+                  strong: (chunks) => <strong>{chunks}</strong>
+                })}
               </Typography>
             </div>
           </div>
@@ -91,12 +94,12 @@ function SuccessContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/products" className="w-full sm:w-auto">
               <Button variant="filled" size="lg" className="w-full">
-                Tiếp tục mua sắm
+                {t("Success.continueShopping")}
               </Button>
             </Link>
             <Link href="/" className="w-full sm:w-auto">
               <Button variant="outlined" size="lg" className="w-full">
-                Về trang chủ
+                {t("Success.backHome")}
               </Button>
             </Link>
           </div>
@@ -107,15 +110,15 @@ function SuccessContent() {
       <div className="mt-8 flex flex-wrap justify-center gap-6 text-on-surface-variant/70">
         <div className="flex items-center gap-2">
           <span className="material-symbols-rounded text-sm">lock</span>
-          <span className="text-sm">Thanh toán bảo mật</span>
+          <span className="text-sm">{t("Trust.secure")}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-rounded text-sm">local_shipping</span>
-          <span className="text-sm">Giao hàng toàn quốc</span>
+          <span className="text-sm">{t("Trust.shipping")}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-rounded text-sm">assignment_return</span>
-          <span className="text-sm">Đổi trả trong 7 ngày</span>
+          <span className="text-sm">{t("Trust.return")}</span>
         </div>
       </div>
     </div>

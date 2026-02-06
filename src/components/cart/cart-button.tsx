@@ -3,9 +3,11 @@
 import { useCart } from "@/lib/cart-context";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function CartButton({ className }: { className?: string }) {
   const { itemCount, setIsOpen } = useCart();
+  const t = useTranslations("Cart");
 
   return (
     <Button
@@ -13,7 +15,7 @@ export function CartButton({ className }: { className?: string }) {
       size="icon"
       onClick={() => setIsOpen(true)}
       className={cn("relative text-on-surface hover:text-primary", className)}
-      aria-label={itemCount > 0 ? `Giỏ hàng (${itemCount} sản phẩm)` : "Giỏ hàng"}
+      aria-label={itemCount > 0 ? t("ariaLabelWithCount", { count: itemCount }) : t("ariaLabel")}
     >
       <span className="material-symbols-rounded text-[24px]">shopping_bag</span>
       {itemCount > 0 && (

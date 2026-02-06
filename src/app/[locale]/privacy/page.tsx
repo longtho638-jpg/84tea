@@ -1,8 +1,13 @@
+'use client';
+
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 export default function PrivacyPage() {
+  const t = useTranslations('Privacy');
+
   return (
     <div className="min-h-screen bg-surface flex flex-col">
       <HeaderNavigation />
@@ -13,7 +18,7 @@ export default function PrivacyPage() {
             variant="display-small"
             className="text-primary mb-8 font-bold"
           >
-            Chính Sách Bảo Mật
+            {t('title')}
           </Typography>
 
           <Card className="shadow-lg border-none bg-surface-container-low">
@@ -22,126 +27,128 @@ export default function PrivacyPage() {
                 variant="body-medium"
                 className="text-on-surface-variant mb-6 italic"
               >
-                Cập nhật lần cuối: Tháng 02, 2026
+                {t('lastUpdated')}
               </Typography>
 
               <div className="space-y-8">
+                {/* Section 1 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    1. Thông tin chúng tôi thu thập
+                    {t('Section1.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Khi bạn sử dụng website 84tea.com, chúng tôi có thể thu thập
-                    các thông tin sau:
+                    {t('Section1.intro')}
                   </Typography>
                   <ul className="list-disc list-inside text-on-surface-variant space-y-2 ml-4">
-                    <li>Họ tên, email, số điện thoại khi đặt hàng</li>
-                    <li>Địa chỉ giao hàng</li>
-                    <li>Lịch sử đơn hàng và giao dịch</li>
-                    <li>Thông tin trình duyệt và thiết bị (cookies)</li>
+                    <li>{t('Section1.items.0')}</li>
+                    <li>{t('Section1.items.1')}</li>
+                    <li>{t('Section1.items.2')}</li>
+                    <li>{t('Section1.items.3')}</li>
                   </ul>
                 </section>
 
+                {/* Section 2 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    2. Mục đích sử dụng thông tin
+                    {t('Section2.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Chúng tôi sử dụng thông tin của bạn để:
+                    {t('Section2.intro')}
                   </Typography>
                   <ul className="list-disc list-inside text-on-surface-variant space-y-2 ml-4">
-                    <li>Xử lý và giao đơn hàng</li>
-                    <li>Liên hệ về tình trạng đơn hàng</li>
-                    <li>Gửi thông tin khuyến mãi (nếu bạn đồng ý)</li>
-                    <li>Cải thiện trải nghiệm website</li>
-                    <li>Hỗ trợ khách hàng</li>
+                    <li>{t('Section2.items.0')}</li>
+                    <li>{t('Section2.items.1')}</li>
+                    <li>{t('Section2.items.2')}</li>
+                    <li>{t('Section2.items.3')}</li>
+                    <li>{t('Section2.items.4')}</li>
                   </ul>
                 </section>
 
+                {/* Section 3 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    3. Bảo mật thông tin
+                    {t('Section3.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn bằng các
-                    biện pháp:
+                    {t('Section3.intro')}
                   </Typography>
                   <ul className="list-disc list-inside text-on-surface-variant space-y-2 ml-4">
-                    <li>Mã hóa SSL cho tất cả giao dịch</li>
-                    <li>Không chia sẻ thông tin với bên thứ ba không liên quan</li>
-                    <li>Lưu trữ dữ liệu trên server bảo mật</li>
-                    <li>Giới hạn quyền truy cập nội bộ</li>
+                    <li>{t('Section3.items.0')}</li>
+                    <li>{t('Section3.items.1')}</li>
+                    <li>{t('Section3.items.2')}</li>
+                    <li>{t('Section3.items.3')}</li>
                   </ul>
                 </section>
 
+                {/* Section 4 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    4. Cookies
+                    {t('Section4.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Website sử dụng cookies để cải thiện trải nghiệm người dùng.
-                    Bạn có thể tắt cookies trong cài đặt trình duyệt, tuy nhiên
-                    một số tính năng có thể không hoạt động đúng.
+                    {t('Section4.content')}
                   </Typography>
                 </section>
 
+                {/* Section 5 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    5. Quyền của bạn
+                    {t('Section5.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Bạn có quyền:
+                    {t('Section5.intro')}
                   </Typography>
                   <ul className="list-disc list-inside text-on-surface-variant space-y-2 ml-4">
-                    <li>Yêu cầu xem thông tin cá nhân chúng tôi lưu trữ</li>
-                    <li>Yêu cầu chỉnh sửa thông tin không chính xác</li>
-                    <li>Yêu cầu xóa dữ liệu cá nhân</li>
-                    <li>Hủy đăng ký nhận email marketing</li>
+                    <li>{t('Section5.items.0')}</li>
+                    <li>{t('Section5.items.1')}</li>
+                    <li>{t('Section5.items.2')}</li>
+                    <li>{t('Section5.items.3')}</li>
                   </ul>
                 </section>
 
+                {/* Section 6 */}
                 <section>
                   <Typography
                     variant="headline-small"
                     className="text-primary mb-4 font-bold"
                   >
-                    6. Liên hệ
+                    {t('Section6.title')}
                   </Typography>
                   <Typography
                     variant="body-large"
                     className="text-on-surface-variant mb-4"
                   >
-                    Nếu có thắc mắc về chính sách bảo mật, vui lòng liên hệ:
+                    {t('Section6.intro')}
                   </Typography>
                   <div className="bg-surface-variant/30 p-4 rounded-lg border border-outline-variant/50">
                     <Typography

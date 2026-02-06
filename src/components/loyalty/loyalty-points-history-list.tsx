@@ -7,6 +7,7 @@
 
 import { LoyaltyTransaction } from '@/types/loyalty-transaction.types';
 import { twMerge } from 'tailwind-merge';
+import { useTranslations } from 'next-intl';
 
 interface LoyaltyPointsHistoryListProps {
   transactions: LoyaltyTransaction[];
@@ -20,23 +21,18 @@ const TRANSACTION_ICONS = {
   expiry: 'schedule'
 };
 
-const TRANSACTION_LABELS = {
-  purchase: 'Mua hàng',
-  bonus: 'Thưởng',
-  redemption: 'Đổi điểm',
-  expiry: 'Hết hạn'
-};
-
 export function LoyaltyPointsHistoryList({ transactions, className }: LoyaltyPointsHistoryListProps) {
+  const t = useTranslations("Club");
+
   if (transactions.length === 0) {
     return (
       <div className={twMerge('rounded-2xl bg-white p-6 shadow-md border border-gray-200', className)}>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Lịch sử giao dịch</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('Dashboard.history')}</h3>
         <div className="text-center py-12 text-gray-500">
           <span className="material-symbols-rounded text-5xl mb-3 block opacity-50">
             history
           </span>
-          <p>Chưa có giao dịch nào</p>
+          <p>{t('Dashboard.emptyHistory')}</p>
         </div>
       </div>
     );
@@ -44,13 +40,13 @@ export function LoyaltyPointsHistoryList({ transactions, className }: LoyaltyPoi
 
   return (
     <div className={twMerge('rounded-2xl bg-white p-6 shadow-md border border-gray-200', className)}>
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Lịch sử giao dịch</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('Dashboard.history')}</h3>
 
       <div className="space-y-3">
         {transactions.map((transaction) => {
           const isPositive = transaction.amount > 0;
-          const icon = TRANSACTION_ICONS[transaction.type] || 'circle';
-          const label = TRANSACTION_LABELS[transaction.type] || transaction.type;
+          const icon = TRANSACTION_ICONS[transaction.type as keyof typeof TRANSACTION_ICONS] || 'circle';
+          const label = t(`History.type.${transaction.type}`);
 
           return (
             <div

@@ -2,54 +2,50 @@
 
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 const BENEFITS = [
   {
     icon: "storefront",
-    title: "Mô hình linh hoạt",
-    description: "Đa dạng quy mô từ Kiosk đến Lounge cao cấp, phù hợp với nhiều mức đầu tư và vị trí mặt bằng."
+    key: "storefront"
   },
   {
     icon: "monitoring",
-    title: "Vận hành chuẩn hóa",
-    description: "Quy trình vận hành, pha chế, phục vụ được chuẩn hóa 100%, dễ dàng đào tạo và quản lý."
+    key: "monitoring"
   },
   {
     icon: "soup_kitchen",
-    title: "Nguồn nguyên liệu độc quyền",
-    description: "Sở hữu vùng nguyên liệu trà cổ thụ riêng biệt, đảm bảo chất lượng và giá thành ổn định nhất thị trường."
+    key: "soup_kitchen"
   },
   {
     icon: "campaign",
-    title: "Marketing toàn diện",
-    description: "Hỗ trợ truyền thông đa kênh, các chiến dịch branding và promotion định kỳ từ tổng công ty."
+    key: "campaign"
   },
   {
     icon: "school",
-    title: "Đào tạo chuyên sâu",
-    description: "Chương trình đào tạo từ cơ bản đến nâng cao cho chủ đầu tư và nhân viên về trà đạo và quản lý."
+    key: "school"
   },
   {
     icon: "engineering",
-    title: "Hỗ trợ kỹ thuật 24/7",
-    description: "Đội ngũ IT và kỹ thuật luôn sẵn sàng hỗ trợ hệ thống POS, app quản lý và bảo trì thiết bị."
+    key: "engineering"
   }
 ];
 
 export function FranchiseBenefits() {
+  const t = useTranslations("Franchise.Benefits");
+
   return (
     <section className="py-24 bg-surface">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Typography variant="label-large" className="text-secondary tracking-widest uppercase mb-4">
-            Tại sao chọn 84tea?
+            {t("label")}
           </Typography>
           <Typography variant="headline-large" className="text-on-surface font-display mb-6">
-            Lợi thế cạnh tranh vượt trội
+            {t("title")}
           </Typography>
           <Typography variant="body-large" className="text-on-surface-variant">
-            Chúng tôi không chỉ nhượng quyền thương hiệu, chúng tôi chia sẻ bí quyết thành công
-            và đồng hành cùng bạn trên con đường kinh doanh bền vững.
+            {t("description")}
           </Typography>
         </div>
 
@@ -61,10 +57,10 @@ export function FranchiseBenefits() {
                   <span className="material-symbols-rounded text-3xl">{item.icon}</span>
                 </div>
                 <Typography variant="title-large" className="mb-3 text-on-surface font-bold">
-                  {item.title}
+                  {t(`items.${item.key}.title`)}
                 </Typography>
                 <Typography variant="body-medium" className="text-on-surface-variant leading-relaxed">
-                  {item.description}
+                  {t(`items.${item.key}.description`)}
                 </Typography>
               </CardContent>
             </Card>

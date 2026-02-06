@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useCart } from "@/lib/cart-context";
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
@@ -27,6 +28,7 @@ interface CustomerInfo {
 }
 
 export default function CheckoutPage() {
+  const t = useTranslations("Checkout");
   const { items, total } = useCart();
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: "",
@@ -49,17 +51,27 @@ export default function CheckoutPage() {
 
     try {
       // Step 1: Create payment with PayOS
-      const paymentResponse = await fetch("/api/payos/create-payment", {
+      const description = `Thanh toan don hang`;
+      const returnUrl = `${window.location.origin}/checkout/success`;
+      const cancelUrl = `${window.location.origin}/checkout/cancel`;
+
+      const paymentResponse = await fetch("/api/payment/create-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: grandTotal,
+          description,
+          returnUrl,
+          cancelUrl,
           items: items.map((item) => ({
             name: item.name,
             quantity: item.quantity,
             price: item.price,
           })),
-          customerInfo,
+          buyerName: customerInfo.name,
+          buyerPhone: customerInfo.phone,
+          buyerEmail: customerInfo.email,
+          buyerAddress: `${customerInfo.address}, ${customerInfo.city}`,
         }),
       });
 
@@ -94,11 +106,11 @@ export default function CheckoutPage() {
         // Redirect to PayOS checkout
         window.location.href = paymentData.checkoutUrl;
       } else {
-        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        alert(t("Payment.error"));
       }
     } catch (error) {
       console.error("Payment error:", error);
-      alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      alert(t("Payment.error"));
     } finally {
       setIsProcessing(false);
     }
@@ -111,14 +123,14 @@ export default function CheckoutPage() {
         <main className="flex-1 flex flex-col items-center justify-center py-24 text-center px-6">
           <span className="text-8xl mb-6 block animate-in zoom-in duration-500">🛒</span>
           <Typography variant="headline-medium" className="text-primary mb-4">
-            Giỏ hàng trống
+            {t("empty.title")}
           </Typography>
           <Typography variant="body-large" className="text-on-surface-variant mb-8">
-            Có vẻ như bạn chưa chọn sản phẩm nào.
+            {t("empty.description")}
           </Typography>
           <Link href="/products">
             <Button variant="filled" size="lg">
-              ← Tiếp tục mua sắm
+              {t("empty.continue")}
             </Button>
           </Link>
         </main>
@@ -137,7 +149,7 @@ export default function CheckoutPage() {
             variant="display-small"
             className="text-primary mb-8 font-bold"
           >
-            Thanh toán
+            {t("title")}
           </Typography>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -146,12 +158,12 @@ export default function CheckoutPage() {
               <form id="checkout-form" onSubmit={handleSubmit}>
                 <Card className="mb-6">
                   <CardHeader>
-                    <CardTitle className="text-primary">Thông tin giao hàng</CardTitle>
+                    <CardTitle className="text-primary">{t("Shipping.title")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Họ và tên *</Label>
+                        <Label htmlFor="name">{t("Shipping.name")}</Label>
                         <Input
                           id="name"
                           type="text"
@@ -163,11 +175,11 @@ export default function CheckoutPage() {
                               name: e.target.value,
                             })
                           }
-                          placeholder="Nguyễn Văn A"
+                          placeholder={t("Shipping.placeholders.name")}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Số điện thoại *</Label>
+                        <Label htmlFor="phone">{t("Shipping.phone")}</Label>
                         <Input
                           id="phone"
                           type="tel"
@@ -179,13 +191,13 @@ export default function CheckoutPage() {
                               phone: e.target.value,
                             })
                           }
-                          placeholder="0912 345 678"
+                          placeholder={t("Shipping.placeholders.phone")}
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                      <Label htmlFor="email">{t("Shipping.email")}</Label>
                       <Input
                         id="email"
                         type="email"
@@ -196,12 +208,12 @@ export default function CheckoutPage() {
                             email: e.target.value,
                           })
                         }
-                        placeholder="email@example.com"
+                        placeholder={t("Shipping.placeholders.email")}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="address">Địa chỉ giao hàng *</Label>
+                      <Label htmlFor="address">{t("Shipping.address")}</Label>
                       <Input
                         id="address"
                         type="text"
@@ -213,12 +225,12 @@ export default function CheckoutPage() {
                             address: e.target.value,
                           })
                         }
-                        placeholder="Số nhà, đường, phường/xã"
+                        placeholder={t("Shipping.placeholders.address")}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="city">Tỉnh/Thành phố *</Label>
+                      <Label htmlFor="city">{t("Shipping.city")}</Label>
                       <div className="relative">
                         <select
                           id="city"
@@ -246,7 +258,7 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="note">Ghi chú</Label>
+                      <Label htmlFor="note">{t("Shipping.note")}</Label>
                       <Textarea
                         id="note"
                         value={customerInfo.note}
@@ -257,7 +269,7 @@ export default function CheckoutPage() {
                           })
                         }
                         rows={3}
-                        placeholder="Ghi chú cho đơn hàng..."
+                        placeholder={t("Shipping.notePlaceholder")}
                         className="resize-none"
                       />
                     </div>
@@ -268,7 +280,7 @@ export default function CheckoutPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-primary">
-                      Phương thức thanh toán
+                      {t("Payment.title")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -283,13 +295,13 @@ export default function CheckoutPage() {
                           variant="title-medium"
                           className="text-on-surface font-bold"
                         >
-                          Chuyển khoản ngân hàng (VietQR)
+                          {t("Payment.methods.vietqr.title")}
                         </Typography>
                         <Typography
                           variant="body-small"
                           className="text-on-surface-variant"
                         >
-                          Quét mã QR để thanh toán nhanh chóng
+                          {t("Payment.methods.vietqr.description")}
                         </Typography>
                       </div>
                       <div className="ml-auto text-primary">
@@ -301,7 +313,7 @@ export default function CheckoutPage() {
                       variant="body-small"
                       className="mt-4 text-on-surface-variant text-center"
                     >
-                      Powered by PayOS - Thanh toán an toàn, bảo mật
+                      {t("Payment.secure")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -313,7 +325,7 @@ export default function CheckoutPage() {
               <div className="sticky top-24 space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-primary">Đơn hàng của bạn</CardTitle>
+                    <CardTitle className="text-primary">{t("Order.title")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="max-h-[300px] overflow-y-auto pr-2 space-y-4 custom-scrollbar">
@@ -351,18 +363,18 @@ export default function CheckoutPage() {
 
                     <div className="border-t border-outline-variant pt-4 space-y-2">
                       <div className="flex justify-between text-on-surface-variant">
-                        <Typography variant="body-medium">Tạm tính</Typography>
+                        <Typography variant="body-medium">{t("Order.subtotal")}</Typography>
                         <Typography variant="body-medium">
                           {total.toLocaleString("vi-VN")}đ
                         </Typography>
                       </div>
                       <div className="flex justify-between text-on-surface-variant">
                         <Typography variant="body-medium">
-                          Phí vận chuyển
+                          {t("Order.shipping")}
                         </Typography>
                         <Typography variant="body-medium">
                           {shippingFee === 0
-                            ? "Miễn phí"
+                            ? t("Order.free")
                             : `${shippingFee.toLocaleString("vi-VN")}đ`}
                         </Typography>
                       </div>
@@ -371,7 +383,7 @@ export default function CheckoutPage() {
                           variant="title-medium"
                           className="text-on-surface font-bold"
                         >
-                          Tổng cộng
+                          {t("Order.total")}
                         </Typography>
                         <Typography
                           variant="headline-small"
@@ -392,11 +404,10 @@ export default function CheckoutPage() {
                             lightbulb
                           </span>
                           <span>
-                            Thêm{" "}
-                            <strong>
-                              {(500000 - total).toLocaleString("vi-VN")}đ
-                            </strong>{" "}
-                            để được miễn phí vận chuyển
+                            {t.rich("Order.freeShippingHint", {
+                                amount: (500000 - total).toLocaleString("vi-VN"),
+                                strong: (chunks) => <strong>{chunks}</strong>
+                            })}
                           </span>
                         </Typography>
                       </div>
@@ -416,10 +427,10 @@ export default function CheckoutPage() {
                           <span className="material-symbols-rounded animate-spin">
                             progress_activity
                           </span>
-                          Đang xử lý...
+                          {t("Payment.processing")}
                         </div>
                       ) : (
-                        `Thanh toán ${grandTotal.toLocaleString("vi-VN")}đ`
+                        t("Payment.pay", { amount: grandTotal.toLocaleString("vi-VN") + "đ" })
                       )}
                     </Button>
                   </CardFooter>

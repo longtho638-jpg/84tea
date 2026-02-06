@@ -1,12 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
 import { playfairDisplay, inter } from "@/lib/fonts";
 import { CartProvider } from "@/lib/cart-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
-import "./globals.css";
+import { routing } from "@/i18n/routing";
+import "../globals.css";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -53,17 +57,31 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+type Locale = (typeof routing.locales)[number];
+
+export default async function LocaleLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as Locale)) {
+    notFound();
+  }
+
+  // Providing all messages to the client side
+  const messages = await getMessages();
+
   return (
-    <html lang="vi" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1a472a" />
+        <meta name="theme-color" content="#1b5e20" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="84tea" />
@@ -90,12 +108,14 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthProvider>
-              <CartProvider>
-                {children}
-                <CartDrawer />
-              </CartProvider>
-            </AuthProvider>
+            <NextIntlClientProvider messages={messages}>
+              <AuthProvider>
+                <CartProvider>
+                  {children}
+                  <CartDrawer />
+                </CartProvider>
+              </AuthProvider>
+            </NextIntlClientProvider>
           </ThemeProvider>
         </ErrorBoundary>
         <ServiceWorkerRegister />

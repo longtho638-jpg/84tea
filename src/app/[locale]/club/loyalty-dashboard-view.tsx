@@ -9,6 +9,7 @@ import { LoyaltyPointsCard } from '@/components/loyalty/loyalty-points-card';
 import { LoyaltyPointsHistoryList } from '@/components/loyalty/loyalty-points-history-list';
 import { useLoyaltyTransactionHistory } from '@/lib/hooks/use-loyalty-transaction-history';
 import { LoyaltyTier } from '@/types/loyalty-transaction.types';
+import { useTranslations } from 'next-intl';
 
 interface LoyaltyDashboardProps {
   userName: string | null;
@@ -19,6 +20,7 @@ interface LoyaltyDashboardProps {
 
 export function LoyaltyDashboard({ userName, userId, points, tier }: LoyaltyDashboardProps) {
   const { transactions, loading } = useLoyaltyTransactionHistory(userId);
+  const t = useTranslations("Club.Dashboard");
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-surface-container-low to-surface py-12 px-4">
@@ -26,9 +28,9 @@ export function LoyaltyDashboard({ userName, userId, points, tier }: LoyaltyDash
         {/* Welcome Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-on-surface mb-2">
-            Xin chào, {userName || 'thành viên'}! 👋
+            {t('welcome')} {userName || t('member')}! 👋
           </h1>
-          <p className="text-on-surface-variant">Chào mừng bạn đến với 84tea Club</p>
+          <p className="text-on-surface-variant">{t('subtitle')}</p>
         </div>
 
         {/* Dashboard Grid */}
@@ -44,7 +46,7 @@ export function LoyaltyDashboard({ userName, userId, points, tier }: LoyaltyDash
               <div className="rounded-2xl bg-surface p-6 shadow-md border border-outline-variant flex items-center justify-center h-full min-h-[400px]">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-                  <p className="text-on-surface-variant">Đang tải lịch sử...</p>
+                  <p className="text-on-surface-variant">{t('loadingHistory')}</p>
                 </div>
               </div>
             ) : (
