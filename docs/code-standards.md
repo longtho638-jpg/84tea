@@ -9,6 +9,10 @@
 - **Descriptive Names**: Filenames should describe the component or purpose clearly.
   - ✅ `franchise-application-form.tsx`
   - ❌ `form.tsx`
+- **Feature-based Organization**: Group components by feature in `src/components/`.
+  - `src/components/loyalty/`: Loyalty program components (badges, cards, history).
+  - `src/components/auth/`: Authentication components.
+  - `src/components/cart/`: Cart functionality.
 
 ### Components & Functions
 - **PascalCase**: React components.

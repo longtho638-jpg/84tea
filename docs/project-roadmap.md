@@ -15,15 +15,16 @@
 - [x] **Shopping Cart:** Add to cart, Drawer, State persistence.
 - [x] **Checkout Flow:** Simple checkout page and success state.
 
-## Phase 3: Backend Integration (Planned)
-- [ ] **Database Setup:** Supabase (PostgreSQL) integration.
-- [ ] **Product API:** Migrate from JSON to Database.
-- [ ] **Order Management:** Save orders to DB, Admin dashboard.
-- [ ] **Franchise CRM:** Store application leads in DB.
+## Phase 3: Digital Platform & Integration (Completed)
+- [x] **Database Setup:** Supabase (PostgreSQL) integration & RLS Policies.
+- [x] **Payments:** PayOS integration (QR Code/Bank Transfer).
+- [x] **Order Management:** Save orders to DB, Webhook processing.
+- [x] **User Authentication:** Login/Signup via OTP/Google, Profile management.
+- [x] **PWA:** Manifest, Service Worker, Offline support, Installability.
+- [x] **84tea Club:** Member exclusive area and profile UI.
 
-## Phase 4: Enhanced Experience (Planned)
-- [ ] **User Authentication:** Login/Signup for customers.
-- [ ] **Loyalty Program:** Points system display.
+## Phase 4: Enhanced Experience (Completed)
+- [x] **Loyalty Program:** Points system, Tiers (Bronze/Silver/Gold/Platinum), Transaction history.
 - [ ] **Store Locator:** Map integration for physical stores.
 - [ ] **Blog/News:** CMS integration for brand content.
 

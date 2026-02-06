@@ -1,10 +1,50 @@
+'use client';
+
 import { MainLayout, FooterSection } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { AuthButton } from "@/components/auth/auth-button";
+import { useAuth } from "@/lib/auth-context";
+import { LoyaltyDashboard } from "./loyalty-dashboard-view";
 
 export default function ClubPage() {
+  const { user, profile, isLoading } = useAuth();
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col">
+        <MainLayout>
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+              <p className="text-gray-500">Đang tải...</p>
+            </div>
+          </div>
+        </MainLayout>
+      </div>
+    );
+  }
+
+  // If logged in, show dashboard
+  if (user && profile) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col">
+        <MainLayout>
+          <LoyaltyDashboard
+            userName={profile.full_name}
+            userId={profile.id}
+            points={profile.loyalty_points}
+            tier={profile.loyalty_tier}
+          />
+          <FooterSection />
+        </MainLayout>
+      </div>
+    );
+  }
+
+  // Otherwise, show landing page
   return (
     <div className="min-h-screen bg-surface flex flex-col">
       <MainLayout>
@@ -68,7 +108,7 @@ export default function ClubPage() {
             <div className="grid md:grid-cols-3 gap-8">
               <TierCard
                 name="Silver"
-                color="bg-slate-300"
+                color="bg-outline-variant"
                 requirement="Đăng ký tài khoản"
                 benefits={[
                   "Tích điểm 1% giá trị đơn hàng",
@@ -78,7 +118,7 @@ export default function ClubPage() {
               />
               <TierCard
                 name="Gold"
-                color="bg-amber-300"
+                color="bg-secondary"
                 requirement="Chi tiêu 5.000.000đ/năm"
                 benefits={[
                   "Tích điểm 2% giá trị đơn hàng",
@@ -90,7 +130,7 @@ export default function ClubPage() {
               />
               <TierCard
                 name="Platinum"
-                color="bg-slate-800 text-white"
+                color="bg-on-surface text-surface"
                 requirement="Chi tiêu 15.000.000đ/năm"
                 benefits={[
                   "Tích điểm 3% giá trị đơn hàng",

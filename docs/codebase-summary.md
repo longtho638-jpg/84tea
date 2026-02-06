@@ -10,6 +10,7 @@ Main application routes and layouts.
 - **Routes:**
   - `/products`: Product listing and detail pages (`[slug]`).
   - `/franchise`: Franchise info (`page.tsx`) and application form (`apply/page.tsx`).
+  - `/club`: Member dashboard for profile and loyalty tracking.
   - `/checkout`: Checkout process (`page.tsx`) and success page (`success/page.tsx`).
   - `/about`, `/contact`, `/shipping`, `/refund`, `/privacy`, `/terms`: Static information pages.
   - `/ops`, `/training`: Operational and training resources (placeholders).
@@ -40,6 +41,13 @@ Main application routes and layouts.
 - **`cart/`**: Shopping cart features.
   - `cart-drawer.tsx`: Slide-out cart UI.
   - `cart-button.tsx`: Floating trigger.
+- **`loyalty/`**: Loyalty program components.
+  - `tier-badge.tsx`: Visual representation of membership tier.
+  - `points-card.tsx`: Dashboard widget for points balance.
+  - `points-history-list.tsx`: List of point transactions.
+- **`auth/`**: Authentication components.
+  - `auth-modal.tsx`: Login/Signup dialog.
+  - `profile-setup-form.tsx`: User profile completion.
 
 ### `src/lib` (Utilities & Logic)
 - `cart-context.tsx`: React Context for cart state management (localStorage persistence).

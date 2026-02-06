@@ -18,6 +18,7 @@ A "Masstige" (Mass Prestige) tea brand that sits between mass-market chains (Hig
 - **Product Showcase:** Dynamic menu with filtering (Tea type, Mood/Energy level).
 - **Franchise Portal:** Information hub for potential partners, including model showcases (Kiosk, Express, Lounge) and application forms.
 - **E-commerce (Lite):** Cart and Checkout flow for retail tea products.
+- **Loyalty Program:** Points accumulation, tier system (Bronze to Platinum), and rewards for frequent customers.
 
 ## 4. Target Audience
 - **Customers:** Gen Z & Millennials (20-40) looking for healthier, higher-quality alternatives to bubble tea or coffee. "Modern Traditionalists".
@@ -33,4 +34,5 @@ A "Masstige" (Mass Prestige) tea brand that sits between mass-market chains (Hig
 - **Styling:** Tailwind CSS, Material Design 3 (Custom Theme).
 - **Icons:** Material Symbols.
 - **Deployment:** Vercel / Cloudflare Pages.
-- **CMS/Backend (Future):** Supabase (PostgreSQL) for product/order management.
+- **Backend:** Supabase (PostgreSQL) for user data, orders, and loyalty system.
+- **Payments:** PayOS (Vietnam QR/Banking).

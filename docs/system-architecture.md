@@ -59,3 +59,16 @@ graph TD
 - **Input Validation:** TypeScript interfaces for all data structures.
 - **Sanitization:** React automatically escapes content (JSX) to prevent XSS.
 - **Headers:** Standard security headers (HSTS, X-Frame-Options) via `next.config.ts` (to be configured).
+- **Row Level Security (RLS):** Supabase policies ensure users can only access their own data (profiles, orders, loyalty transactions).
+
+## 7. Database Schema (Key Entities)
+
+### Loyalty System
+- **Profiles Extension**:
+  - `loyalty_points`: Current available balance for redemption.
+  - `lifetime_points`: Cumulative points used for Tier calculation (never decreases).
+  - `loyalty_tier`: Cached tier status (Bronze, Silver, Gold, Platinum).
+- **Loyalty Transactions**:
+  - Purpose: Immutable ledger of all point changes.
+  - Fields: `amount` (integer), `type` (EARN_PURCHASE, REDEEM, etc.), `reference_id` (Order ID).
+  - Logic: Trigger-based or application-level updates to Profile summaries.

@@ -201,17 +201,19 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               </Button>
             </form>
 
-            <p className="text-center text-xs text-on-surface-variant px-4 leading-relaxed">
-              Bằng cách tiếp tục, bạn đồng ý với{" "}
-              <a href="/terms" className="underline hover:text-primary font-medium">
-                Điều khoản dịch vụ
-              </a>{" "}
-              và{" "}
-              <a href="/privacy" className="underline hover:text-primary font-medium">
-                Chính sách bảo mật
-              </a>{" "}
-              của chúng tôi.
-            </p>
+            <div className="text-center space-y-4">
+              <p className="text-xs text-on-surface-variant px-4 leading-relaxed">
+                Bằng cách tiếp tục, bạn đồng ý với{" "}
+                <a href="/terms" className="underline hover:text-primary font-medium">
+                  Điều khoản dịch vụ
+                </a>{" "}
+                và{" "}
+                <a href="/privacy" className="underline hover:text-primary font-medium">
+                  Chính sách bảo mật
+                </a>{" "}
+                của chúng tôi.
+              </p>
+            </div>
           </div>
         );
     }

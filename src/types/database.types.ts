@@ -90,6 +90,9 @@ export interface Database {
           phone: string | null
           role: 'customer' | 'admin' | 'franchisee'
           avatar_url: string | null
+          loyalty_points: number
+          loyalty_tier: 'bronze' | 'silver' | 'gold' | 'diamond'
+          lifetime_points: number
           created_at: string
           updated_at: string
         }
@@ -99,6 +102,9 @@ export interface Database {
           phone?: string | null
           role?: 'customer' | 'admin' | 'franchisee'
           avatar_url?: string | null
+          loyalty_points?: number
+          loyalty_tier?: 'bronze' | 'silver' | 'gold' | 'diamond'
+          lifetime_points?: number
           created_at?: string
           updated_at?: string
         }
@@ -108,8 +114,37 @@ export interface Database {
           phone?: string | null
           role?: 'customer' | 'admin' | 'franchisee'
           avatar_url?: string | null
+          loyalty_points?: number
+          loyalty_tier?: 'bronze' | 'silver' | 'gold' | 'diamond'
+          lifetime_points?: number
           created_at?: string
           updated_at?: string
+        }
+      }
+      loyalty_transactions: {
+        Row: {
+          id: string
+          user_id: string
+          amount: number
+          type: 'purchase' | 'bonus' | 'redemption' | 'expiry'
+          description: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          amount: number
+          type: 'purchase' | 'bonus' | 'redemption' | 'expiry'
+          description?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          amount?: number
+          type?: 'purchase' | 'bonus' | 'redemption' | 'expiry'
+          description?: string | null
+          created_at?: string
         }
       }
       orders: {

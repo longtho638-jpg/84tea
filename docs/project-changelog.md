@@ -1,5 +1,31 @@
 # Project Changelog
 
+## [1.2.0] - 2026-02-06
+
+### Added
+- **Loyalty Program**: Comprehensive loyalty system with points tracking and tier progression.
+- **Database Schema**: Added `loyalty_points` (profiles extension) and `loyalty_transactions` tables.
+- **Club Dashboard**: Enhanced `/club` page with real-time points balance, tier status, and transaction history.
+- **UI Components**:
+  - `TierBadge`: Visual indicator of current membership tier (Bronze/Silver/Gold/Platinum).
+  - `PointsCard`: Dashboard widget showing current balance and progress to next tier.
+  - `PointsHistoryList`: Transaction log with date formatting and operation types.
+- **Integration**: Added loyalty points display to the user navigation dropdown.
+
+## [1.1.0] - 2026-02-06
+
+### Added
+- **Authentication**: Full Supabase Auth integration with OTP and Google login.
+- **Payments**: PayOS integration for VIETQR bank transfers and automated webhook processing.
+- **PWA Support**: Added `manifest.json`, Service Worker for offline support, and full icon set.
+- **84tea Club**: New member area (`/club`) and profile management.
+- **Database**: Supabase integration with Row Level Security (RLS) policies for Users and Orders.
+- **Order System**: Dedicated `/api/orders` endpoint for order creation and tracking.
+
+### Changed
+- **Cart System**: Refactored `CartContext` to fully support backend order syncing and strict typing.
+- **Checkout**: Enhanced checkout flow to support authenticated users and automatic form filling.
+
 ## [1.0.1] - 2026-02-06
 
 ### Fixed

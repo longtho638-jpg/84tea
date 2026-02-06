@@ -49,6 +49,12 @@ export function AuthButton({
               <div className="flex flex-col overflow-hidden">
                 <span className="font-medium truncate">{profile?.full_name || "Thành viên"}</span>
                 <span className="text-xs text-on-surface-variant truncate">{user.email}</span>
+                {profile?.loyalty_points !== undefined && (
+                  <div className="flex items-center gap-1 mt-0.5 text-primary">
+                    <span className="material-symbols-rounded text-[10px]">stars</span>
+                    <span className="text-xs font-semibold">{profile.loyalty_points.toLocaleString()} điểm</span>
+                  </div>
+                )}
               </div>
            </div>
 
