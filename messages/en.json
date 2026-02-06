@@ -1,0 +1,728 @@
+{
+  "HomePage": {
+    "title": "84tea - Vietnamese Ancient Tea",
+    "welcome": "Welcome to 84tea"
+  },
+  "Navigation": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "franchise": "Franchise",
+    "club": "84tea Club",
+    "contact": "Contact",
+    "buyNow": "Buy Now"
+  },
+  "Hero": {
+    "subtitle": "Vietnamese Tea Heritage",
+    "title": "Essence of ancient tea",
+    "titleHighlight": "thousand years old",
+    "description": "A journey back to the origin of taste from ancient Shan Tuyet tea trees living on misty mountain peaks, absorbing the essence of heaven and earth for centuries.",
+    "ctaPrimary": "Explore Collection",
+    "ctaSecondary": "Our Story"
+  },
+  "Story": {
+    "label": "About 84tea",
+    "headline": "Awaken your taste buds with",
+    "headlineHighlight": "originality",
+    "description1": "84tea was born with a mission to preserve and honor Vietnam's ancient tea trees. The number 84 is not just the country code, but a proud affirmation of the origin of these premium tea buds.",
+    "description2": "We travel along the S-shaped land, reaching rugged high mountains where ethnic minorities still protect ancient tea forests hundreds of years old day and night.",
+    "stat1Value": "300+",
+    "stat1Label": "Tea Tree Age",
+    "stat2Value": "1300m",
+    "stat2Label": "Average Altitude",
+    "stat3Value": "100%",
+    "stat3Label": "Natural Organic",
+    "cta": "View Full Journey"
+  },
+  "Featured": {
+    "label": "Collection",
+    "headline": "Vietnamese Tea Masterpieces",
+    "description": "Selected from the finest tea products from famous raw material regions.",
+    "viewAll": "View All Products"
+  },
+  "Process": {
+    "label": "Process",
+    "headline": "From Mountain Peak to Tea Cup",
+    "description": "The journey of ancient tea buds through the hands of artisans and the tempering of time.",
+    "step1Title": "Harvesting",
+    "step1Desc": "Shan Tuyet tea buds with 1 bud and 2 leaves are harvested manually by local people in the early morning mist.",
+    "step2Title": "Fermentation",
+    "step2Desc": "The natural fermentation process lasts for decades in earthenware jars, awakening hidden flavors.",
+    "step3Title": "Enjoy",
+    "step3Desc": "Brew properly to fully feel the flavor of the mountains and forests and condensed time."
+  },
+  "Benefits": {
+    "item1Title": "100% Natural",
+    "item1Desc": "No chemicals, no preservatives, growing completely naturally in the old forest.",
+    "item2Title": "Cultural Heritage",
+    "item2Desc": "Each tea bud carries within it the cultural story of ethnic minorities.",
+    "item3Title": "OCOP 5 Star Standard",
+    "item3Desc": "Recognized as a national product, meeting the strictest standards.",
+    "item4Title": "Fair Trade",
+    "item4Desc": "Commitment to purchase at high prices, ensuring sustainable livelihoods for local people."
+  },
+  "CTA": {
+    "headline": "Subscribe to Newsletter",
+    "description": "Receive 10% off your first order and updates on interesting tea ceremony knowledge from 84tea.",
+    "emailPlaceholder": "Your Email",
+    "subscribe": "Subscribe",
+    "orExplore": "Or explore now:",
+    "collection": "Collection",
+    "franchise": "Franchise"
+  },
+  "Footer": {
+    "brandDescription": "Premium Vietnamese tea brand featuring the 84 Limited collection - fermented tea from ancient Shan Tuyết trees.",
+    "slogan": "Vietnamese Energy Tea",
+    "products": "Products",
+    "allProducts": "All Products",
+    "limitedCollection": "84 Limited Collection",
+    "greenTea": "Green Tea",
+    "company": "Company",
+    "about": "About Us",
+    "franchise": "Franchise",
+    "contact": "Contact",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy Policy",
+    "shipping": "Shipping",
+    "copyright": "© 2026 84tea. Powered by 3704 Co., LTD.",
+    "madeWithLove": "Made with ❤️ in Vietnam"
+  },
+  "Products": {
+    "label": "Online Store",
+    "headline": "Essence of Vietnamese Tea",
+    "description": "Discover our collection of ancient tea and premium tea sets, carefully selected from Vietnam's famous raw material regions.",
+    "Filter": {
+      "title": "Filter",
+      "all": "All",
+      "clearAll": "Clear All",
+      "categories": "Categories",
+      "teaTypes": "Tea Types",
+      "allTeaTypes": "All Tea Types",
+      "priceRange": "Price Range",
+      "Category": {
+        "all": "All",
+        "tea": "Premium Tea",
+        "teaware": "Teaware & Tools",
+        "gift": "Gifts"
+      },
+      "Type": {
+        "green": "Green Tea",
+        "black": "Black Tea",
+        "white": "White Tea",
+        "oolong": "Oolong Tea",
+        "herbal": "Herbal Tea"
+      },
+      "Price": {
+        "under500k": "Under 500k",
+        "500kTo1m": "500k - 1m",
+        "above1m": "Above 1m",
+        "all": "All"
+      }
+    },
+    "Sort": {
+      "featured": "Featured",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "nameAsc": "Name A-Z",
+      "sortBy": "Sort by:"
+    },
+    "showing": "Showing",
+    "productsCount": "products",
+    "Empty": {
+      "title": "No products found",
+      "description": "Try changing the filters or searching for other keywords.",
+      "clearFilter": "Clear Filter"
+    },
+    "Card": {
+      "addToCart": "Add to Cart",
+      "originDefault": "Vietnam"
+    },
+    "Detail": {
+      "Breadcrumb": {
+        "home": "Home",
+        "products": "Products"
+      },
+      "Type": {
+        "green": "Green Tea",
+        "black": "Black Tea",
+        "white": "White Tea",
+        "oolong": "Oolong Tea",
+        "herbal": "Herbal Tea",
+        "featured": "Featured"
+      },
+      "Stats": {
+        "reviews": "reviews"
+      },
+      "Attributes": {
+        "weight": "Weight",
+        "origin": "Origin",
+        "harvest": "Harvest",
+        "taste": "Taste"
+      },
+      "Guarantee": {
+        "authentic": "100% Authentic",
+        "freeShipping": "Free shipping on orders > 500k",
+        "returnPolicy": "7-day return policy"
+      },
+      "Related": {
+        "title": "Related Products",
+        "viewAll": "View All"
+      },
+      "Actions": {
+        "addToCart": "Add to Cart",
+        "added": "Added to Cart"
+      },
+      "Gallery": {
+        "altMain": "Product Image",
+        "altThumb": "Thumbnail"
+      }
+    }
+  },
+  "Cart": {
+    "title": "Cart",
+    "ariaLabel": "Cart",
+    "ariaLabelWithCount": "Cart ({count} items)",
+    "empty": {
+      "message": "Your cart is empty",
+      "cta": "Explore Ancient Tea"
+    },
+    "total": "Total",
+    "checkout": "Checkout",
+    "freeShipping": "Free shipping on orders over 500,000đ",
+    "addToCart": "Add to Cart"
+  },
+  "Checkout": {
+    "title": "Checkout",
+    "empty": {
+      "title": "Cart is empty",
+      "description": "It seems you haven't selected any products yet.",
+      "continue": "← Continue Shopping"
+    },
+    "Shipping": {
+      "title": "Shipping Information",
+      "name": "Full Name *",
+      "phone": "Phone Number *",
+      "email": "Email",
+      "address": "Shipping Address *",
+      "city": "City/Province *",
+      "note": "Note",
+      "notePlaceholder": "Order notes...",
+      "placeholders": {
+        "name": "John Doe",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "address": "House number, street, ward"
+      }
+    },
+    "Payment": {
+      "title": "Payment Method",
+      "methods": {
+        "vietqr": {
+          "title": "Bank Transfer (VietQR)",
+          "description": "Scan QR code for quick payment"
+        }
+      },
+      "secure": "Powered by PayOS - Secure payment",
+      "processing": "Processing...",
+      "pay": "Pay {amount}",
+      "error": "An error occurred. Please try again."
+    },
+    "Order": {
+      "title": "Your Order",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping Fee",
+      "free": "Free",
+      "total": "Total",
+      "freeShippingHint": "Add {amount} for free shipping"
+    },
+    "Success": {
+      "title": "Order Successful!",
+      "message": "Thank you for your order. We will process it as soon as possible.",
+      "orderCode": "Order Code",
+      "nextSteps": "Next Steps:",
+      "step1": "You will receive an order confirmation SMS shortly",
+      "step2": "Your order will be delivered within 2-3 business days",
+      "step3": "Contact hotline <strong>0988 030 204</strong> if you need support",
+      "continueShopping": "Continue Shopping",
+      "backHome": "Back to Home"
+    },
+    "Cancel": {
+      "title": "Payment Cancelled",
+      "message": "You have cancelled the payment process. The order has not been completed.",
+      "retry": "Try Again",
+      "backHome": "Back to Home"
+    }
+  },
+  "About": {
+    "Hero": {
+      "label": "About Us",
+      "title": "The Story",
+      "desc": "Bringing the essence of Vietnamese tea to the world, combining centuries-old traditions with modern fermentation technology."
+    },
+    "Vision": {
+      "label": "Vision",
+      "title": "Vietnamese Energy Tea",
+      "desc1": "84tea is not just a tea brand - it's a mission to bring Vietnamese tea culture to the world. We believe that Vietnam's ancient Shan Tuyet tea deserves to be recognized as one of Asia's most prestigious teas.",
+      "desc2": "With our exclusive fermentation process, we create tea products that are not only delicious but also offer superior health benefits - true to the spirit of \"Vietnamese Energy Tea\"."
+    },
+    "Values": {
+      "label": "Core Values",
+      "title": "What We Believe In",
+      "items": {
+        "nature": {
+          "title": "Natural Origin",
+          "desc": "All products come from 100+ year old Shan Tuyet ancient tea trees, grown at 1,500m altitude in Vietnam."
+        },
+        "fermentation": {
+          "title": "Traditional Fermentation",
+          "desc": "Exclusive fermentation process preserves natural probiotics and maximizes health benefits."
+        },
+        "energy": {
+          "title": "Sustainable Energy",
+          "desc": "Provides stable energy throughout the day without the jitters of coffee."
+        },
+        "premium": {
+          "title": "Premium Positioning",
+          "desc": "Each product is a work of art, packaged with premium materials worthy of the value inside."
+        }
+      }
+    },
+    "Timeline": {
+      "label": "Journey",
+      "title": "From Idea to Brand",
+      "items": {
+        "2020": {
+          "title": "Discovery",
+          "desc": "Found ancient Shan Tuyet tea area in Northwest highlands"
+        },
+        "2022": {
+          "title": "Research",
+          "desc": "Developed exclusive fermentation process with experts"
+        },
+        "2024": {
+          "title": "Launch",
+          "desc": "3704 Co., LTD officially established, 84tea brand born"
+        },
+        "2026": {
+          "title": "Expansion",
+          "desc": "Tea room franchise and international market expansion"
+        }
+      }
+    },
+    "Company": {
+      "label": "Company Info",
+      "title": "3704 Co., LTD",
+      "details": {
+        "license": "License",
+        "founded": "Founded",
+        "founder": "Founder",
+        "address": "Address",
+        "addressValue": "134 Nguyen Hoang Ton, Phu Thuong, Hanoi"
+      }
+    },
+    "Partner": {
+      "label": "OEM Partner",
+      "title": "tralenmen.vn",
+      "desc": "Official production partner of the 84 Limited collection. Leading expert in fermented ancient Shan Tuyet tea in Vietnam.",
+      "link": "Learn more"
+    },
+    "CTA": {
+      "title": "Ready to Experience?",
+      "desc": "Discover our premium tea collection or explore 84tea franchise opportunities.",
+      "products": "View Products",
+      "franchise": "Franchise"
+    }
+  },
+  "Contact": {
+    "Hero": {
+      "label": "Contact",
+      "title": "Connect With",
+      "desc": "Have questions about products, wholesale orders, or partnership opportunities? We are always ready to support you."
+    },
+    "Info": {
+      "title": "Contact Information",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Working Hours",
+      "hoursValue": "Mon - Sat: 8:00 - 18:00"
+    },
+    "Social": {
+      "title": "Follow Us"
+    },
+    "QuickLinks": {
+      "title": "Quick Links",
+      "franchise": "Franchise",
+      "products": "Products",
+      "about": "About Us",
+      "shipping": "Shipping"
+    },
+    "Form": {
+      "title": "Send a Message",
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "placeholders": {
+        "name": "John Doe",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "message": "Your message here..."
+      },
+      "subjects": {
+        "general": "General Inquiry",
+        "order": "Order / Shipping",
+        "wholesale": "Wholesale",
+        "franchise": "Franchise",
+        "partnership": "Partnership",
+        "feedback": "Feedback"
+      },
+      "submit": "Send Message",
+      "note": "We will respond within 24 working hours",
+      "success": "Thank you for contacting us! We will respond within 24h."
+    },
+    "Map": {
+      "address": "134 Nguyen Hoang Ton, Phu Thuong, Tay Ho, Hanoi",
+      "link": "View on Google Maps"
+    }
+  },
+  "Trust": {
+    "secure": "Secure Payment",
+    "shipping": "Nationwide Shipping",
+    "return": "7-Day Return"
+  },
+  "Franchise": {
+    "Hero": {
+      "label": "Partnership Opportunity",
+      "title": "Partner with",
+      "titleHighlight": "Vietnamese Tea Heritage",
+      "description": "Become a franchise partner of 84tea to spread the essence of Vietnamese ancient tea. Sustainable business model, attractive profits, and operated by a team of leading experts.",
+      "register": "Register Now",
+      "explore": "Explore Models",
+      "stats": {
+        "stores": "Stores Nationwide",
+        "payback": "Avg. Payback Months",
+        "profit": "Avg. Net Profit",
+        "support": "Operation Support"
+      }
+    },
+    "Benefits": {
+      "label": "Why Choose 84tea?",
+      "title": "Outstanding Competitive Advantage",
+      "description": "We don't just franchise the brand, we share the secret of success and accompany you on the path of sustainable business.",
+      "items": {
+        "storefront": {
+          "title": "Flexible Model",
+          "description": "Diverse scales from Kiosk to Premium Lounge, suitable for various investment levels and locations."
+        },
+        "monitoring": {
+          "title": "Standardized Operation",
+          "description": "Operation, brewing, and service processes are 100% standardized, easy to train and manage."
+        },
+        "soup_kitchen": {
+          "title": "Exclusive Material Source",
+          "description": "Owning a distinct ancient tea material region, ensuring quality and the most stable price in the market."
+        },
+        "campaign": {
+          "title": "Comprehensive Marketing",
+          "description": "Support multi-channel communication, periodic branding and promotion campaigns from the headquarters."
+        },
+        "school": {
+          "title": "In-depth Training",
+          "description": "Training programs from basic to advanced for investors and staff on tea ceremony and management."
+        },
+        "engineering": {
+          "title": "24/7 Technical Support",
+          "description": "IT and technical team always ready to support POS systems, management apps, and equipment maintenance."
+        }
+      }
+    },
+    "Models": {
+      "label": "Business Models",
+      "title": "Diverse Investment Options",
+      "description": "3 models optimized for each market segment and financial capability.",
+      "mostPopular": "Most Popular",
+      "location": "Optimal Location",
+      "features": "Key Features",
+      "idealFor": "Ideal For",
+      "getQuote": "Get Detailed Quote",
+      "items": {
+        "kiosk": {
+          "title": "Kiosk",
+          "location": "Shopping Malls, Office Buildings",
+          "features": {
+            "0": "Low investment cost",
+            "1": "Simple operation (2-3 staff)",
+            "2": "Focus on Takeaway",
+            "3": "Streamlined, best-selling menu"
+          },
+          "idealFor": "New Investors, Small Capital"
+        },
+        "express": {
+          "title": "Express",
+          "location": "Street Front, Crowded Residential Areas",
+          "features": {
+            "0": "Balance between Takeaway and Dine-in",
+            "1": "Diverse beverage menu",
+            "2": "Youthful, dynamic space",
+            "3": "Optimized operating costs"
+          },
+          "idealFor": "Street Front, Professional Business"
+        },
+        "lounge": {
+          "title": "Lounge",
+          "location": "Premium Areas, Tourist Spots",
+          "features": {
+            "0": "Complete tea ceremony experience",
+            "1": "Serving premium drinks and pastries",
+            "2": "Luxurious Indochine Luxury space",
+            "3": "Organize tea ceremony workshops"
+          },
+          "idealFor": "Strategic Investment, Premium Positioning"
+        }
+      }
+    },
+    "Process": {
+      "label": "Partnership Process",
+      "title": "5-Step Roadmap to Success",
+      "description": "Streamlined, transparent process helps you own an 84tea store in just 15-30 days.",
+      "steps": {
+        "01": {
+          "title": "Register for Advice",
+          "description": "Fill in the registration form. Our specialists will contact you within 24h."
+        },
+        "02": {
+          "title": "Survey & Contract",
+          "description": "Survey premises, advise on suitable models, and sign franchise contracts."
+        },
+        "03": {
+          "title": "Design & Construction",
+          "description": "Create 3D design drawings and construct the store according to Indochine Luxury standards."
+        },
+        "04": {
+          "title": "Training & Setup",
+          "description": "Train personnel, setup machinery, raw materials, and operating procedures."
+        },
+        "05": {
+          "title": "Grand Opening",
+          "description": "Support opening organization, run ads, and officially go into operation."
+        }
+      }
+    },
+    "Form": {
+      "title": "Contact for Partnership",
+      "description": "Leave your information for detailed advice on franchise policies and latest offers.",
+      "quote": "\"Your success is our mission.\"",
+      "contact": {
+        "hotline": "Hotline",
+        "email": "Email",
+        "office": "Office",
+        "officeAddress": "1st Floor, 84tea Building, Hanoi, Vietnam"
+      },
+      "fields": {
+        "name": "Full Name *",
+        "namePlaceholder": "John Doe",
+        "phone": "Phone Number *",
+        "phonePlaceholder": "0912 xxx xxx",
+        "email": "Email",
+        "emailPlaceholder": "example@gmail.com",
+        "area": "Intended Area",
+        "areaPlaceholder": "Select area",
+        "budget": "Estimated Budget",
+        "budgetPlaceholder": "Select budget level",
+        "model": "Interested Model",
+        "areas": {
+          "hanoi": "Hanoi",
+          "hcm": "Ho Chi Minh City",
+          "danang": "Da Nang",
+          "other": "Other"
+        },
+        "budgets": {
+          "under500": "Under 500 million",
+          "500to1b": "500 million - 1 billion",
+          "over1b": "Over 1 billion"
+        }
+      },
+      "submit": "Submit Registration",
+      "disclaimer": "By submitting information, you agree to 84tea's privacy policy."
+    }
+  },
+  "NotFound": {
+    "title": "404 - Not Found",
+    "description": "Could not find requested resource",
+    "returnHome": "Return Home"
+  },
+  "Club": {
+    "Hero": {
+      "label": "Exclusive Membership",
+      "title": "84tea Club",
+      "description": "Join the community of ancient tea lovers. Accumulate points, receive exclusive offers and experience distinct privileges.",
+      "join": "Join Now",
+      "login": "Login"
+    },
+    "Benefits": {
+      "title": "Member Privileges",
+      "earnPoints": {
+        "title": "Earn Points",
+        "desc": "Earn 1 point for every 10,000đ spent"
+      },
+      "redeem": {
+        "title": "Redeem Gifts",
+        "desc": "Use points to redeem drinks or products"
+      },
+      "birthday": {
+        "title": "Birthday Gift",
+        "desc": "Special gifts in your birthday month"
+      },
+      "events": {
+        "title": "Exclusive Events",
+        "desc": "Priority invitation to tea tasting workshops"
+      }
+    },
+    "Tiers": {
+      "title": "Membership Tiers",
+      "items": {
+        "silver": {
+          "title": "Silver",
+          "benefits": [
+            "Earn 1 point / 10k",
+            "Birthday gift"
+          ]
+        },
+        "gold": {
+          "title": "Gold",
+          "benefits": [
+            "Earn 1.5 points / 10k",
+            "5% off total bill",
+            "Birthday gift"
+          ]
+        },
+        "diamond": {
+          "title": "Diamond",
+          "benefits": [
+            "Earn 2 points / 10k",
+            "10% off total bill",
+            "Special birthday gift",
+            "Private events"
+          ]
+        }
+      }
+    },
+    "CTA": {
+      "title": "Ready to get started?",
+      "description": "Register now to receive 50 bonus points immediately.",
+      "register": "Register Account"
+    },
+    "Dashboard": {
+      "welcome": "Welcome back,",
+      "member": "member",
+      "subtitle": "Welcome to 84tea Club",
+      "currentPoints": "Current Points",
+      "availablePoints": "Available",
+      "totalEarned": "Total Earned",
+      "tier": "Tier",
+      "history": "Transaction History",
+      "emptyHistory": "No transactions yet",
+      "loadingHistory": "Loading history...",
+      "progressTo": "Progress to {tier}",
+      "pointsNeeded": "{points} more points",
+      "highestTier": "🎉 You have reached the highest tier!",
+      "redeemComingSoon": "Redeem (Coming soon)"
+    },
+    "History": {
+      "type": {
+        "purchase": "Purchase",
+        "redemption": "Redeem",
+        "bonus": "Bonus",
+        "adjustment": "Adjustment",
+        "expiry": "Expired"
+      }
+    }
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: February 2026",
+    "Section1": {
+      "title": "1. Information We Collect",
+      "intro": "When you use 84tea.com, we may collect the following information:",
+      "items": {
+        "0": "Name, email, phone number when ordering",
+        "1": "Delivery address",
+        "2": "Order and transaction history",
+        "3": "Browser and device information (cookies)"
+      }
+    },
+    "Section2": {
+      "title": "2. Purpose of Information Usage",
+      "intro": "We use your information to:",
+      "items": {
+        "0": "Process and deliver orders",
+        "1": "Contact about order status",
+        "2": "Send promotional information (if you agree)",
+        "3": "Improve website experience",
+        "4": "Customer support"
+      }
+    },
+    "Section3": {
+      "title": "3. Information Security",
+      "intro": "We are committed to protecting your personal information by measures:",
+      "items": {
+        "0": "SSL encryption for all transactions",
+        "1": "Do not share information with unrelated third parties",
+        "2": "Store data on secure servers",
+        "3": "Limit internal access"
+      }
+    },
+    "Section4": {
+      "title": "4. Cookies",
+      "content": "The website uses cookies to improve user experience. You can disable cookies in browser settings, however some features may not work properly."
+    },
+    "Section5": {
+      "title": "5. Your Rights",
+      "intro": "You have the right to:",
+      "items": {
+        "0": "Request to view personal information we store",
+        "1": "Request correction of inaccurate information",
+        "2": "Request deletion of personal data",
+        "3": "Unsubscribe from marketing emails"
+      }
+    },
+    "Section6": {
+      "title": "6. Contact",
+      "intro": "If you have questions about the privacy policy, please contact:"
+    }
+  },
+  "Auth": {
+    "login": "Login / Register",
+    "logout": "Logout",
+    "account": "Account",
+    "profile": "Profile",
+    "points": "points",
+    "member": "Member",
+    "loginTitle": "Login / Register",
+    "loginDesc": "Join the 84tea community",
+    "continueGoogle": "Continue with Google",
+    "continueEmail": "Or continue with Email",
+    "emailPlaceholder": "name@example.com",
+    "sendLink": "Send Login Link",
+    "checkEmail": "Check your Email",
+    "checkEmailDesc": "We have sent a login link to",
+    "openEmailApp": "Open Email App",
+    "backToLogin": "Back to Login",
+    "termsText": "By continuing, you agree to our",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "and": "and",
+    "setupTitle": "Update Information",
+    "setupDesc": "Complete your profile",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "phone": "Phone Number",
+    "phonePlaceholder": "0912 345 678",
+    "update": "Update Information",
+    "errorGeneric": "An error occurred. Please try again.",
+    "errorMissingInfo": "Please provide full information"
+  }
+}

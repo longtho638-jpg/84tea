@@ -1,0 +1,728 @@
+{
+  "HomePage": {
+    "title": "84tea - Trà Cổ Thụ Việt Nam",
+    "welcome": "Chào mừng đến với 84tea"
+  },
+  "Navigation": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "about": "Về chúng tôi",
+    "franchise": "Nhượng quyền",
+    "club": "84tea Club",
+    "contact": "Liên hệ",
+    "buyNow": "Mua ngay"
+  },
+  "Hero": {
+    "subtitle": "Di sản trà Việt",
+    "title": "Tinh hoa trà cổ thụ",
+    "titleHighlight": "ngàn năm tuổi",
+    "description": "Hành trình tìm về cội nguồn hương vị từ những cây trà Shan Tuyết cổ thụ sống trên đỉnh núi mờ sương, hấp thụ tinh khí đất trời qua hàng thế kỷ.",
+    "ctaPrimary": "Khám phá Bộ sưu tập",
+    "ctaSecondary": "Câu chuyện của chúng tôi"
+  },
+  "Story": {
+    "label": "Về 84tea",
+    "headline": "Đánh thức vị giác bằng",
+    "headlineHighlight": "sự nguyên bản",
+    "description1": "84tea ra đời với sứ mệnh gìn giữ và tôn vinh những cây trà cổ thụ Việt Nam. Con số 84 không chỉ là mã vùng quốc gia, mà còn là lời khẳng định tự hào về nguồn gốc của những búp trà thượng hạng.",
+    "description2": "Chúng tôi đi dọc dải đất hình chữ S, tìm đến những vùng núi cao hiểm trở, nơi đồng bào dân tộc thiểu số vẫn ngày đêm gìn giữ những rừng trà cổ thụ hàng trăm năm tuổi.",
+    "stat1Value": "300+",
+    "stat1Label": "Tuổi đời cây trà",
+    "stat2Value": "1300m",
+    "stat2Label": "Độ cao trung bình",
+    "stat3Value": "100%",
+    "stat3Label": "Hữu cơ tự nhiên",
+    "cta": "Xem chi tiết hành trình"
+  },
+  "Featured": {
+    "label": "Bộ sưu tập",
+    "headline": "Tuyệt phẩm trà Việt",
+    "description": "Tuyển chọn những phẩm trà xuất sắc nhất từ các vùng nguyên liệu trứ danh.",
+    "viewAll": "Xem tất cả sản phẩm"
+  },
+  "Process": {
+    "label": "Quy trình",
+    "headline": "Từ Đỉnh Núi Đến Chén Trà",
+    "description": "Hành trình của những búp trà cổ thụ qua bàn tay nghệ nhân và sự tôi luyện của thời gian.",
+    "step1Title": "Thu hái",
+    "step1Desc": "Những búp trà Shan Tuyết 1 tôm 2 lá được thu hái thủ công bởi người dân bản địa vào sương sớm.",
+    "step2Title": "Lên men",
+    "step2Desc": "Quá trình lên men tự nhiên kéo dài hàng chục năm trong chum sành, đánh thức hương vị tiềm ẩn.",
+    "step3Title": "Thưởng thức",
+    "step3Desc": "Pha chế đúng cách để cảm nhận trọn vẹn hương vị của núi rừng và thời gian cô đọng."
+  },
+  "Benefits": {
+    "item1Title": "100% Tự nhiên",
+    "item1Desc": "Không hóa chất, không chất bảo quản, sinh trưởng hoàn toàn tự nhiên nơi rừng già.",
+    "item2Title": "Di sản văn hóa",
+    "item2Desc": "Mỗi búp trà mang trong mình câu chuyện văn hóa của đồng bào dân tộc thiểu số.",
+    "item3Title": "Chuẩn OCOP 5 Sao",
+    "item3Desc": "Được công nhận là sản phẩm quốc gia, đáp ứng các tiêu chuẩn khắt khe nhất.",
+    "item4Title": "Thương mại công bằng",
+    "item4Desc": "Cam kết thu mua giá cao, đảm bảo sinh kế bền vững cho người dân bản địa."
+  },
+  "CTA": {
+    "headline": "Đăng ký nhận tin",
+    "description": "Nhận ưu đãi 10% cho đơn hàng đầu tiên và cập nhật những kiến thức trà đạo thú vị từ 84tea.",
+    "emailPlaceholder": "Email của bạn",
+    "subscribe": "Đăng ký",
+    "orExplore": "Hoặc khám phá ngay:",
+    "collection": "Bộ sưu tập",
+    "franchise": "Nhượng quyền"
+  },
+  "Footer": {
+    "brandDescription": "Thương hiệu trà Việt cao cấp với bộ sưu tập 84 Limited - trà lên men từ những cây Shan Tuyết cổ thụ.",
+    "slogan": "Trà Năng Lượng Việt",
+    "products": "Sản phẩm",
+    "allProducts": "Tất cả sản phẩm",
+    "limitedCollection": "Bộ sưu tập 84 Limited",
+    "greenTea": "Trà xanh",
+    "company": "Công ty",
+    "about": "Về chúng tôi",
+    "franchise": "Nhượng quyền",
+    "contact": "Liên hệ",
+    "legal": "Pháp lý",
+    "terms": "Điều khoản",
+    "privacy": "Chính sách bảo mật",
+    "shipping": "Giao hàng",
+    "copyright": "© 2026 84tea. Được vận hành bởi 3704 Co., LTD.",
+    "madeWithLove": "Làm với ❤️ tại Việt Nam"
+  },
+  "Products": {
+    "label": "Cửa hàng trực tuyến",
+    "headline": "Tinh hoa Trà Việt",
+    "description": "Khám phá bộ sưu tập trà cổ thụ và trà cụ cao cấp, được tuyển chọn kỹ lưỡng từ những vùng nguyên liệu trứ danh của Việt Nam.",
+    "Filter": {
+      "title": "Bộ lọc",
+      "all": "Tất cả",
+      "clearAll": "Xóa tất cả",
+      "categories": "Danh mục",
+      "teaTypes": "Loại trà",
+      "allTeaTypes": "Tất cả loại trà",
+      "priceRange": "Khoảng giá",
+      "Category": {
+        "all": "Tất cả",
+        "tea": "Trà thưởng thức",
+        "teaware": "Ấm chén & Dụng cụ",
+        "gift": "Quà tặng"
+      },
+      "Type": {
+        "green": "Trà Xanh (Lục Trà)",
+        "black": "Hồng Trà",
+        "white": "Bạch Trà",
+        "oolong": "Trà Ô Long",
+        "herbal": "Trà Thảo Mộc"
+      },
+      "Price": {
+        "under500k": "Dưới 500k",
+        "500kTo1m": "500k - 1tr",
+        "above1m": "Trên 1tr",
+        "all": "Tất cả"
+      }
+    },
+    "Sort": {
+      "featured": "Nổi bật nhất",
+      "priceAsc": "Giá: Thấp đến Cao",
+      "priceDesc": "Giá: Cao đến Thấp",
+      "nameAsc": "Tên A-Z",
+      "sortBy": "Sắp xếp theo:"
+    },
+    "showing": "Hiển thị",
+    "productsCount": "sản phẩm",
+    "Empty": {
+      "title": "Không tìm thấy sản phẩm",
+      "description": "Thử thay đổi bộ lọc hoặc tìm kiếm từ khóa khác.",
+      "clearFilter": "Xóa bộ lọc"
+    },
+    "Card": {
+      "addToCart": "Thêm vào giỏ",
+      "originDefault": "Việt Nam"
+    },
+    "Detail": {
+      "Breadcrumb": {
+        "home": "Trang chủ",
+        "products": "Sản phẩm"
+      },
+      "Type": {
+        "green": "Trà Xanh",
+        "black": "Hồng Trà",
+        "white": "Bạch Trà",
+        "oolong": "Ô Long",
+        "herbal": "Thảo Mộc",
+        "featured": "Nổi bật"
+      },
+      "Stats": {
+        "reviews": "đánh giá"
+      },
+      "Attributes": {
+        "weight": "Trọng lượng",
+        "origin": "Xuất xứ",
+        "harvest": "Thu hái",
+        "taste": "Hương vị"
+      },
+      "Guarantee": {
+        "authentic": "100% Chính hãng",
+        "freeShipping": "Miễn phí vận chuyển đơn > 500k",
+        "returnPolicy": "Đổi trả trong 7 ngày"
+      },
+      "Related": {
+        "title": "Sản phẩm liên quan",
+        "viewAll": "Xem tất cả"
+      },
+      "Actions": {
+        "addToCart": "Thêm vào giỏ hàng",
+        "added": "Đã thêm vào giỏ"
+      },
+      "Gallery": {
+        "altMain": "Ảnh sản phẩm",
+        "altThumb": "Ảnh nhỏ"
+      }
+    }
+  },
+  "Cart": {
+    "title": "Giỏ hàng",
+    "ariaLabel": "Giỏ hàng",
+    "ariaLabelWithCount": "Giỏ hàng ({count} sản phẩm)",
+    "empty": {
+      "message": "Giỏ hàng của bạn đang trống",
+      "cta": "Khám phá Trà Cổ Thụ"
+    },
+    "total": "Tổng cộng",
+    "checkout": "Thanh toán",
+    "freeShipping": "Miễn phí vận chuyển cho đơn hàng từ 500.000đ",
+    "addToCart": "Thêm vào giỏ hàng"
+  },
+  "Checkout": {
+    "title": "Thanh toán",
+    "empty": {
+      "title": "Giỏ hàng trống",
+      "description": "Có vẻ như bạn chưa chọn sản phẩm nào.",
+      "continue": "← Tiếp tục mua sắm"
+    },
+    "Shipping": {
+      "title": "Thông tin giao hàng",
+      "name": "Họ và tên *",
+      "phone": "Số điện thoại *",
+      "email": "Email",
+      "address": "Địa chỉ giao hàng *",
+      "city": "Tỉnh/Thành phố *",
+      "note": "Ghi chú",
+      "notePlaceholder": "Ghi chú cho đơn hàng...",
+      "placeholders": {
+        "name": "Nguyễn Văn A",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "address": "Số nhà, đường, phường/xã"
+      }
+    },
+    "Payment": {
+      "title": "Phương thức thanh toán",
+      "methods": {
+        "vietqr": {
+          "title": "Chuyển khoản ngân hàng (VietQR)",
+          "description": "Quét mã QR để thanh toán nhanh chóng"
+        }
+      },
+      "secure": "Powered by PayOS - Thanh toán an toàn, bảo mật",
+      "processing": "Đang xử lý...",
+      "pay": "Thanh toán {amount}",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại."
+    },
+    "Order": {
+      "title": "Đơn hàng của bạn",
+      "subtotal": "Tạm tính",
+      "shipping": "Phí vận chuyển",
+      "free": "Miễn phí",
+      "total": "Tổng cộng",
+      "freeShippingHint": "Thêm {amount} để được miễn phí vận chuyển"
+    },
+    "Success": {
+      "title": "Đặt hàng thành công!",
+      "message": "Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất.",
+      "orderCode": "Mã đơn hàng",
+      "nextSteps": "Bước tiếp theo:",
+      "step1": "Bạn sẽ nhận được SMS xác nhận đơn hàng trong ít phút",
+      "step2": "Đơn hàng sẽ được giao trong 2-3 ngày làm việc",
+      "step3": "Liên hệ hotline <strong>0988 030 204</strong> nếu cần hỗ trợ",
+      "continueShopping": "Tiếp tục mua sắm",
+      "backHome": "Về trang chủ"
+    },
+    "Cancel": {
+      "title": "Thanh toán bị hủy",
+      "message": "Bạn đã hủy quá trình thanh toán. Đơn hàng chưa được hoàn tất.",
+      "retry": "Thử lại",
+      "backHome": "Về trang chủ"
+    }
+  },
+  "About": {
+    "Hero": {
+      "label": "Về Chúng Tôi",
+      "title": "Câu Chuyện",
+      "desc": "Mang tinh hoa trà Việt Nam đến với thế giới, kết hợp truyền thống trăm năm với công nghệ lên men hiện đại."
+    },
+    "Vision": {
+      "label": "Tầm Nhìn",
+      "title": "Trà Năng Lượng Việt",
+      "desc1": "84tea không chỉ là thương hiệu trà - đó là sứ mệnh mang văn hóa trà Việt Nam ra thế giới. Chúng tôi tin rằng trà cổ thụ Shan Tuyết của Việt Nam xứng đáng được công nhận như những loại trà danh tiếng nhất châu Á.",
+      "desc2": "Với quy trình lên men độc quyền, chúng tôi tạo ra những sản phẩm trà không chỉ ngon mà còn mang lại lợi ích sức khỏe vượt trội - đúng như tinh thần \"Trà Năng Lượng Việt\"."
+    },
+    "Values": {
+      "label": "Giá Trị Cốt Lõi",
+      "title": "Điều Chúng Tôi Tin Tưởng",
+      "items": {
+        "nature": {
+          "title": "Nguồn Gốc Thiên Nhiên",
+          "desc": "Tất cả sản phẩm đều từ cây trà cổ thụ Shan Tuyết 100+ năm tuổi, trồng tại vùng cao 1,500m tại Việt Nam."
+        },
+        "fermentation": {
+          "title": "Lên Men Truyền Thống",
+          "desc": "Quy trình lên men độc quyền bảo tồn probiotics tự nhiên và tối đa hóa lợi ích sức khỏe."
+        },
+        "energy": {
+          "title": "Năng Lượng Bền Vững",
+          "desc": "Cung cấp năng lượng ổn định suốt ngày dài mà không gây hồi hộp như cà phê."
+        },
+        "premium": {
+          "title": "Định Vị Premium",
+          "desc": "Mỗi sản phẩm là tác phẩm nghệ thuật, được đóng gói cao cấp xứng đáng với giá trị bên trong."
+        }
+      }
+    },
+    "Timeline": {
+      "label": "Hành Trình",
+      "title": "Từ Ý Tưởng Đến Thương Hiệu",
+      "items": {
+        "2020": {
+          "title": "Khám Phá",
+          "desc": "Tìm ra vùng trà cổ thụ Shan Tuyết tại vùng cao Tây Bắc"
+        },
+        "2022": {
+          "title": "Nghiên Cứu",
+          "desc": "Phát triển quy trình lên men độc quyền với các chuyên gia"
+        },
+        "2024": {
+          "title": "Ra Mắt",
+          "desc": "3704 Co., LTD chính thức thành lập, thương hiệu 84tea ra đời"
+        },
+        "2026": {
+          "title": "Mở Rộng",
+          "desc": "Nhượng quyền phòng trà và mở rộng thị trường quốc tế"
+        }
+      }
+    },
+    "Company": {
+      "label": "Thông Tin Công Ty",
+      "title": "3704 Co., LTD",
+      "details": {
+        "license": "GPKD",
+        "founded": "Thành lập",
+        "founder": "Người sáng lập",
+        "address": "Địa chỉ",
+        "addressValue": "134 Nguyễn Hoàng Tôn, Phú Thượng, Hà Nội"
+      }
+    },
+    "Partner": {
+      "label": "Đối Tác OEM",
+      "title": "tralenmen.vn",
+      "desc": "Đối tác sản xuất chính thức của dòng sản phẩm 84 Limited. Chuyên gia hàng đầu về trà lên men cổ thụ Shan Tuyết tại Việt Nam.",
+      "link": "Tìm hiểu thêm"
+    },
+    "CTA": {
+      "title": "Sẵn Sàng Trải Nghiệm?",
+      "desc": "Khám phá bộ sưu tập trà cao cấp của chúng tôi hoặc tìm hiểu cơ hội nhượng quyền phòng trà 84tea.",
+      "products": "Xem sản phẩm",
+      "franchise": "Nhượng quyền"
+    }
+  },
+  "Contact": {
+    "Hero": {
+      "label": "Liên Hệ",
+      "title": "Kết Nối Với",
+      "desc": "Có câu hỏi về sản phẩm, đặt hàng sỉ, hay cơ hội hợp tác? Chúng tôi luôn sẵn sàng hỗ trợ bạn."
+    },
+    "Info": {
+      "title": "Thông Tin Liên Hệ",
+      "address": "Địa chỉ",
+      "phone": "Điện thoại",
+      "email": "Email",
+      "hours": "Giờ làm việc",
+      "hoursValue": "Thứ 2 - Thứ 7: 8:00 - 18:00"
+    },
+    "Social": {
+      "title": "Theo dõi chúng tôi"
+    },
+    "QuickLinks": {
+      "title": "Liên kết nhanh",
+      "franchise": "Nhượng quyền",
+      "products": "Sản phẩm",
+      "about": "Về chúng tôi",
+      "shipping": "Giao hàng"
+    },
+    "Form": {
+      "title": "Gửi Tin Nhắn",
+      "name": "Họ và tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "subject": "Chủ đề",
+      "message": "Tin nhắn",
+      "placeholders": {
+        "name": "Nguyễn Văn A",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "message": "Nội dung tin nhắn của bạn..."
+      },
+      "subjects": {
+        "general": "Câu hỏi chung",
+        "order": "Đặt hàng / Đơn hàng",
+        "wholesale": "Đặt hàng sỉ",
+        "franchise": "Nhượng quyền",
+        "partnership": "Hợp tác kinh doanh",
+        "feedback": "Góp ý / Phản hồi"
+      },
+      "submit": "Gửi Tin Nhắn",
+      "note": "Chúng tôi sẽ phản hồi trong vòng 24h làm việc",
+      "success": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong 24h."
+    },
+    "Map": {
+      "address": "134 Nguyễn Hoàng Tôn, Phú Thượng, Tây Hồ, Hà Nội",
+      "link": "Xem trên Google Maps"
+    }
+  },
+  "Trust": {
+    "secure": "Thanh toán bảo mật",
+    "shipping": "Giao hàng toàn quốc",
+    "return": "Đổi trả trong 7 ngày"
+  },
+  "Franchise": {
+    "Hero": {
+      "label": "Cơ hội hợp tác",
+      "title": "Đồng hành cùng",
+      "titleHighlight": "Di sản Trà Việt",
+      "description": "Trở thành đối tác nhượng quyền của 84tea để lan tỏa tinh hoa trà cổ thụ Việt Nam. Mô hình kinh doanh bền vững, lợi nhuận hấp dẫn và được vận hành bởi đội ngũ chuyên gia hàng đầu.",
+      "register": "Đăng ký tư vấn ngay",
+      "explore": "Tìm hiểu mô hình",
+      "stats": {
+        "stores": "Cửa hàng trên toàn quốc",
+        "payback": "Tháng hoàn vốn trung bình",
+        "profit": "Lợi nhuận ròng trung bình",
+        "support": "Hỗ trợ vận hành"
+      }
+    },
+    "Benefits": {
+      "label": "Tại sao chọn 84tea?",
+      "title": "Lợi thế cạnh tranh vượt trội",
+      "description": "Chúng tôi không chỉ nhượng quyền thương hiệu, chúng tôi chia sẻ bí quyết thành công và đồng hành cùng bạn trên con đường kinh doanh bền vững.",
+      "items": {
+        "storefront": {
+          "title": "Mô hình linh hoạt",
+          "description": "Đa dạng quy mô từ Kiosk đến Lounge cao cấp, phù hợp với nhiều mức đầu tư và vị trí mặt bằng."
+        },
+        "monitoring": {
+          "title": "Vận hành chuẩn hóa",
+          "description": "Quy trình vận hành, pha chế, phục vụ được chuẩn hóa 100%, dễ dàng đào tạo và quản lý."
+        },
+        "soup_kitchen": {
+          "title": "Nguồn nguyên liệu độc quyền",
+          "description": "Sở hữu vùng nguyên liệu trà cổ thụ riêng biệt, đảm bảo chất lượng và giá thành ổn định nhất thị trường."
+        },
+        "campaign": {
+          "title": "Marketing toàn diện",
+          "description": "Hỗ trợ truyền thông đa kênh, các chiến dịch branding và promotion định kỳ từ tổng công ty."
+        },
+        "school": {
+          "title": "Đào tạo chuyên sâu",
+          "description": "Chương trình đào tạo từ cơ bản đến nâng cao cho chủ đầu tư và nhân viên về trà đạo và quản lý."
+        },
+        "engineering": {
+          "title": "Hỗ trợ kỹ thuật 24/7",
+          "description": "Đội ngũ IT và kỹ thuật luôn sẵn sàng hỗ trợ hệ thống POS, app quản lý và bảo trì thiết bị."
+        }
+      }
+    },
+    "Models": {
+      "label": "Mô hình kinh doanh",
+      "title": "Đa dạng lựa chọn đầu tư",
+      "description": "3 mô hình được tối ưu hóa cho từng phân khúc thị trường và khả năng tài chính.",
+      "mostPopular": "Phổ biến nhất",
+      "location": "Vị trí tối ưu",
+      "features": "Đặc điểm nổi bật",
+      "idealFor": "Phù hợp với",
+      "getQuote": "Nhận báo giá chi tiết",
+      "items": {
+        "kiosk": {
+          "title": "Kiosk",
+          "location": "Trung tâm thương mại, Tòa nhà văn phòng",
+          "features": {
+            "0": "Chi phí đầu tư thấp",
+            "1": "Vận hành đơn giản (2-3 nhân sự)",
+            "2": "Tập trung bán mang đi (Takeaway)",
+            "3": "Menu tinh gọn, bán chạy nhất"
+          },
+          "idealFor": "Nhà đầu tư mới, Vốn nhỏ"
+        },
+        "express": {
+          "title": "Express",
+          "location": "Mặt phố, Khu dân cư đông đúc",
+          "features": {
+            "0": "Cân bằng giữa Takeaway và Ngồi tại chỗ",
+            "1": "Menu đồ uống đa dạng",
+            "2": "Không gian trẻ trung, năng động",
+            "3": "Chi phí vận hành tối ưu"
+          },
+          "idealFor": "Mặt bằng phố, Kinh doanh chuyên nghiệp"
+        },
+        "lounge": {
+          "title": "Lounge",
+          "location": "Khu vực cao cấp, Điểm du lịch",
+          "features": {
+            "0": "Trải nghiệm trà đạo trọn vẹn",
+            "1": "Phục vụ đồ uống và bánh ngọt cao cấp",
+            "2": "Không gian Indochine Luxury sang trọng",
+            "3": "Tổ chức workshop trà đạo"
+          },
+          "idealFor": "Đầu tư chiến lược, Định vị cao cấp"
+        }
+      }
+    },
+    "Process": {
+      "label": "Quy trình hợp tác",
+      "title": "Lộ trình 5 bước đến thành công",
+      "description": "Quy trình tinh gọn, minh bạch giúp bạn sở hữu cửa hàng 84tea chỉ sau 15-30 ngày.",
+      "steps": {
+        "01": {
+          "title": "Đăng ký tư vấn",
+          "description": "Điền thông tin vào form đăng ký. Chuyên viên của chúng tôi sẽ liên hệ lại trong vòng 24h."
+        },
+        "02": {
+          "title": "Khảo sát & Ký HĐ",
+          "description": "Khảo sát mặt bằng, tư vấn mô hình phù hợp và ký kết hợp đồng nhượng quyền."
+        },
+        "03": {
+          "title": "Thiết kế & Thi công",
+          "description": "Lên bản vẽ thiết kế 3D và thi công cửa hàng theo tiêu chuẩn Indochine Luxury."
+        },
+        "04": {
+          "title": "Đào tạo & Setup",
+          "description": "Đào tạo nhân sự, setup máy móc, nguyên vật liệu và quy trình vận hành."
+        },
+        "05": {
+          "title": "Khai trương",
+          "description": "Hỗ trợ tổ chức khai trương, chạy quảng cáo và chính thức đi vào hoạt động."
+        }
+      }
+    },
+    "Form": {
+      "title": "Liên hệ hợp tác",
+      "description": "Để lại thông tin để được tư vấn chi tiết về chính sách nhượng quyền và các ưu đãi mới nhất.",
+      "quote": "\"Thành công của bạn là sứ mệnh của chúng tôi.\"",
+      "contact": {
+        "hotline": "Hotline",
+        "email": "Email",
+        "office": "Văn phòng",
+        "officeAddress": "Tầng 1, Tòa nhà 84tea, Hà Nội, Việt Nam"
+      },
+      "fields": {
+        "name": "Họ và tên *",
+        "namePlaceholder": "Nguyễn Văn A",
+        "phone": "Số điện thoại *",
+        "phonePlaceholder": "0912 xxx xxx",
+        "email": "Email",
+        "emailPlaceholder": "example@gmail.com",
+        "area": "Khu vực dự định",
+        "areaPlaceholder": "Chọn khu vực",
+        "budget": "Ngân sách dự kiến",
+        "budgetPlaceholder": "Chọn mức ngân sách",
+        "model": "Mô hình quan tâm",
+        "areas": {
+          "hanoi": "Hà Nội",
+          "hcm": "TP. Hồ Chí Minh",
+          "danang": "Đà Nẵng",
+          "other": "Khác"
+        },
+        "budgets": {
+          "under500": "Dưới 500 triệu",
+          "500to1b": "500 triệu - 1 tỷ",
+          "over1b": "Trên 1 tỷ"
+        }
+      },
+      "submit": "Gửi đăng ký tư vấn",
+      "disclaimer": "Bằng việc gửi thông tin, bạn đồng ý với chính sách bảo mật của 84tea."
+    }
+  },
+  "NotFound": {
+    "title": "404 - Không tìm thấy trang",
+    "description": "Không thể tìm thấy tài nguyên yêu cầu",
+    "returnHome": "Trở về trang chủ"
+  },
+  "Club": {
+    "Hero": {
+      "label": "Quyền lợi thành viên",
+      "title": "84tea Club",
+      "description": "Tham gia cộng đồng những người yêu trà cổ thụ. Tích điểm, nhận ưu đãi độc quyền và trải nghiệm những đặc quyền riêng biệt.",
+      "join": "Tham gia ngay",
+      "login": "Đăng nhập"
+    },
+    "Benefits": {
+      "title": "Đặc quyền thành viên",
+      "earnPoints": {
+        "title": "Tích điểm",
+        "desc": "Tích 1 điểm cho mỗi 10.000đ chi tiêu"
+      },
+      "redeem": {
+        "title": "Đổi quà",
+        "desc": "Dùng điểm để đổi đồ uống hoặc sản phẩm"
+      },
+      "birthday": {
+        "title": "Quà sinh nhật",
+        "desc": "Quà tặng đặc biệt trong tháng sinh nhật"
+      },
+      "events": {
+        "title": "Sự kiện riêng",
+        "desc": "Ưu tiên mời tham dự workshop thử trà"
+      }
+    },
+    "Tiers": {
+      "title": "Hạng thành viên",
+      "items": {
+        "silver": {
+          "title": "Bạc",
+          "benefits": [
+            "Tích 1 điểm / 10k",
+            "Quà sinh nhật"
+          ]
+        },
+        "gold": {
+          "title": "Vàng",
+          "benefits": [
+            "Tích 1.5 điểm / 10k",
+            "Giảm 5% tổng hóa đơn",
+            "Quà sinh nhật"
+          ]
+        },
+        "diamond": {
+          "title": "Kim Cương",
+          "benefits": [
+            "Tích 2 điểm / 10k",
+            "Giảm 10% tổng hóa đơn",
+            "Quà sinh nhật đặc biệt",
+            "Sự kiện riêng"
+          ]
+        }
+      }
+    },
+    "CTA": {
+      "title": "Sẵn sàng bắt đầu?",
+      "description": "Đăng ký ngay để nhận ngay 50 điểm thưởng.",
+      "register": "Đăng ký tài khoản"
+    },
+    "Dashboard": {
+      "welcome": "Xin chào,",
+      "member": "thành viên",
+      "subtitle": "Chào mừng bạn đến với 84tea Club",
+      "currentPoints": "Điểm hiện tại",
+      "availablePoints": "Khả dụng",
+      "totalEarned": "Tổng tích lũy",
+      "tier": "Hạng",
+      "history": "Lịch sử giao dịch",
+      "emptyHistory": "Chưa có giao dịch nào",
+      "loadingHistory": "Đang tải lịch sử...",
+      "progressTo": "Tiến độ lên hạng {tier}",
+      "pointsNeeded": "{points} điểm nữa",
+      "highestTier": "🎉 Bạn đã đạt hạng cao nhất!",
+      "redeemComingSoon": "Đổi điểm (Sắp ra mắt)"
+    },
+    "History": {
+      "type": {
+        "purchase": "Mua hàng",
+        "redemption": "Đổi quà",
+        "bonus": "Thưởng",
+        "adjustment": "Điều chỉnh",
+        "expiry": "Hết hạn"
+      }
+    }
+  },
+  "Privacy": {
+    "title": "Chính Sách Bảo Mật",
+    "lastUpdated": "Cập nhật lần cuối: Tháng 02, 2026",
+    "Section1": {
+      "title": "1. Thông tin chúng tôi thu thập",
+      "intro": "Khi bạn sử dụng website 84tea.com, chúng tôi có thể thu thập các thông tin sau:",
+      "items": {
+        "0": "Họ tên, email, số điện thoại khi đặt hàng",
+        "1": "Địa chỉ giao hàng",
+        "2": "Lịch sử đơn hàng và giao dịch",
+        "3": "Thông tin trình duyệt và thiết bị (cookies)"
+      }
+    },
+    "Section2": {
+      "title": "2. Mục đích sử dụng thông tin",
+      "intro": "Chúng tôi sử dụng thông tin của bạn để:",
+      "items": {
+        "0": "Xử lý và giao đơn hàng",
+        "1": "Liên hệ về tình trạng đơn hàng",
+        "2": "Gửi thông tin khuyến mãi (nếu bạn đồng ý)",
+        "3": "Cải thiện trải nghiệm website",
+        "4": "Hỗ trợ khách hàng"
+      }
+    },
+    "Section3": {
+      "title": "3. Bảo mật thông tin",
+      "intro": "Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn bằng các biện pháp:",
+      "items": {
+        "0": "Mã hóa SSL cho tất cả giao dịch",
+        "1": "Không chia sẻ thông tin với bên thứ ba không liên quan",
+        "2": "Lưu trữ dữ liệu trên server bảo mật",
+        "3": "Giới hạn quyền truy cập nội bộ"
+      }
+    },
+    "Section4": {
+      "title": "4. Cookies",
+      "content": "Website sử dụng cookies để cải thiện trải nghiệm người dùng. Bạn có thể tắt cookies trong cài đặt trình duyệt, tuy nhiên một số tính năng có thể không hoạt động đúng."
+    },
+    "Section5": {
+      "title": "5. Quyền của bạn",
+      "intro": "Bạn có quyền:",
+      "items": {
+        "0": "Yêu cầu xem thông tin cá nhân chúng tôi lưu trữ",
+        "1": "Yêu cầu chỉnh sửa thông tin không chính xác",
+        "2": "Yêu cầu xóa dữ liệu cá nhân",
+        "3": "Hủy đăng ký nhận email marketing"
+      }
+    },
+    "Section6": {
+      "title": "6. Liên hệ",
+      "intro": "Nếu có thắc mắc về chính sách bảo mật, vui lòng liên hệ:"
+    }
+  },
+  "Auth": {
+    "login": "Đăng nhập / Đăng ký",
+    "logout": "Đăng xuất",
+    "account": "Tài khoản",
+    "profile": "Trang cá nhân",
+    "points": "điểm",
+    "member": "Thành viên",
+    "loginTitle": "Đăng nhập / Đăng ký",
+    "loginDesc": "Tham gia cộng đồng 84tea",
+    "continueGoogle": "Tiếp tục với Google",
+    "continueEmail": "Hoặc tiếp tục với Email",
+    "emailPlaceholder": "name@example.com",
+    "sendLink": "Gửi liên kết đăng nhập",
+    "checkEmail": "Kiểm tra Email của bạn",
+    "checkEmailDesc": "Chúng tôi đã gửi liên kết đăng nhập đến",
+    "openEmailApp": "Mở ứng dụng Email",
+    "backToLogin": "Quay lại đăng nhập",
+    "termsText": "Bằng cách tiếp tục, bạn đồng ý với",
+    "terms": "Điều khoản dịch vụ",
+    "privacy": "Chính sách bảo mật",
+    "and": "và",
+    "setupTitle": "Cập nhật thông tin",
+    "setupDesc": "Hoàn tất hồ sơ của bạn",
+    "fullName": "Họ và tên",
+    "fullNamePlaceholder": "Nguyễn Văn A",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "0912 345 678",
+    "update": "Cập nhật thông tin",
+    "errorGeneric": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+    "errorMissingInfo": "Vui lòng nhập đầy đủ thông tin"
+  }
+}
