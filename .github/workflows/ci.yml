@@ -16,7 +16,7 @@ jobs:
   build:
     name: 🏗️ Build & Type Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -25,10 +25,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: 🔍 Type Check
         run: npx tsc --noEmit
@@ -53,7 +52,7 @@ jobs:
   lint:
     name: 🔬 Lint & Code Quality
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -62,10 +61,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: 🔬 ESLint Check
         run: npm run lint || true
@@ -75,6 +73,6 @@ jobs:
   # Deployment handled by Vercel GitHub Integration (auto-deploy)
   # To enable GitHub Actions deploy, add these secrets:
   # - VERCEL_TOKEN
-  # - VERCEL_ORG_ID  
+  # - VERCEL_ORG_ID
   # - VERCEL_PROJECT_ID
   # ═══════════════════════════════════════════════════════════
