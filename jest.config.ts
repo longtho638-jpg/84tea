@@ -15,6 +15,10 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  // Transform ESM modules from next-intl and use-intl
+  transformIgnorePatterns: [
+    '/node_modules/(?!(next-intl|use-intl)/)',
+  ],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
