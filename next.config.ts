@@ -16,7 +16,7 @@ const withPWA = withPWAInit({
   },
 });
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
 
@@ -53,5 +53,4 @@ const nextConfig = {
   },
 };
 
-// @ts-expect-error - Monorepo type conflict between workspace and app Next.js versions
-export default withPWA(withNextIntl(nextConfig));
+export default withPWA(withNextIntl(nextConfig)) as unknown as NextConfig;
