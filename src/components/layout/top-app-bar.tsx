@@ -59,7 +59,7 @@ export function TopAppBar({ onMenuClick }: TopAppBarProps) {
         visible ? "translate-y-0" : "-translate-y-full",
         // Background transition
         scrolled
-          ? "bg-surface shadow-elevation-2 border-b border-outline-variant"
+          ? "glass shadow-elevation-2 border-b border-outline-variant/50"
           : "bg-transparent"
       )}
     >
