@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
+import { MotionWrapper } from "@/components/ui/motion-wrapper";
 
 export function ProcessSection() {
   const t = useTranslations("Process");
@@ -47,7 +48,11 @@ export function ProcessSection() {
           <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0" />
 
           {PROCESS_STEPS.map((step, index) => (
-            <div key={index} className="relative flex flex-col items-center text-center group">
+            <MotionWrapper
+              key={index}
+              delay={index * 0.2}
+              className="relative flex flex-col items-center text-center group"
+            >
               <div className="w-24 h-24 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center mb-6 z-10 transition-colors group-hover:border-primary group-hover:bg-primary-container group-hover:text-on-primary-container">
                 <span className="material-symbols-rounded text-4xl text-primary group-hover:text-inherit transition-colors">
                   {step.icon}
@@ -63,7 +68,7 @@ export function ProcessSection() {
               <Typography variant="body-medium" className="text-on-surface-variant max-w-xs">
                 {step.description}
               </Typography>
-            </div>
+            </MotionWrapper>
           ))}
         </div>
       </div>

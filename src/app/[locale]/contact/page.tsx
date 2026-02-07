@@ -10,6 +10,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Contact.Hero" });
+
+  return generatePageMetadata({
+    title: t("label"),
+    description: t("desc"),
+    path: "/contact",
+    locale,
+    type: "website",
+  });
+}
 
 export default function ContactPage() {
   const t = useTranslations('Contact');

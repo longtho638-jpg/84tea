@@ -3,6 +3,24 @@ import { Typography } from "@/components/ui/typography";
 import { MainLayout, FooterSection } from "@/components/layout";
 import { ProductListing } from "@/components/products/product-listing";
 import { getProducts } from "@/lib/data/products-service";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Products" });
+
+  return generatePageMetadata({
+    title: t("headline"),
+    description: t("description"),
+    path: "/products",
+    locale,
+    type: "website",
+  });
+}
 
 export default async function ProductsPage() {
   const products = await getProducts();

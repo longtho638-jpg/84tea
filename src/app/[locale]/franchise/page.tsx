@@ -6,6 +6,7 @@ import { FranchiseForm } from "@/components/franchise/franchise-form";
 import { MainLayout } from "@/components/layout/main-layout";
 import { FooterSection } from "@/components/layout/footer-section";
 import { getTranslations } from "next-intl/server";
+import { generatePageMetadata } from "@/lib/metadata";
 
 export async function generateMetadata({
   params,
@@ -16,10 +17,13 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Franchise.Hero" });
   const tNav = await getTranslations({ locale, namespace: "Navigation" });
 
-  return {
+  return generatePageMetadata({
     title: `${tNav("franchise")} | 84tea - ${t("titleHighlight")}`,
     description: t("description"),
-  };
+    path: "/franchise",
+    locale,
+    type: "website",
+  });
 }
 
 export default function FranchisePage() {

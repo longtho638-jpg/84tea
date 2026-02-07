@@ -3,6 +3,25 @@ import { FeaturedProducts } from "@/components/home/featured-products";
 import { ProcessSection } from "@/components/home/process-section";
 import { CTASection } from "@/components/home/cta-section";
 import { MainLayout, FooterSection } from "@/components/layout";
+import { generatePageMetadata } from "@/lib/metadata";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "HomePage" });
+
+  return generatePageMetadata({
+    title: t("title"),
+    description: t("welcome"), // Or fetch Hero description
+    path: "/",
+    locale,
+    type: "website",
+  });
+}
 
 // Dynamic imports for heavy components
 const HeroParallax = dynamic(

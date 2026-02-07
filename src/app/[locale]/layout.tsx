@@ -12,6 +12,7 @@ import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register"
 import { MobileStickyBar } from "@/components/layout/mobile-sticky-bar";
 import { FloatingContact } from "@/components/ui/floating-contact";
 import { routing } from "@/i18n/routing";
+import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
 import { SEO_CONFIG } from "@/lib/seo-constants";
 import "../globals.css";
 
@@ -38,16 +39,6 @@ export async function generateMetadata({
       locale === 'vi'
         ? 'Trà Cổ Thụ Việt Nam - Năng lượng thuần khiết từ thiên nhiên'
         : 'Vietnamese Ancient Tree Tea - Pure energy from nature',
-    keywords: [
-      "84tea",
-      locale === 'vi' ? "trà Việt Nam" : "Vietnamese tea",
-      locale === 'vi' ? "trà lên men" : "fermented tea",
-      "Shan Tuyết",
-      locale === 'vi' ? "trà cao cấp" : "premium tea",
-      locale === 'vi' ? "trà cổ thụ" : "ancient tree tea",
-      "84 Limited",
-      locale === 'vi' ? "Trà Năng Lượng Việt" : "Vietnamese Energy Tea",
-    ],
     openGraph: {
       type: 'website',
       locale,
@@ -61,10 +52,6 @@ export async function generateMetadata({
           alt: SEO_CONFIG.siteName[locale as 'vi' | 'en'],
         },
       ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      creator: SEO_CONFIG.twitterHandle,
     },
     robots: {
       index: true,
@@ -102,9 +89,20 @@ export default async function LocaleLayout({
   // Providing all messages to the client side
   const messages = await getMessages();
 
+  const organizationJsonLd = generateOrganizationJsonLd();
+  const websiteJsonLd = generateWebsiteJsonLd();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1b5e20" />

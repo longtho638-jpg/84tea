@@ -6,6 +6,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "About.Hero" });
+
+  return generatePageMetadata({
+    title: t("title"),
+    description: t("desc"),
+    path: "/about",
+    locale,
+    type: "article", // Semantic choice for About page
+  });
+}
 
 export default function AboutPage() {
   const t = useTranslations('About');
