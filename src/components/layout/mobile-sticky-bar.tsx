@@ -12,7 +12,7 @@ export function MobileStickyBar() {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden pb-[env(safe-area-inset-bottom,0px)]">
       <div className="flex items-stretch border-t border-outline-variant bg-surface shadow-elevation-3">
         {/* Zalo Chat Button */}
         <a

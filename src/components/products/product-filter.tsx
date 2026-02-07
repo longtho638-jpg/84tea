@@ -37,7 +37,7 @@ export function ProductFilter({
         </Typography>
         <button
           onClick={onClear}
-          className="text-xs text-on-surface-variant hover:text-error transition-colors underline"
+          className="text-xs text-on-surface-variant hover:text-error transition-colors underline min-h-[44px] px-2 flex items-center"
         >
           {t("clearAll")}
         </button>
@@ -167,7 +167,7 @@ export function ProductFilter({
              <div className="grid grid-cols-2 gap-3">
                <button
                   onClick={() => onPriceChange([0, 500000])}
-                  className={`px-3 py-2 rounded-lg text-xs border transition-colors ${
+                  className={`px-3 py-2 min-h-[44px] rounded-lg text-xs border transition-colors ${
                     priceRange[1] === 500000
                       ? 'bg-secondary-container border-secondary-container text-on-secondary-container font-bold'
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
@@ -177,7 +177,7 @@ export function ProductFilter({
                </button>
                <button
                   onClick={() => onPriceChange([500000, 1000000])}
-                  className={`px-3 py-2 rounded-lg text-xs border transition-colors ${
+                  className={`px-3 py-2 min-h-[44px] rounded-lg text-xs border transition-colors ${
                     priceRange[0] === 500000
                       ? 'bg-secondary-container border-secondary-container text-on-secondary-container font-bold'
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
@@ -187,7 +187,7 @@ export function ProductFilter({
                </button>
                <button
                   onClick={() => onPriceChange([1000000, 5000000])}
-                  className={`px-3 py-2 rounded-lg text-xs border transition-colors ${
+                  className={`px-3 py-2 min-h-[44px] rounded-lg text-xs border transition-colors ${
                     priceRange[0] === 1000000
                       ? 'bg-secondary-container border-secondary-container text-on-secondary-container font-bold'
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'
@@ -197,7 +197,7 @@ export function ProductFilter({
                </button>
                <button
                   onClick={() => onPriceChange([0, 10000000])}
-                  className={`px-3 py-2 rounded-lg text-xs border transition-colors ${
+                  className={`px-3 py-2 min-h-[44px] rounded-lg text-xs border transition-colors ${
                     priceRange[1] === 10000000 && priceRange[0] === 0
                       ? 'bg-secondary-container border-secondary-container text-on-secondary-container font-bold'
                       : 'border-outline-variant hover:border-primary text-on-surface-variant'

@@ -22,7 +22,7 @@ export function BottomNavigation() {
       className={cn(
         "md:hidden fixed bottom-0 left-0 right-0 z-40",
         "bg-surface-container shadow-elevation-3 border-t border-outline-variant",
-        "safe-area-inset-bottom" // iOS safe area
+        "pb-[env(safe-area-inset-bottom,0px)]"
       )}
     >
       <div className="flex items-center justify-around h-20 px-2">

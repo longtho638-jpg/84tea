@@ -90,7 +90,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
             <ThemeToggle />
             <button
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors"
+              className="p-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Close menu"
             >
               <span className="material-symbols-rounded text-2xl text-on-surface">
@@ -110,7 +110,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
               href={link.href}
               onClick={onClose}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-full",
+                "flex items-center gap-3 px-4 py-3 rounded-full min-h-[44px]",
                 "text-on-surface hover:bg-primary/8 active:bg-primary/12",
                 "transition-colors group"
               )}

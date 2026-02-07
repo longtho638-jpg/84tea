@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="text" size="icon" className="w-10 h-10 rounded-full">
+      <Button variant="text" size="icon" className="w-11 h-11 rounded-full">
         <span className="material-symbols-rounded">light_mode</span>
       </Button>
     );
@@ -25,7 +25,7 @@ export function ThemeToggle() {
       variant="text"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-10 h-10 rounded-full hover:bg-on-surface/8 active:bg-on-surface/12"
+      className="w-11 h-11 rounded-full hover:bg-on-surface/8 active:bg-on-surface/12"
       aria-label="Toggle theme"
     >
       <span className="material-symbols-rounded">
