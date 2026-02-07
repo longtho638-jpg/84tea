@@ -7,7 +7,7 @@ import { FilterChips } from "@/components/ui/chips";
 import { Typography } from "@/components/ui/typography";
 import { ProductCard } from "@/components/products/product-card";
 import { ProductFilter } from "@/components/products/product-filter";
-import { Product, CATEGORIES } from "@/lib/data/products";
+import { Product, CATEGORIES } from "@/types/product";
 
 interface ProductListingProps {
   initialProducts: Product[];
@@ -59,8 +59,12 @@ export function ProductListing({ initialProducts }: ProductListingProps) {
       // 4. Sort
       if (sortBy === "price-asc") return a.price - b.price;
       if (sortBy === "price-desc") return b.price - a.price;
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "featured") return (Number(b.featured) - Number(a.featured));
+      if (sortBy === "name") {
+        const nameA = typeof a.name === 'string' ? a.name : a.name.vi;
+        const nameB = typeof b.name === 'string' ? b.name : b.name.vi;
+        return nameA.localeCompare(nameB);
+      }
+      if (sortBy === "featured") return (Number(b.is_featured) - Number(a.is_featured));
       return 0;
     });
   }, [activeCategoryId, activeType, priceRange, sortBy, initialProducts]);

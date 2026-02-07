@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
-import { CATEGORIES, TEA_TYPES } from "@/lib/data/products";
+import { CATEGORIES, TEA_TYPES } from "@/types/product";
 
 interface ProductFilterProps {
   activeCategory: string;

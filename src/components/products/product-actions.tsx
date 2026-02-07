@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-context";
-import { Product } from "@/lib/data/products";
+import { Product } from "@/types/product";
 
 export function ProductActions({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -15,10 +15,10 @@ export function ProductActions({ product }: { product: Product }) {
     addItem({
       id: product.id,
       slug: product.slug,
-      name: product.name,
+      name: typeof product.name === 'string' ? product.name : product.name.vi, // Handle localized name
       price: product.price,
       weight: product.weight || '100g',
-      image: product.image || '🍵'
+      image: product.image_url || '🍵'
     });
 
     setIsAdded(true);

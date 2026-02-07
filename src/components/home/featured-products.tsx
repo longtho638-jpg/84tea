@@ -3,7 +3,7 @@ import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { ProductCardGlass } from "@/components/products/product-card-glass";
-import { getFeaturedProducts } from "@/lib/data/server-products";
+import { getFeaturedProducts } from "@/lib/data/products-service";
 
 export async function FeaturedProducts() {
   const featuredProducts = await getFeaturedProducts();

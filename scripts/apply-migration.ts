@@ -51,10 +51,10 @@ const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!, {
   auth: { persistSession: false }
 });
 
-const SQL_FILE_PATH = path.resolve(__dirname, '../docs/20260206-rls-policies.sql');
+const SQL_FILE_PATH = path.resolve(__dirname, '../supabase/migrations/20260207_create_products_table.sql');
 
 async function main() {
-  console.log('🚀 Applying RLS Policies for 84tea...');
+  console.log('🚀 Applying Database Migrations for 84tea...');
   console.log(`📖 SQL File: ${SQL_FILE_PATH}`);
 
   try {
@@ -73,13 +73,12 @@ async function main() {
       console.error('❌ RPC Execution Failed:', error.message);
       console.log('\n--- DIAGNOSIS ---');
       console.log('1. The "exec_sql" RPC function might not exist in your Supabase database.');
-      console.log('2. Or the service role key lacks permissions (unlikely if it is service role).');
+      console.log('2. Or the service role key lacks permissions.');
       console.log('\n--- MANUAL FALLBACK ---');
-      console.log('Please execute the SQL manually via the Supabase Dashboard:');
-      console.log(`🔗 ${SUPABASE_URL.replace('.co', '.co/dashboard/project')}/sql/new`); // Approx URL
-      console.log('\nSQL Content has been saved to: ' + SQL_FILE_PATH);
+      console.log('Please execute the SQL manually via the Supabase Dashboard SQL Editor.');
+      console.log('The SQL content is in:', SQL_FILE_PATH);
     } else {
-      console.log('✅ SQL Executed Successfully via RPC!');
+      console.log('✅ Migration Applied Successfully!');
     }
 
   } catch (err: unknown) {

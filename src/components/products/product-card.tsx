@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/lib/cart-context";
-import { Product } from "@/lib/data/products";
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,11 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const t = useTranslations("Products.Card");
+
+  // Handle localized string
+  // Ideally this component should receive the current locale or use useLocale()
+  const productName = typeof product.name === 'string' ? product.name : product.name.vi;
+  const productDesc = typeof product.description === 'string' ? product.description : product.description.vi;
 
   return (
     <Card variant="elevated" className="group h-full flex flex-col hover:-translate-y-1 transition-transform duration-300">
@@ -40,15 +46,16 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Image Placeholder */}
         <div className="absolute inset-0 flex items-center justify-center bg-surface-variant overflow-hidden group-hover:scale-105 transition-transform duration-500">
-          {product.image && (product.image.startsWith('/') || product.image.startsWith('http')) ? (
-             /* eslint-disable-next-line @next/next/no-img-element */
-             <img
-               src={product.image}
-               alt={product.name}
-               className="w-full h-full object-cover"
+          {product.image_url ? (
+             <Image
+               src={product.image_url}
+               alt={productName}
+               fill
+               className="object-cover"
+               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
              />
           ) : (
-            <span className="text-7xl select-none">{product.image || '🍵'}</span>
+            <span className="text-7xl select-none">🍵</span>
           )}
         </div>
 
@@ -62,10 +69,10 @@ export function ProductCard({ product }: ProductCardProps) {
               addItem({
                 id: product.id,
                 slug: product.slug,
-                name: product.name,
+                name: productName,
                 price: product.price,
                 weight: product.weight ?? '',
-                image: product.image ?? '🍵'
+                image: product.image_url ?? '🍵'
               });
             }}
           >
@@ -84,7 +91,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <Link href={`/products/${product.slug}`} className="group-hover:text-primary transition-colors">
           <Typography variant="title-medium" className="text-on-surface mb-1 font-bold line-clamp-1">
-            {product.name}
+            {productName}
           </Typography>
         </Link>
 
@@ -93,7 +100,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Typography>
 
         <Typography variant="body-medium" className="text-on-surface-variant mb-4 line-clamp-2 flex-1">
-          {product.description}
+          {productDesc}
         </Typography>
 
         <div className="flex items-end justify-between mt-auto pt-4 border-t border-outline-variant">

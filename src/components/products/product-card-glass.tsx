@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useCart } from "@/lib/cart-context";
-import { Product } from "@/lib/data/products";
+import { Product } from "@/types/product";
 
 export interface ProductCardGlassProps {
   product: Product;
@@ -14,7 +14,13 @@ export function ProductCardGlass({ product }: ProductCardGlassProps) {
   const t = useTranslations("Products.Card");
   const { addItem } = useCart();
 
-  const { name, price, image, description, slug, id, weight } = product;
+  // Helper for localized fields
+  // Ideally this component should receive the current locale or use useLocale()
+  const productName = typeof product.name === 'string' ? product.name : product.name.vi;
+  const productDesc = typeof product.description === 'string' ? product.description : product.description.vi;
+
+  const { price, slug, id, weight } = product;
+  const image = product.image_url;
   const category = product.tags?.[0] || product.origin;
 
   return (
@@ -38,17 +44,17 @@ export function ProductCardGlass({ product }: ProductCardGlassProps) {
 
         {/* Product Image */}
         <div className="relative mb-4 aspect-square overflow-hidden rounded-lg bg-surface-variant">
-          {image && (image.startsWith('/') || image.startsWith('http')) ? (
+          {image ? (
             <Image
               src={image}
-              alt={name}
+              alt={productName}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-7xl">{image || '🍵'}</span>
+              <span className="text-7xl">🍵</span>
             </div>
           )}
         </div>
@@ -59,12 +65,12 @@ export function ProductCardGlass({ product }: ProductCardGlassProps) {
             className="font-display text-xl font-semibold text-on-surface"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            {name}
+            {productName}
           </h3>
 
-          {description && (
+          {productDesc && (
             <p className="line-clamp-2 text-sm text-on-surface-variant">
-              {description}
+              {productDesc}
             </p>
           )}
 
@@ -80,7 +86,7 @@ export function ProductCardGlass({ product }: ProductCardGlassProps) {
                 addItem({
                   id,
                   slug,
-                  name,
+                  name: productName,
                   price,
                   weight: weight ?? '',
                   image: image ?? '🍵'
