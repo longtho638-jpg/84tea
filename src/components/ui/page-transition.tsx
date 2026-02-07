@@ -5,14 +5,10 @@ import { usePathname } from "next/navigation";
 
 interface PageTransitionProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-/**
- * Wraps page content with framer-motion AnimatePresence for smooth
- * route transitions. Uses pathname as the motion key so each navigation
- * triggers a fade + slight vertical slide animation.
- */
-export function PageTransition({ children }: PageTransitionProps) {
+export function PageTransition({ children, className }: PageTransitionProps) {
   const pathname = usePathname();
 
   return (
@@ -23,7 +19,7 @@ export function PageTransition({ children }: PageTransitionProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="w-full h-full"
+        className={className}
       >
         {children}
       </motion.div>

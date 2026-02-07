@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { TopAppBar } from "./top-app-bar";
 import { NavigationDrawer } from "./navigation-drawer";
 import { BottomNavigation } from "./bottom-navigation";
@@ -11,6 +13,7 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -33,7 +36,17 @@ export function MainLayout({ children }: MainLayoutProps) {
 
       {/* Main Content */}
       <main id="main-content" className="min-h-screen pt-16 pb-24 md:pb-0">
-        {children}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Bottom Navigation (Mobile) */}

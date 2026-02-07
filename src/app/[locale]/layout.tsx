@@ -12,6 +12,7 @@ import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register"
 import { routing } from "@/i18n/routing";
 import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
 import { SEO_CONFIG } from "@/lib/seo-constants";
+import { PageTransition } from "@/components/ui/page-transition";
 import "../globals.css";
 
 // Dynamic imports for client-only interactive components
@@ -147,7 +148,7 @@ export default async function LocaleLayout({
             <NextIntlClientProvider messages={messages}>
               <AuthProvider>
                 <CartProvider>
-                  {children}
+                  <PageTransition>{children}</PageTransition>
                   <CartDrawer />
                   <MobileStickyBar />
                   <FloatingContact />
