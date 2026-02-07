@@ -1,4 +1,15 @@
 {
+  "Metadata": {
+    "title": {
+      "default": "84tea - Vietnamese Ancient Tea",
+      "template": "%s | 84tea - Vietnamese Ancient Tea"
+    },
+    "description": "Vietnamese Ancient Tree Tea - Pure energy from nature",
+    "keywords": "84tea, Vietnamese tea, fermented tea, Shan Tuyet, premium tea, ancient tree tea, 84 Limited, Vietnamese Energy Tea"
+  },
+  "Accessibility": {
+    "skipToContent": "Skip to main content"
+  },
   "HomePage": {
     "title": "84tea - Vietnamese Ancient Tea",
     "welcome": "Welcome to 84tea"

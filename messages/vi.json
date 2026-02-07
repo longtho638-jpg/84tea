@@ -1,4 +1,15 @@
 {
+  "Metadata": {
+    "title": {
+      "default": "84tea - Trà Cổ Thụ Việt Nam",
+      "template": "%s | 84tea - Trà Cổ Thụ Việt Nam"
+    },
+    "description": "Trà Cổ Thụ Việt Nam - Năng lượng thuần khiết từ thiên nhiên",
+    "keywords": "84tea, trà Việt Nam, trà lên men, Shan Tuyết, trà cao cấp, trà cổ thụ, 84 Limited, Trà Năng Lượng Việt"
+  },
+  "Accessibility": {
+    "skipToContent": "Bỏ qua đến nội dung chính"
+  },
   "HomePage": {
     "title": "84tea - Trà Cổ Thụ Việt Nam",
     "welcome": "Chào mừng đến với 84tea"
