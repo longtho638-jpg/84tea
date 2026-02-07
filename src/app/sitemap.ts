@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getProducts } from '@/lib/data/server-products';
+import { getProductSlugsWithTimestamps } from '@/lib/data/products-service';
 import { SEO_CONFIG } from '@/lib/seo-constants';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await getProducts();
+  const products = await getProductSlugsWithTimestamps();
 
   const staticPages = [
     '',

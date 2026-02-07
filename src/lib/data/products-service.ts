@@ -116,3 +116,24 @@ export const getRelatedProducts = cache(
       .slice(0, 3);
   }
 );
+
+/**
+ * Lightweight query for sitemap generation - returns only slug + timestamps
+ */
+export async function getProductSlugsWithTimestamps(): Promise<
+  { slug: string; updated_at: string; created_at: string }[]
+> {
+  const supabase = getSupabaseStaticClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from('products')
+    .select('slug, updated_at, created_at');
+
+  if (error) {
+    console.error('Error fetching product slugs:', error);
+    return [];
+  }
+
+  return data ?? [];
+}
