@@ -1,7 +1,6 @@
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
 

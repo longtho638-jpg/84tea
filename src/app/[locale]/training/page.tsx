@@ -2,6 +2,25 @@ import Link from "next/link";
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
+import { getTranslations } from "next-intl/server";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Training" });
+
+  return generatePageMetadata({
+    title: t("title"),
+    description: t("description"),
+    path: "/training",
+    locale,
+    type: "website",
+  });
+}
 
 const trainingModules = [
   {
