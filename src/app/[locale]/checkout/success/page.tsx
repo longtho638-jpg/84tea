@@ -8,7 +8,28 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Checkout.Success" });
+
+  return generatePageMetadata({
+    title: t("title"),
+    description: t("message"),
+    path: "/checkout/success",
+    locale,
+    type: "website",
+    // prevent indexing of transaction results
+    keywords: [],
+  });
+}
 
 function SuccessContent() {
   const searchParams = useSearchParams();
