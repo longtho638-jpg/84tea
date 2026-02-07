@@ -1,6 +1,7 @@
 import withPWAInit from "@ducanh2912/next-pwa";
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
+import { securityHeaders } from "./src/lib/security-headers";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -19,6 +20,16 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
 
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: securityHeaders,
+      },
+    ];
+  },
+
   // Image optimization
   images: {
     formats: ["image/avif", "image/webp"],
@@ -30,6 +41,17 @@ const nextConfig = {
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
+
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
+  // Experimental optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 };
 
-export default withPWA(withNextIntl(nextConfig as any) as any);
+// @ts-expect-error - Monorepo type conflict between workspace and app Next.js versions
+export default withPWA(withNextIntl(nextConfig));

@@ -1,12 +1,10 @@
-import { MetadataRoute } from 'next'
-import { getProducts } from '@/lib/data/server-products'
+import { MetadataRoute } from 'next';
+import { getProducts } from '@/lib/data/server-products';
+import { SEO_CONFIG } from '@/lib/seo-constants';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://84tea.com'
+  const products = await getProducts();
 
-  const products = await getProducts()
-
-  // Static pages
   const staticPages = [
     '',
     '/products',
@@ -14,22 +12,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/franchise',
     '/franchise/apply',
     '/contact',
-    '/training',
-    '/ops',
-  ].map(route => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }))
+    '/club',
+  ];
 
-  // Product pages
-  const productPages = (products || []).map(product => ({
-    url: `${baseUrl}/products/${product.slug}`,
-    lastModified: new Date(product.updated_at || product.created_at),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }))
+  // Generate entries for each locale
+  const staticEntries = staticPages.flatMap(page =>
+    SEO_CONFIG.locales.map(locale => ({
+      url: `${SEO_CONFIG.siteUrl}/${locale}${page}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: page === '' ? 1.0 : 0.8,
+      alternates: {
+        languages: Object.fromEntries(
+          SEO_CONFIG.locales.map(loc => [
+            loc,
+            `${SEO_CONFIG.siteUrl}/${loc}${page}`,
+          ])
+        ),
+      },
+    }))
+  );
 
-  return [...staticPages, ...productPages]
+  // Generate product entries
+  const productEntries = (products || []).flatMap(product =>
+    SEO_CONFIG.locales.map(locale => ({
+      url: `${SEO_CONFIG.siteUrl}/${locale}/products/${product.slug}`,
+      lastModified: new Date(product.updated_at || product.created_at),
+      changeFrequency: 'daily' as const,
+      priority: 0.9,
+      alternates: {
+        languages: Object.fromEntries(
+          SEO_CONFIG.locales.map(loc => [
+            loc,
+            `${SEO_CONFIG.siteUrl}/${loc}/products/${product.slug}`,
+          ])
+        ),
+      },
+    }))
+  );
+
+  return [...staticEntries, ...productEntries];
 }

@@ -10,6 +10,8 @@ import { CartDrawer } from "@/components/cart/cart-drawer";
 import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { routing } from "@/i18n/routing";
+import { SEO_CONFIG } from "@/lib/seo-constants";
+import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/seo/structured-data";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -18,44 +20,67 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export const metadata: Metadata = {
-  title: "84tea | Trà Năng Lượng Việt - Trà Cổ Thụ Lên Men",
-  description:
-    "84tea - Thương hiệu trà cao cấp Việt Nam. Bộ sưu tập 84 Limited: trà lên men từ cây Shan Tuyết cổ thụ. Nơi truyền thống gặp gỡ sang trọng.",
-  keywords: [
-    "84tea",
-    "trà Việt Nam",
-    "trà lên men",
-    "Shan Tuyết",
-    "trà cao cấp",
-    "trà cổ thụ",
-    "84 Limited",
-    "Trà Năng Lượng Việt",
-    "trà Hà Giang",
-  ],
-  authors: [{ name: "84tea" }],
-  openGraph: {
-    title: "84tea | Trà Năng Lượng Việt",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    metadataBase: new URL(SEO_CONFIG.siteUrl),
+    title: {
+      default: SEO_CONFIG.siteName[locale as 'vi' | 'en'],
+      template: `%s | ${SEO_CONFIG.siteName[locale as 'vi' | 'en']}`,
+    },
     description:
-      "Thương hiệu trà cao cấp Việt Nam với bộ sưu tập 84 Limited - trà lên men từ cây Shan Tuyết cổ thụ.",
-    url: "https://84tea.com",
-    siteName: "84tea",
-    locale: "vi_VN",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "84tea | Trà Năng Lượng Việt",
-    description: "Thương hiệu trà cao cấp Việt Nam với bộ sưu tập 84 Limited.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  verification: {
-    google: "",
-  },
-};
+      locale === 'vi'
+        ? 'Trà Cổ Thụ Việt Nam - Năng lượng thuần khiết từ thiên nhiên'
+        : 'Vietnamese Ancient Tree Tea - Pure energy from nature',
+    keywords: [
+      "84tea",
+      locale === 'vi' ? "trà Việt Nam" : "Vietnamese tea",
+      locale === 'vi' ? "trà lên men" : "fermented tea",
+      "Shan Tuyết",
+      locale === 'vi' ? "trà cao cấp" : "premium tea",
+      locale === 'vi' ? "trà cổ thụ" : "ancient tree tea",
+      "84 Limited",
+      locale === 'vi' ? "Trà Năng Lượng Việt" : "Vietnamese Energy Tea",
+    ],
+    openGraph: {
+      type: 'website',
+      locale,
+      url: SEO_CONFIG.siteUrl,
+      siteName: SEO_CONFIG.siteName[locale as 'vi' | 'en'],
+      images: [
+        {
+          url: SEO_CONFIG.ogImage,
+          width: 1200,
+          height: 630,
+          alt: SEO_CONFIG.siteName[locale as 'vi' | 'en'],
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      creator: SEO_CONFIG.twitterHandle,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    },
+  };
+}
 
 type Locale = (typeof routing.locales)[number];
 
