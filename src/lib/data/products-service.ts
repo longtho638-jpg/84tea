@@ -1,10 +1,19 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 import { cache } from 'react';
 import { Product } from '@/types/product';
+import { Database } from '@/types/database.types';
+
+// Create a static client for public data fetching (SSG compatible)
+const getSupabaseStaticClient = () => {
+  return createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+};
 
 // Cache product queries (React Server Components)
 export const getProducts = cache(async (): Promise<Product[]> => {
-  const supabase = await createClient();
+  const supabase = getSupabaseStaticClient();
 
   const { data, error } = await supabase
     .from('products')
@@ -14,6 +23,10 @@ export const getProducts = cache(async (): Promise<Product[]> => {
 
   if (error) {
     console.error('Error fetching products:', error);
+    return [];
+  }
+
+  if (!data) {
     return [];
   }
 
@@ -41,7 +54,7 @@ export const getProducts = cache(async (): Promise<Product[]> => {
 });
 
 export const getProductBySlug = cache(async (slug: string): Promise<Product | null> => {
-  const supabase = await createClient();
+  const supabase = getSupabaseStaticClient();
 
   const { data, error } = await supabase
     .from('products')
