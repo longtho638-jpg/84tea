@@ -4,7 +4,6 @@ import { createClient } from "@supabase/supabase-js";
 import { logPaymentEvent } from "@/lib/payment-utils";
 import type { Webhook } from "@payos/node";
 
-// Create client lazily
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -16,11 +15,10 @@ export async function POST(req: Request) {
   try {
     const body: Webhook = await req.json();
 
-    // Verify webhook signature using v2 SDK
+    // Verify webhook signature using PayOS SDK v2
     const payOS = getPayOS();
     const verifiedData = await payOS.webhooks.verify(body);
 
-    // Log webhook received
     await logPaymentEvent('webhook_received', {
       orderCode: verifiedData.orderCode,
       code: body.code,
@@ -28,14 +26,13 @@ export async function POST(req: Request) {
     });
 
     if (body.code === "00") {
-        // Payment successful
         const supabase = getSupabaseClient();
 
-        // IDEMPOTENCY CHECK: Verify if order is already paid
+        // Look up order by order_code (numeric, matches PayOS orderCode)
         const { data: existingOrder, error: fetchError } = await supabase
           .from("orders")
-          .select("payment_status, id, status")
-          .eq("id", String(verifiedData.orderCode))
+          .select("payment_status, id, status, order_code")
+          .eq("order_code", verifiedData.orderCode)
           .single();
 
         if (fetchError) {
@@ -51,7 +48,7 @@ export async function POST(req: Request) {
           );
         }
 
-        // If already paid, return success without updating (idempotent)
+        // Idempotency: skip if already paid
         if (existingOrder?.payment_status === "paid") {
           await logPaymentEvent('webhook_duplicate', {
             orderCode: verifiedData.orderCode,
@@ -63,7 +60,7 @@ export async function POST(req: Request) {
           });
         }
 
-        // Update order status in database
+        // Update order status
         const { error: updateError } = await supabase
           .from("orders")
           .update({
@@ -71,7 +68,7 @@ export async function POST(req: Request) {
             status: existingOrder?.status === 'pending' ? "processing" : existingOrder?.status,
             updated_at: new Date().toISOString()
           })
-          .eq("id", String(verifiedData.orderCode));
+          .eq("order_code", verifiedData.orderCode);
 
         if (updateError) {
           console.error("Failed to update order status:", updateError);
@@ -86,7 +83,6 @@ export async function POST(req: Request) {
           );
         }
 
-        // Log success
         await logPaymentEvent('payment_created', {
              orderCode: verifiedData.orderCode,
              status: 'paid'

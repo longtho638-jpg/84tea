@@ -13,7 +13,6 @@ interface RequestItem {
 
 export async function POST(req: Request) {
   try {
-    // Rate limit payment link creation (strict: 10 per 15 min)
     try {
       await strictLimiter.check(10, `payment:${getClientIP(req)}`);
     } catch {
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { amount, description, returnUrl, cancelUrl, items, buyerName, buyerPhone, buyerEmail, buyerAddress } = body;
+    const { amount, description, returnUrl, cancelUrl, items, orderCode, buyerName, buyerPhone, buyerEmail, buyerAddress } = body;
 
     if (!description || !returnUrl || !cancelUrl || !items || items.length === 0) {
       return NextResponse.json(
@@ -33,46 +32,35 @@ export async function POST(req: Request) {
       );
     }
 
-    // PRICE VALIDATION: Validate cart items against database (prevent tampering)
+    // Server-side price validation
     let validatedItems;
     let serverCalculatedTotal;
 
     try {
-      // Map input items to format expected by validator if needed
-      // Assuming body.items has structure compatible with CartItem interface
-      // Need to handle productId vs id mapping if client sends inconsistent data
       const mappedItems = (items as RequestItem[]).map((item) => ({
         ...item,
-        id: item.id || item.productId || "" // normalization, ensure string
+        id: item.id || item.productId || ""
       }));
 
       validatedItems = await validateCartItems(mappedItems);
       serverCalculatedTotal = calculateOrderTotal(validatedItems);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      console.warn("Validation failed, falling back to client values (DEV MODE ONLY):", errorMessage);
-
-      // In strict production, we should fail here.
-      // For now, if DB lookup fails (e.g. unseeded data), allow proceed but log it.
-      // But verifyPayOSSignature later will ensure webhook integrity.
-
-      // Fallback
-      validatedItems = (items as RequestItem[]).map((item) => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        productId: item.productId || item.id || 'unknown'
-      }));
-      serverCalculatedTotal = amount;
+      console.error("Price validation failed:", errorMessage);
 
       await logPaymentEvent('payment_failed', {
-        error: 'Price validation warning',
+        error: 'Price validation failed',
         details: errorMessage,
         clientItems: items
       });
+
+      return NextResponse.json(
+        { error: "One or more products are invalid or unavailable" },
+        { status: 400 }
+      );
     }
 
-    // Verify client-provided amount matches server calculation (with tolerance)
+    // Reject price tampering
     if (amount && Math.abs(amount - serverCalculatedTotal) > 1000) {
       console.error(`Price mismatch: client=${amount}, server=${serverCalculatedTotal}`);
       await logPaymentEvent('payment_failed', {
@@ -80,31 +68,23 @@ export async function POST(req: Request) {
         clientAmount: amount,
         serverAmount: serverCalculatedTotal
       });
-      // In production, uncomment this:
-      // return NextResponse.json(
-      //   { error: "Price mismatch detected" },
-      //   { status: 400 }
-      // );
+      return NextResponse.json(
+        { error: "Price mismatch detected. Please refresh and try again." },
+        { status: 400 }
+      );
     }
 
-    // Generate a unique order code (must be integer, range 0-9007199254740991)
-    // Using timestamp + random part to ensure uniqueness and integer type
-    // If orderCode is passed in body (from /api/orders), use it if it's numeric
-    // But PayOS requires integer orderCode. Our internal IDs might be UUIDs or strings "84TEA-...".
-    // So we might need a mapping or just use a new numeric code for PaymentLink and link it back.
-    // Ideally, /api/orders should generate numeric ID or we store the mapping.
-
-    // Simplest approach: Use passed orderCode if numeric, else generate one
-    let orderCode = body.orderCode;
-    if (!orderCode || isNaN(Number(orderCode))) {
-        orderCode = Number(String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000));
+    // Use numeric orderCode from order creation, or generate one
+    let numericOrderCode: number;
+    if (orderCode && !isNaN(Number(orderCode))) {
+      numericOrderCode = Number(orderCode);
     } else {
-        orderCode = Number(orderCode);
+      numericOrderCode = Number(String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000));
     }
 
     const paymentLinkData = {
-      orderCode,
-      amount: serverCalculatedTotal, // Use server-calculated amount
+      orderCode: numericOrderCode,
+      amount: serverCalculatedTotal,
       description,
       items: validatedItems.map(item => ({
         name: item.name,
@@ -122,9 +102,8 @@ export async function POST(req: Request) {
     const payOS = getPayOS();
     const paymentLink = await payOS.paymentRequests.create(paymentLinkData);
 
-    // Log successful payment link creation
     await logPaymentEvent('payment_created', {
-      orderCode,
+      orderCode: numericOrderCode,
       amount: serverCalculatedTotal,
       buyerEmail
     });
@@ -132,7 +111,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ...paymentLink,
       checkoutUrl: paymentLink.checkoutUrl,
-      orderCode: orderCode,
+      orderCode: numericOrderCode,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';

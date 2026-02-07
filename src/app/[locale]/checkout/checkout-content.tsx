@@ -56,9 +56,6 @@ export default function CheckoutContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // Generate a temporary order code if needed, or let server handle it
-          // Actually, let server generate valid orderCode and return it
-          orderCode: String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000),
           items: items.map((item) => ({
             productId: item.id,
             name: item.name,
@@ -79,7 +76,7 @@ export default function CheckoutContent() {
         throw new Error(orderData.error || "Failed to create order");
       }
 
-      const orderCode = orderData.order.id; // Using ID as orderCode
+      const orderCode = orderData.order.orderCode;
 
       // Step 2: Create Payment Link with PayOS
       const description = `Thanh toan don hang ${orderCode}`;

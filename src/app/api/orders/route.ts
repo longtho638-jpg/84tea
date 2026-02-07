@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { validateCartItems, calculateOrderTotal, ValidatedItem } from "@/lib/payment-utils";
-import { strictLimiter, getClientIP } from "@/lib/rate-limit";
+import { strictLimiter, limiter, getClientIP } from "@/lib/rate-limit";
 
-// Create client lazily to avoid build-time errors
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -18,7 +17,7 @@ interface OrderItem {
   price: number;
   weight?: string;
   image?: string;
-  id?: string; // For compatibility
+  id?: string;
 }
 
 interface CustomerInfo {
@@ -31,16 +30,15 @@ interface CustomerInfo {
 }
 
 interface CreateOrderRequest {
-  orderCode: string;
   items: OrderItem[];
   total: number;
   customerInfo: CustomerInfo;
   paymentMethod?: string;
 }
 
-// Type for order response
 interface OrderRow {
   id: string;
+  order_code: number;
   status: string;
   total: number;
   items: unknown;
@@ -48,9 +46,18 @@ interface OrderRow {
   created_at: string;
 }
 
+/**
+ * Generate numeric order code for PayOS compatibility
+ * Range: safe integer (max 9007199254740991)
+ */
+function generateNumericOrderCode(): number {
+  const timestamp = Date.now() % 1_000_000_000;
+  const random = Math.floor(Math.random() * 1000);
+  return timestamp * 1000 + random;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // Rate limit order creation (strict: 10 per 15 min)
     try {
       await strictLimiter.check(10, `order:${getClientIP(request)}`);
     } catch {
@@ -61,56 +68,52 @@ export async function POST(request: NextRequest) {
     }
 
     const body: CreateOrderRequest = await request.json();
-    const { orderCode, items, total, customerInfo, paymentMethod } = body;
+    const { items, total, customerInfo, paymentMethod } = body;
 
-    // Validate required fields
-    if (!orderCode || !items || !total || !customerInfo) {
+    if (!items || items.length === 0 || !total || !customerInfo) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Server-side validation
-    let validatedItems;
-    let serverTotal;
-    try {
-      // Map items to match what validateCartItems expects (id or productId)
-      const mappedItems = items.map(item => ({
-        id: item.productId || item.id || "unknown",
-        quantity: item.quantity,
-        price: item.price
-      }));
+    // Server-side price validation (reject on failure in production)
+    const mappedItems = items.map(item => ({
+      id: item.productId || item.id || "unknown",
+      quantity: item.quantity,
+      price: item.price
+    }));
 
+    let validatedItems: ValidatedItem[];
+    let serverTotal: number;
+
+    try {
       validatedItems = await validateCartItems(mappedItems);
       serverTotal = calculateOrderTotal(validatedItems);
-
-      // Allow for small floating point differences
-      if (Math.abs(serverTotal - total) > 1000) { // 1000 VND tolerance
-         console.warn(`Price mismatch: client=${total}, server=${serverTotal}`);
-         // We could reject here, but for now just warn or use server total?
-         // Let's use server total for the order record to be safe
-      }
     } catch (e) {
-      console.error("Validation failed:", e);
-      // Fallback to client data if DB validation fails (e.g. dev mode without seeded data)
-      // but strictly log it.
-      // In production, we should probably fail.
-      validatedItems = items.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        id: item.productId || item.id || ''
-      }));
-      serverTotal = total;
+      console.error("Cart validation failed:", e);
+      return NextResponse.json(
+        { error: "One or more products are invalid or unavailable" },
+        { status: 400 }
+      );
     }
 
-    // Create order in database
+    // Reject price tampering (> 1000 VND tolerance)
+    if (Math.abs(serverTotal - total) > 1000) {
+      console.error(`Price mismatch: client=${total}, server=${serverTotal}`);
+      return NextResponse.json(
+        { error: "Price mismatch detected. Please refresh and try again." },
+        { status: 400 }
+      );
+    }
+
+    const orderCode = generateNumericOrderCode();
+
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("orders")
       .insert({
-        id: orderCode,
+        order_code: orderCode,
         guest_info: {
           name: customerInfo.name,
           phone: customerInfo.phone,
@@ -124,11 +127,10 @@ export async function POST(request: NextRequest) {
           name: item.name,
           quantity: item.quantity,
           price: item.price,
-          // Preserve extras if available in original items
           weight: items.find(i => (i.productId || i.id) === item.id)?.weight || null,
           image: items.find(i => (i.productId || i.id) === item.id)?.image || null,
         })),
-        total: serverTotal, // Use validated total
+        total: serverTotal,
         status: "pending",
         payment_status: "pending",
         payment_method: paymentMethod || "payos",
@@ -138,20 +140,6 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Database error:", error);
-
-      // If table doesn't exist or other DB error, return mock success for demo
-      if (error.code === "42P01" || error.code === "PGRST116") {
-        return NextResponse.json({
-          success: true,
-          order: {
-            id: orderCode,
-            status: "pending",
-            total: serverTotal,
-            message: "Demo mode - Database not configured"
-          }
-        });
-      }
-
       return NextResponse.json(
         { error: "Failed to create order" },
         { status: 500 }
@@ -163,6 +151,7 @@ export async function POST(request: NextRequest) {
       success: true,
       order: {
         id: order.id,
+        orderCode: order.order_code,
         status: order.status,
         total: order.total,
         createdAt: order.created_at,
@@ -179,22 +168,36 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    try {
+      await limiter.check(60, `order-get:${getClientIP(request)}`);
+    } catch {
+      return NextResponse.json(
+        { error: "Too many requests." },
+        { status: 429 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const orderId = searchParams.get("id");
+    const orderCode = searchParams.get("orderCode");
 
-    if (!orderId) {
+    if (!orderId && !orderCode) {
       return NextResponse.json(
-        { error: "Order ID is required" },
+        { error: "Order ID or order code is required" },
         { status: 400 }
       );
     }
 
     const supabase = getSupabaseClient();
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("id", orderId)
-      .single();
+    const query = supabase.from("orders").select("*");
+
+    if (orderId) {
+      query.eq("id", orderId);
+    } else if (orderCode) {
+      query.eq("order_code", Number(orderCode));
+    }
+
+    const { data, error } = await query.single();
 
     if (error || !data) {
       return NextResponse.json(
@@ -208,6 +211,7 @@ export async function GET(request: NextRequest) {
       success: true,
       order: {
         id: order.id,
+        orderCode: order.order_code,
         status: order.status,
         total: order.total,
         items: order.items,
