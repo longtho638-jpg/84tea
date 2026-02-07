@@ -5,15 +5,21 @@ import { Database } from '@/types/database.types';
 
 // Create a static client for public data fetching (SSG compatible)
 const getSupabaseStaticClient = () => {
-  return createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    console.warn('Supabase credentials missing, returning null client');
+    return null;
+  }
+
+  return createClient<Database>(url, key);
 };
 
 // Cache product queries (React Server Components)
 export const getProducts = cache(async (): Promise<Product[]> => {
   const supabase = getSupabaseStaticClient();
+  if (!supabase) return [];
 
   const { data, error } = await supabase
     .from('products')
@@ -56,6 +62,7 @@ export const getProducts = cache(async (): Promise<Product[]> => {
 
 export const getProductBySlug = cache(async (slug: string): Promise<Product | null> => {
   const supabase = getSupabaseStaticClient();
+  if (!supabase) return null;
 
   const { data, error } = await supabase
     .from('products')
