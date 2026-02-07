@@ -50,13 +50,13 @@ export function HeaderNavigation() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-on-surface hover:text-primary transition-colors font-medium"
+              className="text-on-surface hover:text-primary active:text-primary/80 transition-colors font-medium"
             >
               {link.label}
             </Link>
           ))}
           <Link href="/products">
-            <Button variant="filled" className="rounded-full">
+            <Button variant="filled" className="rounded-full active:scale-95 transition-transform">
               {t("buyNow")}
             </Button>
           </Link>
@@ -72,7 +72,7 @@ export function HeaderNavigation() {
           <LanguageSwitcher />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-on-surface"
+            className="p-2 text-on-surface hover:bg-surface-variant/50 active:bg-surface-variant rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -109,7 +109,7 @@ export function HeaderNavigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-on-surface hover:text-primary transition-colors py-2 font-medium"
+                className="block text-on-surface hover:text-primary active:text-primary/80 transition-colors py-2 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}

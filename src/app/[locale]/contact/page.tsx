@@ -24,7 +24,6 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Integrate with form backend (e.g., Formspree, custom API)
-    console.log("Form submitted:", formData);
     alert(t('Form.success'));
   };
 

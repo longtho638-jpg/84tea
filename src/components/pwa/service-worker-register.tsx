@@ -7,9 +7,6 @@ export function ServiceWorkerRegister() {
     if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
       navigator.serviceWorker
         .register("/sw.js")
-        .then((registration) => {
-          console.log("84tea SW registered:", registration.scope);
-        })
         .catch((error) => {
           console.error("84tea SW registration failed:", error);
         });

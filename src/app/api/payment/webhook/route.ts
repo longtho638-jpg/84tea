@@ -20,8 +20,6 @@ export async function POST(req: Request) {
     const payOS = getPayOS();
     const webhookData = payOS.verifyPaymentWebhookData(body);
 
-    console.log("Webhook received:", webhookData);
-
     // Log webhook received
     await logPaymentEvent('webhook_received', {
       orderCode: webhookData.data.orderCode,
@@ -31,8 +29,6 @@ export async function POST(req: Request) {
 
     if (webhookData.code === "00") {
         // Payment successful
-        console.log(`Payment successful for order ${webhookData.data.orderCode}`);
-
         const supabase = getSupabaseClient();
 
         // IDEMPOTENCY CHECK: Verify if order is already paid
@@ -57,7 +53,6 @@ export async function POST(req: Request) {
 
         // If already paid, return success without updating (idempotent)
         if (existingOrder?.payment_status === "paid") {
-          console.log(`Order ${webhookData.data.orderCode} already processed (idempotent)`);
           await logPaymentEvent('webhook_duplicate', {
             orderCode: webhookData.data.orderCode,
             message: 'Duplicate webhook ignored'
@@ -89,8 +84,6 @@ export async function POST(req: Request) {
             { error: "Processing failed" },
             { status: 500 }
           );
-        } else {
-          console.log("Order status updated to paid");
         }
     }
 

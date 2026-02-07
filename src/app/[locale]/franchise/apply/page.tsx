@@ -87,7 +87,7 @@ export default function FranchiseApplyPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // In production, send to Supabase or email
-    console.log("Franchise application:", formData);
+    // TODO: Integrate with backend API
 
     setSubmitted(true);
     setIsSubmitting(false);
