@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getPayOS } from "@/lib/payos";
 import { createClient } from "@supabase/supabase-js";
 import { logPaymentEvent } from "@/lib/payment-utils";
+import type { Webhook } from "@payos/node";
 
 // Create client lazily
 function getSupabaseClient() {
@@ -13,25 +14,20 @@ function getSupabaseClient() {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: Webhook = await req.json();
 
-    // We rely on SDK verification, but we could also check signature manually if needed
-    // const rawBody = JSON.stringify(body);
-    // const signature = req.headers.get("x-payos-signature");
-
-    // Verify webhook signature
-    // payOS.verifyPaymentWebhookData(body) throws error if invalid
+    // Verify webhook signature using v2 SDK
     const payOS = getPayOS();
-    const webhookData = payOS.verifyPaymentWebhookData(body);
+    const verifiedData = await payOS.webhooks.verify(body);
 
     // Log webhook received
     await logPaymentEvent('webhook_received', {
-      orderCode: webhookData.data.orderCode,
-      code: webhookData.code,
+      orderCode: verifiedData.orderCode,
+      code: body.code,
       timestamp: new Date().toISOString()
     });
 
-    if (webhookData.code === "00") {
+    if (body.code === "00") {
         // Payment successful
         const supabase = getSupabaseClient();
 
@@ -39,15 +35,13 @@ export async function POST(req: Request) {
         const { data: existingOrder, error: fetchError } = await supabase
           .from("orders")
           .select("payment_status, id, status")
-          .eq("id", String(webhookData.data.orderCode))
+          .eq("id", String(verifiedData.orderCode))
           .single();
 
         if (fetchError) {
           console.error("Failed to fetch order:", fetchError);
-          // If order doesn't exist, we might want to create a "ghost" order or log error
-          // But usually we expect order to be created via /api/orders first
           await logPaymentEvent('payment_failed', {
-            orderCode: webhookData.data.orderCode,
+            orderCode: verifiedData.orderCode,
             error: 'Order not found',
             details: fetchError
           });
@@ -60,7 +54,7 @@ export async function POST(req: Request) {
         // If already paid, return success without updating (idempotent)
         if (existingOrder?.payment_status === "paid") {
           await logPaymentEvent('webhook_duplicate', {
-            orderCode: webhookData.data.orderCode,
+            orderCode: verifiedData.orderCode,
             message: 'Duplicate webhook ignored'
           });
           return NextResponse.json({
@@ -77,12 +71,12 @@ export async function POST(req: Request) {
             status: existingOrder?.status === 'pending' ? "processing" : existingOrder?.status,
             updated_at: new Date().toISOString()
           })
-          .eq("id", String(webhookData.data.orderCode));
+          .eq("id", String(verifiedData.orderCode));
 
         if (updateError) {
           console.error("Failed to update order status:", updateError);
           await logPaymentEvent('payment_failed', {
-            orderCode: webhookData.data.orderCode,
+            orderCode: verifiedData.orderCode,
             error: 'Database update failed',
             details: updateError
           });
@@ -93,8 +87,8 @@ export async function POST(req: Request) {
         }
 
         // Log success
-        await logPaymentEvent('payment_created', { // Or payment_success
-             orderCode: webhookData.data.orderCode,
+        await logPaymentEvent('payment_created', {
+             orderCode: verifiedData.orderCode,
              status: 'paid'
         });
     }
