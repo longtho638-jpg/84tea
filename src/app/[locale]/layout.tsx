@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -6,15 +7,26 @@ import { notFound } from "next/navigation";
 import { playfairDisplay, inter } from "@/lib/fonts";
 import { CartProvider } from "@/lib/cart-context";
 import { AuthProvider } from "@/lib/auth-context";
-import { CartDrawer } from "@/components/cart/cart-drawer";
 import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
-import { MobileStickyBar } from "@/components/layout/mobile-sticky-bar";
-import { FloatingContact } from "@/components/ui/floating-contact";
 import { routing } from "@/i18n/routing";
 import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
 import { SEO_CONFIG } from "@/lib/seo-constants";
 import "../globals.css";
+
+// Dynamic imports for client-only interactive components
+const CartDrawer = dynamic(
+  () => import("@/components/cart/cart-drawer").then((mod) => ({ default: mod.CartDrawer })),
+  { loading: () => null }
+);
+const MobileStickyBar = dynamic(
+  () => import("@/components/layout/mobile-sticky-bar").then((mod) => ({ default: mod.MobileStickyBar })),
+  { loading: () => null }
+);
+const FloatingContact = dynamic(
+  () => import("@/components/ui/floating-contact").then((mod) => ({ default: mod.FloatingContact })),
+  { loading: () => null }
+);
 
 export const viewport: Viewport = {
   width: "device-width",

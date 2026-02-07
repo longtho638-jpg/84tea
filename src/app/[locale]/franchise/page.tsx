@@ -1,12 +1,27 @@
+import dynamic from "next/dynamic";
 import { FranchiseHero } from "@/components/franchise/franchise-hero";
-import { FranchiseBenefits } from "@/components/franchise/franchise-benefits";
-import { FranchiseModels } from "@/components/franchise/franchise-models";
-import { FranchiseProcess } from "@/components/franchise/franchise-process";
-import { FranchiseForm } from "@/components/franchise/franchise-form";
 import { MainLayout } from "@/components/layout/main-layout";
 import { FooterSection } from "@/components/layout/footer-section";
 import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
+
+// Dynamic imports for below-fold sections
+const FranchiseBenefits = dynamic(
+  () => import("@/components/franchise/franchise-benefits").then((mod) => ({ default: mod.FranchiseBenefits })),
+  { loading: () => null }
+);
+const FranchiseModels = dynamic(
+  () => import("@/components/franchise/franchise-models").then((mod) => ({ default: mod.FranchiseModels })),
+  { loading: () => null }
+);
+const FranchiseProcess = dynamic(
+  () => import("@/components/franchise/franchise-process").then((mod) => ({ default: mod.FranchiseProcess })),
+  { loading: () => null }
+);
+const FranchiseForm = dynamic(
+  () => import("@/components/franchise/franchise-form").then((mod) => ({ default: mod.FranchiseForm })),
+  { loading: () => null }
+);
 
 export async function generateMetadata({
   params,
