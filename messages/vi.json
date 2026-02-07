@@ -20,6 +20,20 @@
     "ctaPrimary": "Khám phá Bộ sưu tập",
     "ctaSecondary": "Câu chuyện của chúng tôi"
   },
+  "home": {
+    "hero": {
+      "title": "Tinh hoa trà cổ thụ",
+      "subtitle": "Hành trình tìm về cội nguồn hương vị từ những cây trà Shan Tuyết cổ thụ",
+      "cta": {
+        "primary": "Khám phá Bộ sưu tập",
+        "secondary": "Câu chuyện của chúng tôi"
+      },
+      "scroll": "Cuộn xuống"
+    }
+  },
+  "products": {
+    "addToCart": "Thêm vào giỏ"
+  },
   "Story": {
     "label": "Về 84tea",
     "headline": "Đánh thức vị giác bằng",

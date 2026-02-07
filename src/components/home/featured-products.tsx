@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
-import { ProductCard } from "@/components/products/product-card";
+import { ProductCardGlass } from "@/components/products/product-card-glass";
 import { getFeaturedProducts } from "@/lib/data/server-products";
 
 export async function FeaturedProducts() {
@@ -26,7 +26,7 @@ export async function FeaturedProducts() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCardGlass key={product.id} product={product} />
           ))}
         </div>
 

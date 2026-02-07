@@ -9,6 +9,8 @@ import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { MobileStickyBar } from "@/components/layout/mobile-sticky-bar";
+import { FloatingContact } from "@/components/ui/floating-contact";
 import { routing } from "@/i18n/routing";
 import { SEO_CONFIG } from "@/lib/seo-constants";
 import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/seo/structured-data";
@@ -138,6 +140,8 @@ export default async function LocaleLayout({
                 <CartProvider>
                   {children}
                   <CartDrawer />
+                  <MobileStickyBar />
+                  <FloatingContact />
                 </CartProvider>
               </AuthProvider>
             </NextIntlClientProvider>

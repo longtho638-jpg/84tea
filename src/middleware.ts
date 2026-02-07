@@ -5,9 +5,15 @@ import { routing } from './i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+interface CookieToSet {
+  name: string;
+  value: string;
+  options?: Record<string, unknown>;
+}
+
 export async function middleware(request: NextRequest) {
   // 1. Run intl middleware first to handle routing
-  const response = intlMiddleware(request as any);
+  const response = intlMiddleware(request as NextRequest);
 
   // 2. Setup Supabase to check/refresh session
   const supabase = createServerClient(
@@ -18,12 +24,12 @@ export async function middleware(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet: any) {
-          cookiesToSet.forEach(({ name, value }: any) =>
+        setAll(cookiesToSet: CookieToSet[]) {
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
           // Set cookies on the response object from next-intl
-          cookiesToSet.forEach(({ name, value, options }: any) =>
+          cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );
         },

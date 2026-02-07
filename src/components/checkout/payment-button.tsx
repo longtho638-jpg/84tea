@@ -5,14 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Snackbar } from "@/components/ui/snackbar";
 import { useTranslations } from "next-intl";
 
+interface PaymentData {
+  checkoutUrl?: string;
+  [key: string]: unknown;
+}
+
 interface PaymentButtonProps {
   amount: number;
   description: string;
   items: { name: string; quantity: number; price: number }[];
   returnUrl: string;
   cancelUrl: string;
-  onSuccess?: (data: any) => void;
-  onError?: (error: any) => void;
+  onSuccess?: (data: PaymentData) => void;
+  onError?: (error: Error) => void;
   className?: string;
   disabled?: boolean;
 }
@@ -65,10 +70,10 @@ export function PaymentButton({
         }),
       });
 
-      const data = await response.json();
+      const data: PaymentData = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to create payment link");
+        throw new Error((data as { error?: string }).error || "Failed to create payment link");
       }
 
       if (onSuccess) {
@@ -80,12 +85,12 @@ export function PaymentButton({
       } else {
         throw new Error("No checkout URL returned");
       }
-    } catch (error: any) {
-      console.error("Payment error:", error);
-      if (onError) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : t("error");
+      if (onError && error instanceof Error) {
         onError(error);
       }
-      showSnackbar(error.message || t("error"), "error");
+      showSnackbar(errorMessage, "error");
     } finally {
       setLoading(false);
     }

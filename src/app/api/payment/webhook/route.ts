@@ -98,11 +98,11 @@ export async function POST(req: Request) {
       success: true,
       message: "Webhook received",
     });
-  } catch (error: any) {
-    console.error("Error verifying webhook:", error);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await logPaymentEvent('payment_failed', {
       error: 'Signature verification failed',
-      details: error.message
+      details: errorMessage
     });
     return NextResponse.json(
       { error: "Invalid signature" },

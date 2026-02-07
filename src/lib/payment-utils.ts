@@ -29,6 +29,10 @@ export function verifyPayOSSignature(
   }
 }
 
+interface PaymentEventData {
+  [key: string]: unknown;
+}
+
 /**
  * Log payment events for audit trail
  * @param event - Event type
@@ -36,7 +40,7 @@ export function verifyPayOSSignature(
  */
 export async function logPaymentEvent(
   event: 'payment_created' | 'webhook_received' | 'payment_failed' | 'webhook_duplicate',
-  data: any
+  data: PaymentEventData
 ) {
   try {
     const supabase = createClient(
@@ -51,8 +55,23 @@ export async function logPaymentEvent(
     });
   } catch (error) {
     // Don't fail the main flow if logging fails
-    console.error('Failed to log payment event:', error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to log payment event: ${error.message}`);
+    }
   }
+}
+
+interface CartItem {
+  id: string;
+  quantity: number;
+  price?: number;
+}
+
+interface ValidatedItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }
 
 /**
@@ -61,13 +80,13 @@ export async function logPaymentEvent(
  * @param cartItems - Items from client
  * @returns Validated items with correct prices
  */
-export async function validateCartItems(cartItems: any[]): Promise<any[]> {
+export async function validateCartItems(cartItems: CartItem[]): Promise<ValidatedItem[]> {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
   );
 
-  const validatedItems = [];
+  const validatedItems: ValidatedItem[] = [];
 
   for (const item of cartItems) {
     // Fetch actual product price from database
@@ -108,6 +127,6 @@ export function generateOrderCode(): string {
  * @param items - Validated cart items
  * @returns Total amount
  */
-export function calculateOrderTotal(items: any[]): number {
+export function calculateOrderTotal(items: ValidatedItem[]): number {
   return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 }

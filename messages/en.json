@@ -20,6 +20,20 @@
     "ctaPrimary": "Explore Collection",
     "ctaSecondary": "Our Story"
   },
+  "home": {
+    "hero": {
+      "title": "Essence of Ancient Tea",
+      "subtitle": "A journey back to the origin of taste from ancient Shan Tuyet tea trees",
+      "cta": {
+        "primary": "Explore Collection",
+        "secondary": "Our Story"
+      },
+      "scroll": "Scroll to explore"
+    }
+  },
+  "products": {
+    "addToCart": "Add to Cart"
+  },
   "Story": {
     "label": "About 84tea",
     "headline": "Awaken your taste buds with",

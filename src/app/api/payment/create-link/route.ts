@@ -21,11 +21,11 @@ export async function POST(req: Request) {
     try {
       validatedItems = await validateCartItems(items);
       serverCalculatedTotal = calculateOrderTotal(validatedItems);
-    } catch (error: any) {
-      console.error("Price validation failed:", error);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       await logPaymentEvent('payment_failed', {
         error: 'Price validation failed',
-        details: error.message,
+        details: errorMessage,
         clientItems: items
       });
       return NextResponse.json(
@@ -84,14 +84,14 @@ export async function POST(req: Request) {
       orderCode: orderCode,
       ...paymentLink,
     });
-  } catch (error: any) {
-    console.error("Error creating payment link:", error);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     await logPaymentEvent('payment_failed', {
       error: 'Payment link creation failed',
-      details: error.message
+      details: errorMessage
     });
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
