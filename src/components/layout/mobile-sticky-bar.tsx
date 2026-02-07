@@ -18,7 +18,7 @@ export function MobileStickyBar() {
           href="https://zalo.me/84988030204"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-1 items-center justify-center gap-2 border-r border-outline-variant py-4 text-sm font-medium text-on-surface transition-colors hover:bg-surface-variant"
+          className="flex flex-1 items-center justify-center gap-2 border-r border-outline-variant py-3 min-h-[44px] text-sm font-medium text-on-surface transition-colors hover:bg-surface-variant active:bg-surface-variant/80"
         >
           <MessageCircle className="h-5 w-5 text-primary" />
           <span>Chat Zalo</span>
@@ -27,7 +27,7 @@ export function MobileStickyBar() {
         {/* Cart Button */}
         <a
           href="/cart"
-          className="relative flex flex-1 items-center justify-center gap-2 py-4 text-sm font-medium text-on-surface transition-colors hover:bg-surface-variant"
+          className="relative flex flex-1 items-center justify-center gap-2 py-3 min-h-[44px] text-sm font-medium text-on-surface transition-colors hover:bg-surface-variant active:bg-surface-variant/80"
         >
           <ShoppingCart className="h-5 w-5 text-primary" />
           <span>{t("cart", { defaultValue: "Giỏ hàng" })}</span>
