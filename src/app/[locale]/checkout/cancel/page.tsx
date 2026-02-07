@@ -1,5 +1,3 @@
-"use client";
-
 import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
 import CheckoutCancelContent from "./cancel-content";

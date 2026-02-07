@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
