@@ -21,8 +21,6 @@ export interface Database {
           weight: string | null
           image: string | null
           images: string[] | null
-          image_url: string | null
-          energy_level: string | null
           category: 'tea' | 'teaware' | 'gift'
           type: 'green' | 'black' | 'white' | 'oolong' | 'herbal' | null
           origin: string | null
@@ -47,8 +45,6 @@ export interface Database {
           weight?: string | null
           image?: string | null
           images?: string[] | null
-          image_url?: string | null
-          energy_level?: string | null
           category: 'tea' | 'teaware' | 'gift'
           type?: 'green' | 'black' | 'white' | 'oolong' | 'herbal' | null
           origin?: string | null
@@ -73,8 +69,6 @@ export interface Database {
           weight?: string | null
           image?: string | null
           images?: string[] | null
-          image_url?: string | null
-          energy_level?: string | null
           category?: 'tea' | 'teaware' | 'gift'
           type?: 'green' | 'black' | 'white' | 'oolong' | 'herbal' | null
           origin?: string | null
@@ -156,6 +150,7 @@ export interface Database {
       orders: {
         Row: {
           id: string
+          order_code: number
           user_id: string | null
           guest_info: Json | null
           status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
@@ -168,6 +163,7 @@ export interface Database {
         }
         Insert: {
           id?: string
+          order_code: number
           user_id?: string | null
           guest_info?: Json | null
           status?: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
@@ -180,6 +176,7 @@ export interface Database {
         }
         Update: {
           id?: string
+          order_code?: number
           user_id?: string | null
           guest_info?: Json | null
           status?: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
@@ -189,6 +186,26 @@ export interface Database {
           payment_method?: string | null
           created_at?: string
           updated_at?: string
+        }
+      }
+      payment_logs: {
+        Row: {
+          id: string
+          event: string
+          data: Json
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          event: string
+          data: Json
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          event?: string
+          data?: Json
+          created_at?: string
         }
       }
       franchise_applications: {

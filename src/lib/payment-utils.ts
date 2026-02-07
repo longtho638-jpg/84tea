@@ -53,11 +53,8 @@ export async function logPaymentEvent(
       data,
       created_at: new Date().toISOString()
     });
-  } catch (error) {
-    // Don't fail the main flow if logging fails
-    if (error instanceof Error) {
-      throw new Error(`Failed to log payment event: ${error.message}`);
-    }
+  } catch {
+    // Non-critical: don't fail the main flow if logging fails
   }
 }
 
@@ -90,10 +87,11 @@ export async function validateCartItems(cartItems: CartItem[]): Promise<Validate
 
   for (const item of cartItems) {
     // Fetch actual product price from database
+    // DB schema has 'name' column (not name_vi/name_en)
     const { data: product, error } = await supabase
       .from('products')
-      .select('id, price, name_vi, name_en')
-      .eq('id', item.id)
+      .select('id, price, name, slug')
+      .or(`id.eq.${item.id},slug.eq.${item.id}`)
       .single();
 
     if (error || !product) {
@@ -103,23 +101,13 @@ export async function validateCartItems(cartItems: CartItem[]): Promise<Validate
     // Use server-side price, ignore client-provided price
     validatedItems.push({
       id: product.id,
-      name: product.name_vi || product.name_en,
+      name: product.name,
       price: product.price,
       quantity: item.quantity
     });
   }
 
   return validatedItems;
-}
-
-/**
- * Generate unique order code
- * Format: 84TEA-{timestamp}-{random}
- */
-export function generateOrderCode(): string {
-  const timestamp = Date.now();
-  const random = Math.random().toString(36).slice(2, 8).toUpperCase();
-  return `84TEA-${timestamp}-${random}`;
 }
 
 /**
