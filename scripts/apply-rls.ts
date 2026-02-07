@@ -1,6 +1,10 @@
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
-const path = require('path');
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Robust .env parsing without 'dotenv' dependency
 function loadEnv() {
@@ -26,8 +30,9 @@ function loadEnv() {
     } else {
       console.log('⚠️ .env.local not found, relying on process.env');
     }
-  } catch (e) {
-    console.warn('⚠️ Could not load .env.local:', e.message);
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.warn('⚠️ Could not load .env.local:', msg);
   }
 }
 
@@ -42,7 +47,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   process.exit(1);
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!, {
   auth: { persistSession: false }
 });
 
@@ -62,7 +67,7 @@ async function main() {
 
     console.log('⚡ Attempting execution via "exec_sql" RPC...');
 
-    const { data, error } = await supabase.rpc('exec_sql', { sql: sqlContent });
+    const { error } = await supabase.rpc('exec_sql', { sql: sqlContent });
 
     if (error) {
       console.error('❌ RPC Execution Failed:', error.message);
@@ -77,8 +82,9 @@ async function main() {
       console.log('✅ SQL Executed Successfully via RPC!');
     }
 
-  } catch (err) {
-    console.error('❌ Script Error:', err.message);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('❌ Script Error:', msg);
     process.exit(1);
   }
 }

@@ -15,6 +15,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    // We rely on SDK verification, but we could also check signature manually if needed
+    // const rawBody = JSON.stringify(body);
+    // const signature = req.headers.get("x-payos-signature");
+
     // Verify webhook signature
     // payOS.verifyPaymentWebhookData(body) throws error if invalid
     const payOS = getPayOS();
@@ -34,12 +38,14 @@ export async function POST(req: Request) {
         // IDEMPOTENCY CHECK: Verify if order is already paid
         const { data: existingOrder, error: fetchError } = await supabase
           .from("orders")
-          .select("payment_status, id")
+          .select("payment_status, id, status")
           .eq("id", String(webhookData.data.orderCode))
           .single();
 
         if (fetchError) {
           console.error("Failed to fetch order:", fetchError);
+          // If order doesn't exist, we might want to create a "ghost" order or log error
+          // But usually we expect order to be created via /api/orders first
           await logPaymentEvent('payment_failed', {
             orderCode: webhookData.data.orderCode,
             error: 'Order not found',
@@ -68,7 +74,7 @@ export async function POST(req: Request) {
           .from("orders")
           .update({
             payment_status: "paid",
-            status: "processing", // Automatically move to processing if paid
+            status: existingOrder?.status === 'pending' ? "processing" : existingOrder?.status,
             updated_at: new Date().toISOString()
           })
           .eq("id", String(webhookData.data.orderCode));
@@ -85,6 +91,12 @@ export async function POST(req: Request) {
             { status: 500 }
           );
         }
+
+        // Log success
+        await logPaymentEvent('payment_created', { // Or payment_success
+             orderCode: webhookData.data.orderCode,
+             status: 'paid'
+        });
     }
 
     return NextResponse.json({
@@ -93,12 +105,13 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error("Webhook error:", errorMessage);
     await logPaymentEvent('payment_failed', {
-      error: 'Signature verification failed',
+      error: 'Webhook processing failed',
       details: errorMessage
     });
     return NextResponse.json(
-      { error: "Invalid signature" },
+      { error: "Webhook processing failed" },
       { status: 400 }
     );
   }

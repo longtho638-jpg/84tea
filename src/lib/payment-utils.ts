@@ -67,7 +67,7 @@ interface CartItem {
   price?: number;
 }
 
-interface ValidatedItem {
+export interface ValidatedItem {
   id: string;
   name: string;
   price: number;

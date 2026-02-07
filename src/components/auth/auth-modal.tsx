@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -206,13 +207,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <div className="text-center space-y-4">
               <p className="text-xs text-on-surface-variant px-4 leading-relaxed">
                 {t("termsText")}{" "}
-                <a href="/terms" className="underline hover:text-primary font-medium">
+                <Link href="/terms" className="underline hover:text-primary font-medium">
                   {t("terms")}
-                </a>{" "}
+                </Link>{" "}
                 {t("and")}{" "}
-                <a href="/privacy" className="underline hover:text-primary font-medium">
+                <Link href="/privacy" className="underline hover:text-primary font-medium">
                   {t("privacy")}
-                </a>
+                </Link>
               </p>
             </div>
           </div>

@@ -50,43 +50,15 @@ export default function CheckoutPage() {
     setIsProcessing(true);
 
     try {
-      // Step 1: Create payment with PayOS
-      const description = `Thanh toan don hang`;
-      const returnUrl = `${window.location.origin}/checkout/success`;
-      const cancelUrl = `${window.location.origin}/checkout/cancel`;
-
-      const paymentResponse = await fetch("/api/payment/create-link", {
+      // Step 1: Create Order in Database first (Pending state)
+      // This ensures we have a record before asking for payment
+      const orderResponse = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: grandTotal,
-          description,
-          returnUrl,
-          cancelUrl,
-          items: items.map((item) => ({
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-          buyerName: customerInfo.name,
-          buyerPhone: customerInfo.phone,
-          buyerEmail: customerInfo.email,
-          buyerAddress: `${customerInfo.address}, ${customerInfo.city}`,
-        }),
-      });
-
-      const paymentData = await paymentResponse.json();
-
-      if (!paymentData.orderCode) {
-        throw new Error("Failed to create payment");
-      }
-
-      // Step 2: Save order to database
-      await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderCode: String(paymentData.orderCode),
+          // Generate a temporary order code if needed, or let server handle it
+          // Actually, let server generate valid orderCode and return it
+          orderCode: String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000),
           items: items.map((item) => ({
             productId: item.id,
             name: item.name,
@@ -101,13 +73,51 @@ export default function CheckoutPage() {
         }),
       });
 
-      if (paymentData.checkoutUrl) {
-        setPaymentUrl(paymentData.checkoutUrl);
-        // Redirect to PayOS checkout
-        window.location.href = paymentData.checkoutUrl;
-      } else {
-        alert(t("Payment.error"));
+      const orderData = await orderResponse.json();
+
+      if (!orderResponse.ok || !orderData.order) {
+        throw new Error(orderData.error || "Failed to create order");
       }
+
+      const orderCode = orderData.order.id; // Using ID as orderCode
+
+      // Step 2: Create Payment Link with PayOS
+      const description = `Thanh toan don hang ${orderCode}`;
+      const returnUrl = `${window.location.origin}/checkout/success?orderCode=${orderCode}`;
+      const cancelUrl = `${window.location.origin}/checkout/cancel?orderCode=${orderCode}`;
+
+      const paymentResponse = await fetch("/api/payment/create-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderCode: Number(orderCode), // PayOS requires integer
+          amount: grandTotal,
+          description,
+          returnUrl,
+          cancelUrl,
+          items: items.map((item) => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            id: item.id // Pass ID for validation
+          })),
+          buyerName: customerInfo.name,
+          buyerPhone: customerInfo.phone,
+          buyerEmail: customerInfo.email,
+          buyerAddress: `${customerInfo.address}, ${customerInfo.city}`,
+        }),
+      });
+
+      const paymentData = await paymentResponse.json();
+
+      if (!paymentResponse.ok || !paymentData.checkoutUrl) {
+        throw new Error(paymentData.error || "Failed to create payment link");
+      }
+
+      setPaymentUrl(paymentData.checkoutUrl);
+      // Redirect to PayOS checkout
+      window.location.href = paymentData.checkoutUrl;
+
     } catch (error) {
       console.error("Payment error:", error);
       alert(t("Payment.error"));

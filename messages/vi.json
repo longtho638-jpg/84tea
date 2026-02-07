@@ -749,5 +749,222 @@
     "update": "Cập nhật thông tin",
     "errorGeneric": "Đã có lỗi xảy ra. Vui lòng thử lại.",
     "errorMissingInfo": "Vui lòng nhập đầy đủ thông tin"
+  },
+  "Cities": {
+    "hanoi": "Hà Nội",
+    "hcm": "TP. Hồ Chí Minh",
+    "danang": "Đà Nẵng",
+    "haiphong": "Hải Phòng",
+    "cantho": "Cần Thơ",
+    "nhatrang": "Nha Trang",
+    "hue": "Huế",
+    "bienhoa": "Biên Hòa",
+    "bacninh": "Bắc Ninh",
+    "other": "Khác"
+  },
+  "TermsPage": {
+    "title": "Điều Khoản Sử Dụng",
+    "lastUpdated": "Cập nhật lần cuối: Tháng 02, 2026",
+    "sections": {
+      "intro": {
+        "title": "1. Giới thiệu",
+        "content": "Chào mừng bạn đến với 84tea. Khi truy cập và sử dụng website 84tea.com, bạn đồng ý tuân thủ các điều khoản và điều kiện được nêu trong tài liệu này."
+      },
+      "company": {
+        "title": "2. Thông tin công ty",
+        "name": "3704 Co., LTD",
+        "license": "GPKD: 011 070 44 89",
+        "founded": "Ngày thành lập: 04/05/2024",
+        "address": "Địa chỉ: 134 Nguyễn Hoàng Tôn, Phú Thượng, Tây Hồ, Hà Nội"
+      },
+      "products": {
+        "title": "3. Sản phẩm và dịch vụ",
+        "content": "84tea cung cấp các sản phẩm trà cao cấp từ cây trà cổ thụ Shan Tuyết Việt Nam. Tất cả sản phẩm được sản xuất theo tiêu chuẩn an toàn thực phẩm và có nguồn gốc rõ ràng."
+      },
+      "orders": {
+        "title": "4. Đặt hàng và thanh toán",
+        "items": [
+          "Đơn hàng được xác nhận sau khi thanh toán thành công",
+          "Chúng tôi chấp nhận thanh toán qua VietQR (PayOS)",
+          "Giá sản phẩm đã bao gồm VAT",
+          "Phí vận chuyển được tính riêng theo địa chỉ giao hàng"
+        ]
+      },
+      "delivery": {
+        "title": "5. Giao hàng",
+        "content": "Đơn hàng sẽ được giao trong 2-5 ngày làm việc tùy khu vực. Miễn phí vận chuyển cho đơn hàng từ 500.000đ."
+      },
+      "returns": {
+        "title": "6. Đổi trả và hoàn tiền",
+        "content": "Khách hàng có thể đổi/trả sản phẩm trong vòng 7 ngày kể từ ngày nhận hàng với điều kiện sản phẩm còn nguyên seal, chưa sử dụng. Xem chi tiết tại trang Chính sách đổi trả."
+      },
+      "ip": {
+        "title": "7. Quyền sở hữu trí tuệ",
+        "content": "Tất cả nội dung trên website 84tea.com bao gồm logo, hình ảnh, văn bản là tài sản của 3704 Co., LTD và được bảo vệ bởi luật sở hữu trí tuệ."
+      },
+      "contact": {
+        "title": "8. Liên hệ",
+        "intro": "Mọi thắc mắc vui lòng liên hệ:"
+      }
+    }
+  },
+  "ShippingPage": {
+    "title": "Chính Sách Giao Hàng",
+    "freeShipping": "🚚 Miễn phí vận chuyển cho đơn hàng từ 500.000đ",
+    "fees": {
+      "title": "Phí vận chuyển",
+      "headers": {
+        "area": "Khu vực",
+        "fee": "Phí ship",
+        "time": "Thời gian"
+      },
+      "rows": [
+        { "area": "Hà Nội (nội thành)", "price": "20.000đ", "time": "1-2 ngày" },
+        { "area": "Hà Nội (ngoại thành)", "price": "25.000đ", "time": "2-3 ngày" },
+        { "area": "TP. Hồ Chí Minh", "price": "30.000đ", "time": "3-4 ngày" },
+        { "area": "Các tỉnh miền Bắc", "price": "30.000đ", "time": "2-4 ngày" },
+        { "area": "Miền Trung", "price": "35.000đ", "time": "3-5 ngày" },
+        { "area": "Miền Nam", "price": "35.000đ", "time": "4-5 ngày" }
+      ]
+    },
+    "carriers": {
+      "title": "Đơn vị vận chuyển",
+      "intro": "Chúng tôi hợp tác với các đơn vị vận chuyển uy tín:",
+      "list": [
+        "Giao Hàng Nhanh (GHN)",
+        "Giao Hàng Tiết Kiệm (GHTK)",
+        "Viettel Post",
+        "J&T Express"
+      ]
+    },
+    "tracking": {
+      "title": "Theo dõi đơn hàng",
+      "desc": "Sau khi đơn hàng được gửi đi, bạn sẽ nhận được SMS hoặc email thông báo kèm mã vận đơn để theo dõi."
+    },
+    "notes": {
+      "title": "Lưu ý khi nhận hàng",
+      "items": [
+        "Vui lòng kiểm tra hàng trước khi nhận",
+        "Quay video khi mở hộp để làm bằng chứng nếu có vấn đề",
+        "Từ chối nhận nếu hàng bị hư hỏng bên ngoài",
+        "Liên hệ hotline ngay nếu có sự cố"
+      ]
+    },
+    "support": {
+      "title": "Cần hỗ trợ?"
+    }
+  },
+  "RefundPage": {
+    "title": "Chính Sách Đổi Trả & Hoàn Tiền",
+    "highlight": {
+      "title": "Đổi trả miễn phí trong 7 ngày",
+      "desc": "Áp dụng cho sản phẩm còn nguyên seal, chưa sử dụng"
+    },
+    "conditions": {
+      "title": "Điều kiện đổi trả",
+      "items": [
+        "Sản phẩm còn nguyên seal, chưa bóc",
+        "Còn nguyên bao bì, không móp méo",
+        "Có hóa đơn hoặc mã đơn hàng",
+        "Yêu cầu đổi trả trong vòng 7 ngày từ ngày nhận hàng"
+      ]
+    },
+    "eligible": {
+      "title": "Trường hợp được đổi trả",
+      "titleYes": "✓ Được đổi",
+      "titleNo": "✗ Không đổi",
+      "yes": [
+        "Sản phẩm bị lỗi từ nhà sản xuất",
+        "Giao sai sản phẩm",
+        "Sản phẩm hư hỏng trong quá trình vận chuyển",
+        "Đổi size/loại sản phẩm (còn seal)"
+      ],
+      "no": [
+        "Đã mở seal, sử dụng",
+        "Không còn nguyên bao bì",
+        "Quá 7 ngày từ ngày nhận",
+        "Hư hỏng do người dùng"
+      ]
+    },
+    "process": {
+      "title": "Quy trình đổi trả",
+      "steps": [
+        { "title": "Liên hệ CSKH", "desc": "Gọi hotline 0988 030 204 hoặc email support@84tea.com" },
+        { "title": "Gửi sản phẩm", "desc": "Đóng gói cẩn thận và gửi về địa chỉ được cung cấp" },
+        { "title": "Xử lý yêu cầu", "desc": "Chúng tôi kiểm tra và xử lý trong 2-3 ngày làm việc" },
+        { "title": "Đổi hàng / Hoàn tiền", "desc": "Gửi sản phẩm mới hoặc hoàn tiền qua chuyển khoản" }
+      ]
+    },
+    "refund": {
+      "title": "Hoàn tiền",
+      "desc": "Tiền sẽ được hoàn qua chuyển khoản ngân hàng trong 5-7 ngày làm việc kể từ khi yêu cầu được duyệt."
+    },
+    "hotline": {
+      "title": "Hotline đổi trả",
+      "hours": "(8:00 - 21:00 hàng ngày)"
+    }
+  },
+  "FranchiseApply": {
+    "title": "Đăng Ký Nhượng Quyền",
+    "subtitle": "Hoàn thành form dưới đây để bắt đầu hành trình cùng 84tea",
+    "success": {
+      "title": "Đăng ký thành công!",
+      "message": "Cảm ơn bạn đã quan tâm đến nhượng quyền 84tea.\nChúng tôi sẽ liên hệ bạn trong 2-3 ngày làm việc.",
+      "home": "Về trang chủ"
+    },
+    "steps": {
+      "1": "Thông tin cá nhân",
+      "2": "Kinh nghiệm & Năng lực",
+      "3": "Kế hoạch kinh doanh",
+      "4": "Xác nhận & Cam kết"
+    },
+    "fields": {
+      "fullName": "Họ và tên *",
+      "idNumber": "Số CCCD *",
+      "birthDate": "Ngày sinh *",
+      "email": "Email *",
+      "phone": "Số điện thoại *",
+      "currentAddress": "Địa chỉ hiện tại *",
+      "currentOccupation": "Nghề nghiệp hiện tại *",
+      "fbExperience": "Kinh nghiệm F&B",
+      "managementExperience": "Kinh nghiệm quản lý",
+      "availableCapital": "Vốn sẵn có (VND) *",
+      "city": "Tỉnh/Thành phố dự kiến *",
+      "spaceSize": "Diện tích mặt bằng",
+      "preferredLocation": "Vị trí dự kiến (nếu có)",
+      "expectedOpenDate": "Thời gian dự kiến mở",
+      "motivation": "Lý do muốn mở 84tea",
+      "placeholders": {
+        "fullName": "Nguyễn Văn A",
+        "idNumber": "012345678901",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "currentAddress": "Số nhà, đường, quận/huyện, tỉnh/thành",
+        "currentOccupation": "VD: Kinh doanh tự do, Nhân viên văn phòng...",
+        "preferredLocation": "VD: Phố Cổ Hà Nội, Quận 1 HCM...",
+        "motivation": "Chia sẻ động lực và kỳ vọng của bạn..."
+      },
+      "options": {
+        "choose": "Chọn...",
+        "none": "Chưa có",
+        "years": "{count} năm",
+        "plus": "Trên {count}",
+        "notHave": "Chưa có mặt bằng",
+        "notSure": "Chưa xác định",
+        "month": "tháng tới"
+      }
+    },
+    "confirm": {
+      "title": "Tóm tắt thông tin:",
+      "terms": "Tôi đã đọc và đồng ý với <link>Điều khoản nhượng quyền</link> của 84tea",
+      "training": "Tôi sẵn sàng tham gia khóa training 2 tuần trước khi mở cửa hàng",
+      "info": "Tôi xác nhận thông tin trên là chính xác"
+    },
+    "buttons": {
+      "back": "← Quay lại",
+      "next": "Tiếp tục →",
+      "sending": "Đang gửi...",
+      "submit": "Gửi đăng ký"
+    }
   }
 }

@@ -13,7 +13,6 @@ import { MobileStickyBar } from "@/components/layout/mobile-sticky-bar";
 import { FloatingContact } from "@/components/ui/floating-contact";
 import { routing } from "@/i18n/routing";
 import { SEO_CONFIG } from "@/lib/seo-constants";
-import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/seo/structured-data";
 import "../globals.css";
 
 export const viewport: Viewport = {

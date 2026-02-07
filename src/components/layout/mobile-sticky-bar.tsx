@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { MessageCircle, ShoppingCart } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { Link } from "@/i18n/routing";
 
 export function MobileStickyBar() {
   const t = useTranslations("Navigation");
@@ -25,7 +26,7 @@ export function MobileStickyBar() {
         </a>
 
         {/* Cart Button */}
-        <a
+        <Link
           href="/cart"
           className="relative flex flex-1 items-center justify-center gap-2 py-3 min-h-[44px] text-sm font-medium text-on-surface transition-colors hover:bg-surface-variant active:bg-surface-variant/80"
         >
@@ -36,7 +37,7 @@ export function MobileStickyBar() {
               {itemCount > 99 ? "99+" : itemCount}
             </span>
           )}
-        </a>
+        </Link>
       </div>
     </div>
   );

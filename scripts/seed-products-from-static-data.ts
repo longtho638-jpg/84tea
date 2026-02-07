@@ -73,7 +73,7 @@ async function seedProducts() {
   // Upsert products (insert or update based on slug)
   const { data, error } = await supabase
     .from('products')
-    .upsert(productsToInsert as any, {
+    .upsert(productsToInsert, {
       onConflict: 'slug',
       ignoreDuplicates: false
     })

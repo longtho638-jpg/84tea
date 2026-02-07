@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  const t = useTranslations("Products.Detail");
+  const t = await getTranslations("Products.Detail");
 
   if (!product) {
     notFound();

@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Typography } from "@/components/ui/typography";
 import { MainLayout, FooterSection } from "@/components/layout";
 import { ProductListing } from "@/components/products/product-listing";
@@ -6,7 +6,7 @@ import { getProducts } from "@/lib/data/server-products";
 
 export default async function ProductsPage() {
   const products = await getProducts();
-  const t = useTranslations("Products");
+  const t = await getTranslations("Products");
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">

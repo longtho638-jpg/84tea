@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
@@ -7,7 +7,7 @@ import { getFeaturedProducts } from "@/lib/data/server-products";
 
 export async function FeaturedProducts() {
   const featuredProducts = await getFeaturedProducts();
-  const t = useTranslations("Featured");
+  const t = await getTranslations("Featured");
 
   return (
     <section className="py-24 bg-surface-container-low">
