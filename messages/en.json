@@ -575,9 +575,16 @@
     }
   },
   "NotFound": {
-    "title": "404 - Not Found",
-    "description": "Could not find requested resource",
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
     "returnHome": "Return Home"
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "description": "We have recorded the issue and will fix it as soon as possible.",
+    "errorCode": "Error code: {digest}",
+    "retry": "Try again",
+    "goHome": "Home"
   },
   "Club": {
     "Hero": {

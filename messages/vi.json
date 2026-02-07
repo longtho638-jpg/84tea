@@ -575,9 +575,16 @@
     }
   },
   "NotFound": {
-    "title": "404 - Không tìm thấy trang",
-    "description": "Không thể tìm thấy tài nguyên yêu cầu",
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn đang tìm không tồn tại hoặc đã được di chuyển.",
     "returnHome": "Trở về trang chủ"
+  },
+  "ErrorPage": {
+    "title": "Đã có lỗi xảy ra",
+    "description": "Chúng tôi đã ghi nhận sự cố và sẽ khắc phục sớm nhất.",
+    "errorCode": "Mã lỗi: {digest}",
+    "retry": "Thử lại",
+    "goHome": "Trang chủ"
   },
   "Club": {
     "Hero": {
