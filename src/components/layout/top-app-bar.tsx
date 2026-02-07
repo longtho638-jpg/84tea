@@ -68,7 +68,7 @@ export function TopAppBar({ onMenuClick }: TopAppBarProps) {
           {/* Leading: Menu icon (mobile) */}
           <button
             onClick={onMenuClick}
-            className="md:hidden p-2 -ml-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors"
+            className="md:hidden p-2 -ml-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Open menu"
           >
             <span className="material-symbols-rounded text-2xl text-on-surface">

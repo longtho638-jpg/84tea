@@ -64,7 +64,7 @@ export function TabsTrigger({ value, className, children, ...props }: TabsTrigge
       onClick={() => onValueChange(value)}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap",
-        "rounded-full px-6 py-2 text-sm font-medium",
+        "rounded-full px-6 py-2 text-sm font-medium min-h-[44px]",
         "transition-all duration-200 ease-in-out",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         "disabled:pointer-events-none disabled:opacity-50",

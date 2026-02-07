@@ -53,7 +53,7 @@ export function ProductFilter({
             {CATEGORIES.map((category) => (
               <label
                 key={category.id}
-                className="flex items-center gap-3 cursor-pointer group"
+                className="flex items-center gap-3 cursor-pointer group min-h-[44px] py-1"
               >
                 <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${
                   activeCategory === category.id
@@ -96,7 +96,7 @@ export function ProductFilter({
               {t("teaTypes")}
             </Typography>
             <div className="space-y-2">
-              <label className="flex items-center gap-3 cursor-pointer group">
+              <label className="flex items-center gap-3 cursor-pointer group min-h-[44px] py-1">
                 <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
                   activeType === null
                     ? 'bg-primary border-primary'

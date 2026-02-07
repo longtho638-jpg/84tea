@@ -109,10 +109,10 @@ export function CartDrawer() {
                         {item.price.toLocaleString("vi-VN")}đ
                       </Typography>
 
-                      <div className="flex items-center gap-1 bg-surface rounded-full border border-outline-variant px-1 h-8">
+                      <div className="flex items-center gap-1 bg-surface rounded-full border border-outline-variant px-1 h-11">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="w-6 h-full flex items-center justify-center text-on-surface hover:bg-surface-variant rounded-full text-lg leading-none"
+                          className="w-9 h-9 flex items-center justify-center text-on-surface hover:bg-surface-variant rounded-full text-lg leading-none"
                         >
                           -
                         </button>
@@ -121,7 +121,7 @@ export function CartDrawer() {
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="w-6 h-full flex items-center justify-center text-on-surface hover:bg-surface-variant rounded-full text-lg leading-none"
+                          className="w-9 h-9 flex items-center justify-center text-on-surface hover:bg-surface-variant rounded-full text-lg leading-none"
                         >
                           +
                         </button>
@@ -130,7 +130,7 @@ export function CartDrawer() {
                   </div>
                   <button
                      onClick={() => removeItem(item.id)}
-                     className="text-error hover:bg-error-container hover:text-on-error-container p-1 rounded-full h-8 w-8 flex items-center justify-center transition-colors self-start -mt-1 -mr-1"
+                     className="text-error hover:bg-error-container hover:text-on-error-container p-2 rounded-full h-11 w-11 flex items-center justify-center transition-colors self-start -mt-1 -mr-1"
                   >
                     <span className="material-symbols-rounded text-lg">delete</span>
                   </button>

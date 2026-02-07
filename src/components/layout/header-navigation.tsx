@@ -72,7 +72,7 @@ export function HeaderNavigation() {
           <LanguageSwitcher />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-on-surface hover:bg-surface-variant/50 active:bg-surface-variant rounded-lg transition-colors"
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-on-surface hover:bg-surface-variant/50 active:bg-surface-variant rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -109,7 +109,7 @@ export function HeaderNavigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-on-surface hover:text-primary active:text-primary/80 transition-colors py-2 font-medium"
+                className="block text-on-surface hover:text-primary active:text-primary/80 transition-colors py-3 min-h-[44px] font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}

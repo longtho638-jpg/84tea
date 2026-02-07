@@ -21,7 +21,7 @@ export function Chip({
     <button
       type="button"
       className={cn(
-        "inline-flex items-center gap-2 h-8 px-4 rounded-lg",
+        "inline-flex items-center gap-2 min-h-[44px] px-4 rounded-lg",
         "text-sm font-medium transition-all duration-200",
         "border",
         selected
@@ -45,7 +45,7 @@ export function Chip({
             e.stopPropagation();
             onDelete();
           }}
-          className="ml-1 -mr-2 p-1 rounded-full hover:bg-on-secondary-container/12"
+          className="ml-1 -mr-2 p-2 rounded-full hover:bg-on-secondary-container/12 min-w-[36px] min-h-[36px] flex items-center justify-center"
           aria-label="Remove"
         >
           <span className="material-symbols-rounded text-base">
