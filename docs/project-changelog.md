@@ -1,5 +1,29 @@
 # Project Changelog
 
+## [1.3.0] - 2026-02-08
+
+### Production Upgrade (Phases 01-03)
+
+#### Phase 01 - Audit & Foundation
+- **Bug Fix**: `validateCartItems` was querying wrong columns (`name_vi`/`name_en`); corrected to use `name` and `slug`.
+- **Bug Fix**: `logPaymentEvent` no longer silently swallows errors; failures now propagate correctly.
+- **Type Safety**: Removed phantom fields (`image_url`, `energy_level`) from `database.types.ts` that did not exist in the actual schema.
+- **Database Types**: Added `orders` and `payment_logs` table type definitions to `database.types.ts`.
+- **Migration**: Created `20260208_create_orders_and_payment_logs.sql` with RLS policies for both tables.
+
+#### Phase 02 - Commerce & Payment Hardening
+- **Order Code**: Server now generates a numeric `order_code` for PayOS compatibility (PayOS requires numeric codes).
+- **Price Validation**: Enforced server-side price validation with no client-side fallbacks; orders with price discrepancies > 1000 VND are rejected as tampering.
+- **Webhook Fix**: PayOS webhook handler updated to look up orders by `order_code` instead of UUID.
+- **Checkout Client**: Updated to consume `orderCode` from the API response for payment link creation.
+- **Rate Limiting**: Added rate limiting on the `GET /api/orders` endpoint via `rate-limit.ts`.
+- **Security**: Removed demo mode fallback from payment flow; all transactions now require live PayOS credentials.
+
+#### Phase 03 - Catalog Data Consolidation
+- **Single Source of Truth**: Consolidated 4 separate product data sources into 1 canonical service (`src/lib/data/products-service.ts`) using React `cache()`.
+- **Dead Code Removal**: Removed 3 redundant files: `products-data.ts`, `data/products.ts`, `data/server-products.ts`.
+- **Sitemap**: Updated `sitemap.ts` to import products from `products-service.ts`.
+
 ## [1.2.0] - 2026-02-06
 
 ### Added

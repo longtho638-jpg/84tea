@@ -14,6 +14,11 @@ Main application routes and layouts.
   - `/checkout`: Checkout process (`page.tsx`) and success page (`success/page.tsx`).
   - `/about`, `/contact`, `/shipping`, `/refund`, `/privacy`, `/terms`: Static information pages.
   - `/ops`, `/training`: Operational and training resources (placeholders).
+- **API Routes (`/api`):**
+  - `/api/orders`: Order creation (POST) and listing (GET, rate-limited).
+  - `/api/payment/create-link`: PayOS payment link generation with server-side price validation.
+  - `/api/payment/webhook`: PayOS webhook handler (looks up by numeric `order_code`).
+  - `/api/products`: Product catalog endpoint.
 
 ### `src/components` (UI Library)
 - **`ui/`**: Atomic MD3 components.
@@ -51,20 +56,34 @@ Main application routes and layouts.
 
 ### `src/lib` (Utilities & Logic)
 - `cart-context.tsx`: React Context for cart state management (localStorage persistence).
-- `products-data.ts` / `data/products.ts`: Mock data and types for products.
+- `auth-context.tsx`: Authentication state provider (Supabase Auth).
+- `data/products-service.ts`: **Single source of truth** for product data. Queries Supabase with React `cache()` for deduplication. All product consumers (pages, sitemap, components) import from here.
+- `payment-utils.ts`: Cart validation (`validateCartItems`) and payment event logging (`logPaymentEvent`).
+- `payos.ts`: PayOS SDK client configuration.
+- `order-state-machine.ts`: Order lifecycle state transitions.
+- `rate-limit.ts`: In-memory rate limiter for API endpoint protection.
+- `validation.ts`: Input validation utilities.
+- `security-headers.ts`: Security header configuration.
 - `utils.ts`: Helper functions (e.g., `cn` for class merging).
+- `schemas/checkout.ts`: Zod schema for checkout form validation.
+
+### `src/types` (Type Definitions)
+- `database.types.ts`: Supabase-generated types for all tables (profiles, products, orders, payment_logs, loyalty_transactions).
+- `product.ts`: Product domain types used across components.
 
 ### `src/data` (Static Content)
-- `brand.json`: Brand constants (name, tagline, contact info).
-- `products.json`: Raw product data.
+- `products.json`: Seed/fallback product data (canonical source is now Supabase via `products-service.ts`).
 
 ## 2. Key Technologies
 - **Next.js 15**: App Router framework.
 - **Tailwind CSS**: Utility-first styling.
 - **Material Design 3**: Design system methodology.
 - **TypeScript**: Static typing.
+- **Supabase**: PostgreSQL database, authentication, and Row Level Security.
+- **PayOS**: Vietnamese VIETQR payment gateway (bank transfers).
 - **Lucide React**: Icons (supplementary).
 - **Material Symbols**: Main icon set (via Google Fonts).
+- **Framer Motion**: Page transitions and animations.
 
 ## 3. Configuration Files
 - `tailwind.config.ts`: Custom theme extension for MD3 colors/fonts.

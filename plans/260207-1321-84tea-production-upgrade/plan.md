@@ -10,9 +10,9 @@
 
 | Phase | Title | Priority | Duration | Status |
 |-------|-------|----------|----------|--------|
-| 01 | Audit & Foundation (始計) | CRITICAL | 2 days | Pending |
-| 02 | Commerce & Payment (作戰) | CRITICAL | 3 days | Pending |
-| 03 | Catalog & Data (謀攻) | HIGH | 3 days | Pending |
+| 01 | Audit & Foundation (始計) | CRITICAL | 2 days | Complete |
+| 02 | Commerce & Payment (作戰) | CRITICAL | 3 days | Complete |
+| 03 | Catalog & Data (謀攻) | HIGH | 3 days | Complete |
 | 04 | Localization & SEO (軍形) | HIGH | 2 days | Pending |
 | 05 | Mobile & PWA (兵勢) | MEDIUM | 2 days | Pending |
 | 06 | Performance & Security (虛實) | CRITICAL | 3 days | Pending |
