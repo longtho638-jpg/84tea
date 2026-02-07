@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
 import Module1Content from "./module-content";
 
