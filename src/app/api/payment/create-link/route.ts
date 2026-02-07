@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPayOS } from "@/lib/payos";
 import { validateCartItems, calculateOrderTotal, logPaymentEvent } from "@/lib/payment-utils";
+import { strictLimiter, getClientIP } from "@/lib/rate-limit";
 
 interface RequestItem {
   id?: string;
@@ -12,6 +13,16 @@ interface RequestItem {
 
 export async function POST(req: Request) {
   try {
+    // Rate limit payment link creation (strict: 10 per 15 min)
+    try {
+      await strictLimiter.check(10, `payment:${getClientIP(req)}`);
+    } catch {
+      return NextResponse.json(
+        { error: "Too many payment attempts. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { amount, description, returnUrl, cancelUrl, items, buyerName, buyerPhone, buyerEmail, buyerAddress } = body;
 

@@ -57,6 +57,24 @@ export const franchiseInquirySchema = z.object({
   message: z.string().max(1000).optional(),
 });
 
+/**
+ * Product creation/update schema (admin API)
+ */
+export const productSchema = z.object({
+  name: z.string().min(2).max(200).trim(),
+  name_en: z.string().max(200).trim().optional(),
+  description: z.string().max(2000).trim().optional(),
+  description_en: z.string().max(2000).trim().optional(),
+  price: z.number().int().min(0).max(100_000_000),
+  category: z.string().min(1).max(100).trim(),
+  image_url: z.string().url().max(2048).optional().or(z.literal('')),
+  weight: z.string().max(50).trim().optional(),
+  origin: z.string().max(200).trim().optional(),
+  in_stock: z.boolean().optional().default(true),
+  featured: z.boolean().optional().default(false),
+});
+
 export type OrderInput = z.infer<typeof orderSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
 export type FranchiseInquiryInput = z.infer<typeof franchiseInquirySchema>;
+export type ProductInput = z.infer<typeof productSchema>;

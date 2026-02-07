@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { validateCartItems, calculateOrderTotal, ValidatedItem } from "@/lib/payment-utils";
+import { strictLimiter, getClientIP } from "@/lib/rate-limit";
 
 // Create client lazily to avoid build-time errors
 function getSupabaseClient() {
@@ -49,6 +50,16 @@ interface OrderRow {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit order creation (strict: 10 per 15 min)
+    try {
+      await strictLimiter.check(10, `order:${getClientIP(request)}`);
+    } catch {
+      return NextResponse.json(
+        { error: "Too many order attempts. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const body: CreateOrderRequest = await request.json();
     const { orderCode, items, total, customerInfo, paymentMethod } = body;
 

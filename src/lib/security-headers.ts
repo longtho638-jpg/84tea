@@ -1,6 +1,10 @@
 /**
  * Security Headers Configuration for 84tea
  * Implements MD3 security standards with production-grade protection
+ *
+ * CSP directives cover: default, script, style, font, img, connect,
+ * frame, worker (PWA), manifest (PWA), object, base-uri, form-action,
+ * frame-ancestors, and upgrade-insecure-requests.
  */
 
 export const securityHeaders = [
@@ -42,6 +46,8 @@ export const securityHeaders = [
       "img-src 'self' data: https: blob:",
       "connect-src 'self' https://*.supabase.co https://vercel.live https://api.payos.vn https://www.google-analytics.com",
       "frame-src 'self' https://pay.payos.vn",
+      "worker-src 'self' blob:",
+      "manifest-src 'self'",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

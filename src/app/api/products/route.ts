@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { productSchema } from "@/lib/validation";
+import { limiter, getClientIP } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
   try {
+    // Rate limit GET requests
+    try {
+      await limiter.check(30, getClientIP(request));
+    } catch {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const supabase = await createClient();
 
     // Check admin role
@@ -47,6 +56,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit write operations more strictly
+    try {
+      await limiter.check(10, `post:${getClientIP(request)}`);
+    } catch {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const supabase = await createClient();
 
     // Check admin role
@@ -65,11 +81,20 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    // Validate input with Zod schema
     const body = await request.json();
+    const parsed = productSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
 
     const { data, error } = await supabase
       .from("products")
-      .insert(body)
+      .insert(parsed.data)
       .select()
       .single();
 
