@@ -21,7 +21,9 @@
     "franchise": "Nhượng quyền",
     "club": "84tea Club",
     "contact": "Liên hệ",
-    "buyNow": "Mua ngay"
+    "buyNow": "Mua ngay",
+    "orderNow": "Đặt Hàng",
+    "cart": "Giỏ hàng"
   },
   "Hero": {
     "subtitle": "Di sản trà Việt",
@@ -201,6 +203,11 @@
       "Gallery": {
         "altMain": "Ảnh sản phẩm",
         "altThumb": "Ảnh nhỏ"
+      },
+      "TrustBadges": {
+        "organic": "100% Hữu Cơ",
+        "highland": "Trực tiếp từ Vùng Cao",
+        "premium": "Chất Lượng Cao Cấp"
       }
     }
   },

@@ -21,7 +21,9 @@
     "franchise": "Franchise",
     "club": "84tea Club",
     "contact": "Contact",
-    "buyNow": "Buy Now"
+    "buyNow": "Buy Now",
+    "orderNow": "Order Now",
+    "cart": "Cart"
   },
   "Hero": {
     "subtitle": "Vietnamese Tea Heritage",
@@ -201,6 +203,11 @@
       "Gallery": {
         "altMain": "Product Image",
         "altThumb": "Thumbnail"
+      },
+      "TrustBadges": {
+        "organic": "100% Organic",
+        "highland": "Direct from Highland",
+        "premium": "Premium Quality"
       }
     }
   },

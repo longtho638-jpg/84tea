@@ -106,6 +106,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <Typography variant="body-large" className="text-on-surface-variant leading-relaxed">
                   {getDesc(product.description)}
                 </Typography>
+
+                {/* Trust Badges */}
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <div className="flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-2">
+                    <span className="material-symbols-rounded text-primary text-lg">eco</span>
+                    <span className="text-sm font-semibold text-primary">
+                      {t("TrustBadges.organic")}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-full bg-secondary/10 border border-secondary/20 px-4 py-2">
+                    <span className="material-symbols-rounded text-secondary text-lg">landscape</span>
+                    <span className="text-sm font-semibold text-secondary">
+                      {t("TrustBadges.highland")}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-full bg-tertiary/10 border border-tertiary/20 px-4 py-2">
+                    <span className="material-symbols-rounded text-tertiary text-lg">workspace_premium</span>
+                    <span className="text-sm font-semibold text-tertiary">
+                      {t("TrustBadges.premium")}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <div className="h-px bg-outline-variant" />

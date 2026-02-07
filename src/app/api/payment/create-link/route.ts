@@ -120,7 +120,7 @@ export async function POST(req: Request) {
     };
 
     const payOS = getPayOS();
-    const paymentLink = await payOS.createPaymentLink(paymentLinkData);
+    const paymentLink = await payOS.paymentRequests.create(paymentLinkData);
 
     // Log successful payment link creation
     await logPaymentEvent('payment_created', {
@@ -130,9 +130,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({
+      ...paymentLink,
       checkoutUrl: paymentLink.checkoutUrl,
       orderCode: orderCode,
-      ...paymentLink,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
