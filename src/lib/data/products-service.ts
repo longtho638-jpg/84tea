@@ -18,7 +18,6 @@ export const getProducts = cache(async (): Promise<Product[]> => {
   const { data, error } = await supabase
     .from('products')
     .select('*')
-    .eq('is_active', true)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -30,18 +29,20 @@ export const getProducts = cache(async (): Promise<Product[]> => {
     return [];
   }
 
+  const rows = data as Database['public']['Tables']['products']['Row'][];
+
   // Transform to match existing interface
-  return data.map(p => ({
+  return rows.map(p => ({
     id: p.id,
     slug: p.slug,
-    name: { vi: p.name_vi || p.name, en: p.name_en || p.name },
-    description: { vi: p.description_vi || p.description || '', en: p.description_en || p.description || '' },
+    name: { vi: p.name, en: p.name },
+    description: { vi: p.description || '', en: p.description || '' },
     category: p.category,
     price: p.price,
     original_price: p.original_price || undefined,
-    image_url: p.image_url || p.image || '',
+    image_url: p.image || '',
     images: p.images || [],
-    energy_level: p.energy_level || undefined,
+    energy_level: undefined,
     tags: p.tags || [],
     is_featured: p.featured || false,
     in_stock: p.in_stock || false,
@@ -60,30 +61,31 @@ export const getProductBySlug = cache(async (slug: string): Promise<Product | nu
     .from('products')
     .select('*')
     .eq('slug', slug)
-    .eq('is_active', true)
     .single();
 
   if (error || !data) return null;
 
+  const row = data as Database['public']['Tables']['products']['Row'];
+
   return {
-    id: data.id,
-    slug: data.slug,
-    name: { vi: data.name_vi || data.name, en: data.name_en || data.name },
-    description: { vi: data.description_vi || data.description || '', en: data.description_en || data.description || '' },
-    category: data.category,
-    price: data.price,
-    original_price: data.original_price || undefined,
-    image_url: data.image_url || data.image || '',
-    images: data.images || [],
-    energy_level: data.energy_level || undefined,
-    tags: data.tags || [],
-    is_featured: data.featured || false,
-    in_stock: data.in_stock || false,
-    weight: data.weight || undefined,
-    origin: data.origin || undefined,
-    harvest: data.harvest || undefined,
-    taste: data.taste || undefined,
-    type: data.type || undefined,
+    id: row.id,
+    slug: row.slug,
+    name: { vi: row.name, en: row.name },
+    description: { vi: row.description || '', en: row.description || '' },
+    category: row.category,
+    price: row.price,
+    original_price: row.original_price || undefined,
+    image_url: row.image || '',
+    images: row.images || [],
+    energy_level: undefined,
+    tags: row.tags || [],
+    is_featured: row.featured || false,
+    in_stock: row.in_stock || false,
+    weight: row.weight || undefined,
+    origin: row.origin || undefined,
+    harvest: row.harvest || undefined,
+    taste: row.taste || undefined,
+    type: row.type || undefined,
   };
 });
 
