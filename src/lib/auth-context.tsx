@@ -50,8 +50,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         setProfile(data);
       }
-    } catch (error) {
-      console.error("Unexpected error fetching profile:", error);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      console.error("Unexpected error fetching profile:", message);
     }
   }, [supabase]);
 
@@ -92,8 +93,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (session?.user) {
           await fetchProfile(session.user.id);
         }
-      } catch (error) {
-        console.error("Error checking auth session:", error);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        console.error("Error checking auth session:", message);
       } finally {
         setIsLoading(false);
       }

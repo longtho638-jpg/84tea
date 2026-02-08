@@ -115,8 +115,9 @@ export default function CheckoutContent() {
       // Redirect to PayOS checkout
       window.location.href = paymentData.checkoutUrl;
 
-    } catch (error) {
-      console.error("Payment error:", error);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      console.error("Payment error:", message);
       alert(t("Payment.error"));
     } finally {
       setIsProcessing(false);
