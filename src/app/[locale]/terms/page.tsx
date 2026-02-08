@@ -1,6 +1,29 @@
+import { getTranslations } from "next-intl/server";
 import { HeaderNavigation, FooterSection } from "@/components/layout";
 import { Typography } from "@/components/ui/typography";
 import { Card, CardContent } from "@/components/ui/card";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const title = locale === "vi" ? "Điều Khoản Sử Dụng" : "Terms of Service";
+  const description =
+    locale === "vi"
+      ? "Điều khoản và điều kiện sử dụng website 84tea.com"
+      : "Terms and conditions for using 84tea.com";
+
+  return generatePageMetadata({
+    title,
+    description,
+    path: "/terms",
+    locale,
+    type: "article",
+  });
+}
 
 export default function TermsPage() {
   return (

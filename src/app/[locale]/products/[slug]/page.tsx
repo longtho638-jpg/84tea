@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
@@ -8,6 +9,7 @@ import { ProductGallery } from "@/components/products/product-gallery";
 import { ProductActions } from "@/components/products/product-actions";
 import { ProductCard } from "@/components/products/product-card";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/data/products-service";
+import { generatePageMetadata } from "@/lib/metadata";
 
 interface ProductPageProps {
   params: Promise<{
@@ -21,6 +23,31 @@ export async function generateStaticParams() {
   return (products || []).map((product) => ({
     slug: product.slug,
   }));
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug, locale } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return { title: "Product Not Found" };
+  }
+
+  const name = typeof product.name === "string"
+    ? product.name
+    : product.name[locale as "vi" | "en"] || product.name.vi;
+  const desc = typeof product.description === "string"
+    ? product.description
+    : product.description[locale as "vi" | "en"] || product.description.vi;
+
+  return generatePageMetadata({
+    title: name,
+    description: desc,
+    path: `/products/${slug}`,
+    locale,
+    image: product.image_url || undefined,
+    type: "product",
+  });
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -44,17 +71,29 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Breadcrumb */}
         <div className="bg-surface-container-low border-b border-outline-variant">
           <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-              <Link href="/" className="hover:text-primary transition-colors">
-                {t("Breadcrumb.home")}
-              </Link>
-              <span className="material-symbols-rounded text-base">chevron_right</span>
-              <Link href="/products" className="hover:text-primary transition-colors">
-                {t("Breadcrumb.products")}
-              </Link>
-              <span className="material-symbols-rounded text-base">chevron_right</span>
-              <span className="text-on-surface font-medium truncate">{getName(product.name)}</span>
-            </div>
+            <nav aria-label="Breadcrumb">
+              <ol className="flex items-center gap-2 text-sm text-on-surface-variant">
+                <li>
+                  <Link href="/" className="hover:text-primary transition-colors">
+                    {t("Breadcrumb.home")}
+                  </Link>
+                </li>
+                <li aria-hidden="true">
+                  <span className="material-symbols-rounded text-base">chevron_right</span>
+                </li>
+                <li>
+                  <Link href="/products" className="hover:text-primary transition-colors">
+                    {t("Breadcrumb.products")}
+                  </Link>
+                </li>
+                <li aria-hidden="true">
+                  <span className="material-symbols-rounded text-base">chevron_right</span>
+                </li>
+                <li aria-current="page">
+                  <span className="text-on-surface font-medium truncate">{getName(product.name)}</span>
+                </li>
+              </ol>
+            </nav>
           </div>
         </div>
 
