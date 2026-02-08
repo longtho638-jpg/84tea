@@ -83,14 +83,25 @@ export default function FranchiseApplyPage() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await fetch('/api/franchise/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    // In production, send to Supabase or email
-    // TODO: Integrate with backend API
+      if (!response.ok) {
+        throw new Error('Failed to submit application');
+      }
 
-    setSubmitted(true);
-    setIsSubmitting(false);
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      console.error("Franchise apply error:", message);
+      alert("Có lỗi xảy ra. Vui lòng thử lại sau.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 4));

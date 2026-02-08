@@ -20,11 +20,32 @@ export default function ContactContent() {
     subject: "general",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with form backend (e.g., Formspree, custom API)
-    alert(t('Form.success'));
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
+
+      setSubmitStatus('success');
+      setFormData({ name: "", email: "", phone: "", subject: "general", message: "" });
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -285,9 +306,27 @@ export default function ContactContent() {
                         variant="filled"
                         size="lg"
                         className="w-full"
+                        disabled={isSubmitting}
                       >
-                        {t('Form.submit')}
+                        {isSubmitting ? t('Form.submitting') : t('Form.submit')}
                       </Button>
+
+                      {submitStatus === 'success' && (
+                        <Typography
+                          variant="body-small"
+                          className="text-center text-primary font-medium block"
+                        >
+                          {t('Form.success')}
+                        </Typography>
+                      )}
+                      {submitStatus === 'error' && (
+                        <Typography
+                          variant="body-small"
+                          className="text-center text-error font-medium block"
+                        >
+                          {t('Form.error')}
+                        </Typography>
+                      )}
 
                       <Typography
                         variant="body-small"

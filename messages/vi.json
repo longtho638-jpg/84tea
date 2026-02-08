@@ -412,8 +412,10 @@
         "feedback": "Góp ý / Phản hồi"
       },
       "submit": "Gửi Tin Nhắn",
+      "submitting": "Đang gửi...",
       "note": "Chúng tôi sẽ phản hồi trong vòng 24h làm việc",
-      "success": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong 24h."
+      "success": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong 24h.",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại sau."
     },
     "Map": {
       "address": "134 Nguyễn Hoàng Tôn, Phú Thượng, Tây Hồ, Hà Nội",
@@ -622,9 +624,11 @@
     },
     "Tiers": {
       "title": "Hạng thành viên",
+      "mostPopular": "Phổ biến nhất",
       "items": {
         "silver": {
           "title": "Bạc",
+          "requirement": "Đăng ký tài khoản",
           "benefits": [
             "Tích 1 điểm / 10k",
             "Quà sinh nhật"
@@ -632,6 +636,7 @@
         },
         "gold": {
           "title": "Vàng",
+          "requirement": "Chi tiêu 5.000.000đ/năm",
           "benefits": [
             "Tích 1.5 điểm / 10k",
             "Giảm 5% tổng hóa đơn",
@@ -640,6 +645,7 @@
         },
         "diamond": {
           "title": "Kim Cương",
+          "requirement": "Chi tiêu 15.000.000đ/năm",
           "benefits": [
             "Tích 2 điểm / 10k",
             "Giảm 10% tổng hóa đơn",

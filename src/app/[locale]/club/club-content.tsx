@@ -112,20 +112,21 @@ export default function ClubContent() {
               <TierCard
                 name={t("Tiers.items.silver.title")}
                 color="bg-outline-variant"
-                requirement="Đăng ký tài khoản" // TODO: Add translation for requirement or use description from JSON if added later
+                requirement={t("Tiers.items.silver.requirement")}
                 benefits={["Tiers.items.silver.benefits.0", "Tiers.items.silver.benefits.1"].map(k => t(k))}
               />
               <TierCard
                 name={t("Tiers.items.gold.title")}
                 color="bg-secondary"
-                requirement="Chi tiêu 5.000.000đ/năm"
+                requirement={t("Tiers.items.gold.requirement")}
                 benefits={["Tiers.items.gold.benefits.0", "Tiers.items.gold.benefits.1", "Tiers.items.gold.benefits.2"].map(k => t(k))}
                 isPopular
+                popularLabel={t("Tiers.mostPopular")}
               />
               <TierCard
                 name={t("Tiers.items.diamond.title")}
                 color="bg-on-surface text-surface"
-                requirement="Chi tiêu 15.000.000đ/năm"
+                requirement={t("Tiers.items.diamond.requirement")}
                 benefits={["Tiers.items.diamond.benefits.0", "Tiers.items.diamond.benefits.1", "Tiers.items.diamond.benefits.2", "Tiers.items.diamond.benefits.3"].map(k => t(k))}
               />
             </div>
@@ -166,12 +167,12 @@ function BenefitCard({ icon, title, description }: { icon: string; title: string
   );
 }
 
-function TierCard({ name, color, requirement, benefits, isPopular }: { name: string; color: string; requirement: string; benefits: string[]; isPopular?: boolean }) {
+function TierCard({ name, color, requirement, benefits, isPopular, popularLabel }: { name: string; color: string; requirement: string; benefits: string[]; isPopular?: boolean; popularLabel?: string }) {
   return (
     <Card className={`p-8 relative flex flex-col h-full ${isPopular ? 'border-primary shadow-lg scale-105 z-10' : 'border-outline-variant'}`}>
       {isPopular && (
         <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-          Phổ biến nhất
+          {popularLabel}
         </span>
       )}
       <div className="text-center mb-6 space-y-2">

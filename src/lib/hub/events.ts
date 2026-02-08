@@ -12,10 +12,6 @@ export async function trackEvent(
   properties: Record<string, unknown> = {}
 ): Promise<void> {
   if (!isHubEnabled()) {
-    // Development logging only
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Analytics]', event, properties);
-    }
     return;
   }
 

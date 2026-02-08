@@ -412,8 +412,10 @@
         "feedback": "Feedback"
       },
       "submit": "Send Message",
+      "submitting": "Sending...",
       "note": "We will respond within 24 working hours",
-      "success": "Thank you for contacting us! We will respond within 24h."
+      "success": "Thank you for contacting us! We will respond within 24h.",
+      "error": "An error occurred. Please try again later."
     },
     "Map": {
       "address": "134 Nguyen Hoang Ton, Phu Thuong, Tay Ho, Hanoi",
@@ -622,9 +624,11 @@
     },
     "Tiers": {
       "title": "Membership Tiers",
+      "mostPopular": "Most Popular",
       "items": {
         "silver": {
           "title": "Silver",
+          "requirement": "Register an account",
           "benefits": [
             "Earn 1 point / 10k",
             "Birthday gift"
@@ -632,6 +636,7 @@
         },
         "gold": {
           "title": "Gold",
+          "requirement": "Spend 5,000,000đ/year",
           "benefits": [
             "Earn 1.5 points / 10k",
             "5% off total bill",
@@ -640,6 +645,7 @@
         },
         "diamond": {
           "title": "Diamond",
+          "requirement": "Spend 15,000,000đ/year",
           "benefits": [
             "Earn 2 points / 10k",
             "10% off total bill",
