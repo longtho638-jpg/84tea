@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Typography } from "@/components/ui/typography";
 import { CATEGORIES, TEA_TYPES } from "@/types/product";
@@ -25,8 +24,6 @@ export function ProductFilter({
   onClear
 }: ProductFilterProps) {
   const t = useTranslations("Products.Filter");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="bg-surface p-6 rounded-2xl border border-outline-variant sticky top-24">

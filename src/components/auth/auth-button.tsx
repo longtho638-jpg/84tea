@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
@@ -37,10 +38,11 @@ export function AuthButton({
         <div className={`flex flex-col gap-2 ${className}`}>
            <div className="flex items-center gap-3 px-2 mb-2">
               {profile?.avatar_url ? (
-                 /* eslint-disable-next-line @next/next/no-img-element */
-                 <img
+                 <Image
                    src={profile.avatar_url}
                    alt={profile.full_name || "User"}
+                   width={40}
+                   height={40}
                    className="w-10 h-10 rounded-full object-cover border border-outline-variant"
                  />
               ) : (
@@ -90,10 +92,11 @@ export function AuthButton({
       <div className={`relative group ${className}`}>
         <Link href="/profile">
           {profile?.avatar_url ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
+            <Image
               src={profile.avatar_url}
               alt={profile.full_name || "User"}
+              width={40}
+              height={40}
               className="w-10 h-10 rounded-full object-cover border border-outline-variant hover:border-primary transition-colors cursor-pointer"
             />
           ) : (

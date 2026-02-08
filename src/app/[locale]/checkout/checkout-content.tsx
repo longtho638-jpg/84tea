@@ -39,8 +39,6 @@ export default function CheckoutContent() {
     note: "",
   });
   const [isProcessing, setIsProcessing] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
 
   const shippingFee = total >= 500000 ? 0 : 30000;
   const grandTotal = total + shippingFee;
@@ -111,7 +109,6 @@ export default function CheckoutContent() {
         throw new Error(paymentData.error || "Failed to create payment link");
       }
 
-      setPaymentUrl(paymentData.checkoutUrl);
       // Redirect to PayOS checkout
       window.location.href = paymentData.checkoutUrl;
 
