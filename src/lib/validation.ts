@@ -6,27 +6,30 @@
 import { z } from 'zod';
 
 /**
- * Order creation schema
+ * Order creation schema (matches checkout form submission)
  */
 export const orderSchema = z.object({
-  cartItems: z.array(
+  items: z.array(
     z.object({
-      id: z.string().uuid(),
+      productId: z.string().min(1).optional(),
+      id: z.string().min(1).optional(),
+      name: z.string().min(1).max(200),
       quantity: z.number().int().min(1).max(99),
       price: z.number().positive(),
+      weight: z.string().max(50).optional(),
+      image: z.string().max(2048).optional(),
     })
-  ).min(1).max(50), // Max 50 items per order
+  ).min(1).max(50),
+  total: z.number().positive(),
   customerInfo: z.object({
-    email: z.string().email().max(255),
     name: z.string().min(2).max(100),
-    phone: z.string().regex(/^[0-9]{10,11}$/, 'Invalid phone number format'),
+    phone: z.string().min(10).max(15),
+    email: z.string().email().max(255).optional().or(z.literal('')),
+    address: z.string().min(5).max(500),
+    city: z.string().min(1).max(100),
+    note: z.string().max(500).optional().or(z.literal('')),
   }),
-  deliveryAddress: z.object({
-    street: z.string().min(5).max(255),
-    city: z.string().min(2).max(100),
-    postalCode: z.string().regex(/^[0-9]{5,6}$/),
-  }).optional(),
-  notes: z.string().max(500).optional(),
+  paymentMethod: z.string().max(20).optional(),
 });
 
 /**
@@ -37,7 +40,7 @@ export const contactSchema = z.object({
   email: z.string().email().max(255),
   phone: z.string().regex(/^[0-9]{10,11}$/).optional(),
   message: z.string().min(10).max(1000),
-  subject: z.enum(['general', 'franchise', 'support', 'wholesale']),
+  subject: z.enum(['general', 'order', 'wholesale', 'franchise', 'partnership', 'feedback', 'support']),
 });
 
 /**
@@ -78,3 +81,58 @@ export type OrderInput = z.infer<typeof orderSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
 export type FranchiseInquiryInput = z.infer<typeof franchiseInquirySchema>;
 export type ProductInput = z.infer<typeof productSchema>;
+
+/**
+ * Payment link creation schema
+ */
+export const paymentLinkSchema = z.object({
+  orderCode: z.number().int().positive(),
+  amount: z.number().positive().optional(),
+  description: z.string().min(1).max(500),
+  returnUrl: z.string().url().max(2048),
+  cancelUrl: z.string().url().max(2048),
+  items: z.array(
+    z.object({
+      id: z.string().min(1).optional(),
+      productId: z.string().min(1).optional(),
+      name: z.string().min(1).max(200),
+      quantity: z.number().int().min(1).max(99),
+      price: z.number().positive(),
+    })
+  ).min(1).max(50),
+  buyerName: z.string().max(100).optional(),
+  buyerPhone: z.string().max(15).optional(),
+  buyerEmail: z.string().email().max(255).optional().or(z.literal('')),
+  buyerAddress: z.string().max(500).optional(),
+});
+
+/**
+ * Webhook body schema (basic structure validation before PayOS SDK verify)
+ */
+export const webhookSchema = z.object({
+  code: z.string(),
+  desc: z.string().optional(),
+  data: z.object({
+    orderCode: z.number(),
+    amount: z.number(),
+    description: z.string().optional(),
+    accountNumber: z.string().optional(),
+    reference: z.string().optional(),
+    transactionDateTime: z.string().optional(),
+    paymentLinkId: z.string().optional(),
+    code: z.string().optional(),
+    desc: z.string().optional(),
+    counterAccountBankId: z.string().nullable().optional(),
+    counterAccountBankName: z.string().nullable().optional(),
+    counterAccountName: z.string().nullable().optional(),
+    counterAccountNumber: z.string().nullable().optional(),
+    virtualAccountName: z.string().nullable().optional(),
+    virtualAccountNumber: z.string().nullable().optional(),
+    currency: z.string().optional(),
+  }).passthrough(),
+  signature: z.string(),
+  success: z.boolean().optional(),
+});
+
+export type PaymentLinkInput = z.infer<typeof paymentLinkSchema>;
+export type WebhookInput = z.infer<typeof webhookSchema>;

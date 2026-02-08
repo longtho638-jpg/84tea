@@ -2,38 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { validateCartItems, calculateOrderTotal, ValidatedItem } from "@/lib/payment-utils";
 import { strictLimiter, limiter, getClientIP } from "@/lib/rate-limit";
+import { orderSchema } from "@/lib/validation";
 
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "",
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
   );
-}
-
-interface OrderItem {
-  productId: string;
-  name: string;
-  quantity: number;
-  price: number;
-  weight?: string;
-  image?: string;
-  id?: string;
-}
-
-interface CustomerInfo {
-  name: string;
-  phone: string;
-  email?: string;
-  address: string;
-  city: string;
-  note?: string;
-}
-
-interface CreateOrderRequest {
-  items: OrderItem[];
-  total: number;
-  customerInfo: CustomerInfo;
-  paymentMethod?: string;
 }
 
 interface OrderRow {
@@ -67,15 +42,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body: CreateOrderRequest = await request.json();
-    const { items, total, customerInfo, paymentMethod } = body;
+    const body = await request.json();
+    const parsed = orderSchema.safeParse(body);
 
-    if (!items || items.length === 0 || !total || !customerInfo) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+
+    const { items, total, customerInfo, paymentMethod } = parsed.data;
 
     // Server-side price validation (reject on failure in production)
     const mappedItems = items.map(item => ({
@@ -157,8 +134,9 @@ export async function POST(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (error) {
-    console.error("Order API error:", error);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    console.error("Order API error:", message);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -219,8 +197,9 @@ export async function GET(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (error) {
-    console.error("Order API error:", error);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    console.error("Order API error:", message);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

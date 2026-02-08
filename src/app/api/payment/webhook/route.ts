@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getPayOS } from "@/lib/payos";
 import { createClient } from "@supabase/supabase-js";
 import { logPaymentEvent } from "@/lib/payment-utils";
+import { webhookSchema } from "@/lib/validation";
 import type { Webhook } from "@payos/node";
 
 function getSupabaseClient() {
@@ -13,7 +14,18 @@ function getSupabaseClient() {
 
 export async function POST(req: Request) {
   try {
-    const body: Webhook = await req.json();
+    const rawBody = await req.json();
+
+    // Validate basic webhook structure before PayOS SDK verification
+    const structureCheck = webhookSchema.safeParse(rawBody);
+    if (!structureCheck.success) {
+      return NextResponse.json(
+        { error: "Invalid webhook payload" },
+        { status: 400 }
+      );
+    }
+
+    const body: Webhook = rawBody;
 
     // Verify webhook signature using PayOS SDK v2
     const payOS = getPayOS();

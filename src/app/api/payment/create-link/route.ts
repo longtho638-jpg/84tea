@@ -2,14 +2,7 @@ import { NextResponse } from "next/server";
 import { getPayOS } from "@/lib/payos";
 import { validateCartItems, calculateOrderTotal, logPaymentEvent } from "@/lib/payment-utils";
 import { strictLimiter, getClientIP } from "@/lib/rate-limit";
-
-interface RequestItem {
-  id?: string;
-  productId?: string;
-  name: string;
-  quantity: number;
-  price: number;
-}
+import { paymentLinkSchema } from "@/lib/validation";
 
 export async function POST(req: Request) {
   try {
@@ -23,21 +16,23 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { amount, description, returnUrl, cancelUrl, items, orderCode, buyerName, buyerPhone, buyerEmail, buyerAddress } = body;
+    const parsed = paymentLinkSchema.safeParse(body);
 
-    if (!description || !returnUrl || !cancelUrl || !items || items.length === 0) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+
+    const { description, returnUrl, cancelUrl, items, orderCode, amount, buyerName, buyerPhone, buyerEmail, buyerAddress } = parsed.data;
 
     // Server-side price validation
     let validatedItems;
     let serverCalculatedTotal;
 
     try {
-      const mappedItems = (items as RequestItem[]).map((item) => ({
+      const mappedItems = items.map((item) => ({
         ...item,
         id: item.id || item.productId || ""
       }));
@@ -74,13 +69,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Use numeric orderCode from order creation, or generate one
-    let numericOrderCode: number;
-    if (orderCode && !isNaN(Number(orderCode))) {
-      numericOrderCode = Number(orderCode);
-    } else {
-      numericOrderCode = Number(String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000));
-    }
+    // Use numeric orderCode from order creation (validated by Zod)
+    const numericOrderCode = orderCode;
 
     const paymentLinkData = {
       orderCode: numericOrderCode,
