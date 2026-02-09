@@ -92,8 +92,16 @@ export function FooterSection() {
             <ul className="space-y-2 text-inverse-on-surface text-sm mb-6">
               <li>📧 hello@84tea.com</li>
               <li>📱 +84 988 030204</li>
-              <li>📍 Hà Nội, Vietnam</li>
+              <li>📍 {t("businessAddress")}</li>
             </ul>
+
+            {/* Business Info */}
+            <div className="mb-6 text-inverse-on-surface/70 text-xs space-y-1">
+              <p className="font-semibold text-inverse-on-surface/90">{t("businessName")}</p>
+              <p>{t("businessTaxId")}</p>
+              <p>{t("businessRepresentative")}</p>
+            </div>
+
             <Typography variant="title-small" className="text-primary-container font-semibold mb-2">
               {t("legal")}
             </Typography>

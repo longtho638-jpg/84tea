@@ -9,12 +9,46 @@ export function HeroSection() {
   const t = useTranslations("Hero");
 
   return (
-    <section className="relative min-h-[90dvh] flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background with Vietnamese tea hills atmosphere */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-scrim/40 via-scrim/20 to-surface z-10" />
-        {/* Placeholder for actual hero image - using a solid color for now, ideally an image of tea hills */}
-        <div className="w-full h-full bg-tertiary animate-pulse-slow" />
+        <div
+          className="w-full h-full"
+          style={{
+            background: `
+              linear-gradient(180deg,
+                #0d3911 0%,
+                #1b5e20 15%,
+                #2e7d32 30%,
+                #388e3c 45%,
+                #4caf50 55%,
+                #a5d6a7 65%,
+                #e8e1d9 75%,
+                #c5a962 85%,
+                #f5e6ba 92%,
+                #fbf8f3 100%
+              )`,
+          }}
+        >
+          {/* Mist overlay */}
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              background: `
+                radial-gradient(ellipse 120% 60% at 20% 50%, rgba(255,255,255,0.4) 0%, transparent 70%),
+                radial-gradient(ellipse 100% 50% at 80% 40%, rgba(255,255,255,0.3) 0%, transparent 60%)`,
+            }}
+          />
+          {/* Mountain silhouette layers */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-2/3"
+            style={{
+              background: `
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%231b5e20' fill-opacity='0.3' d='M0,224L80,213.3C160,203,320,181,480,186.7C640,192,800,224,960,218.7C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'/%3E%3C/svg%3E") no-repeat bottom/cover`,
+            }}
+          />
+        </div>
       </div>
 
       <div className="relative z-10 container mx-auto px-6 text-center max-w-4xl pt-20">
