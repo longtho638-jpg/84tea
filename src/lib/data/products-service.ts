@@ -9,7 +9,6 @@ const getSupabaseStaticClient = () => {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !key) {
-    console.warn('Supabase credentials missing, returning null client');
     return null;
   }
 

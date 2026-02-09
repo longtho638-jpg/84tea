@@ -774,6 +774,81 @@
     "errorGeneric": "An error occurred. Please try again.",
     "errorMissingInfo": "Please provide full information"
   },
+  "Cities": {
+    "hanoi": "Hanoi",
+    "hcm": "Ho Chi Minh City",
+    "danang": "Da Nang",
+    "haiphong": "Hai Phong",
+    "cantho": "Can Tho",
+    "nhatrang": "Nha Trang",
+    "hue": "Hue",
+    "bienhoa": "Bien Hoa",
+    "bacninh": "Bac Ninh",
+    "other": "Other"
+  },
+  "FranchiseApply": {
+    "title": "Franchise Application",
+    "subtitle": "Complete the form below to start your journey with 84tea",
+    "success": {
+      "title": "Application Submitted!",
+      "message": "Thank you for your interest in the 84tea franchise.\nWe will contact you within 2-3 business days.",
+      "home": "Back to Home"
+    },
+    "steps": {
+      "1": "Personal Information",
+      "2": "Experience & Capacity",
+      "3": "Business Plan",
+      "4": "Confirmation & Commitment"
+    },
+    "fields": {
+      "fullName": "Full Name *",
+      "idNumber": "ID Number *",
+      "birthDate": "Date of Birth *",
+      "email": "Email *",
+      "phone": "Phone Number *",
+      "currentAddress": "Current Address *",
+      "currentOccupation": "Current Occupation *",
+      "fbExperience": "F&B Experience",
+      "managementExperience": "Management Experience",
+      "availableCapital": "Available Capital (VND) *",
+      "city": "Intended Province/City *",
+      "spaceSize": "Space Size",
+      "preferredLocation": "Preferred Location (if available)",
+      "expectedOpenDate": "Expected Opening Date",
+      "motivation": "Motivation for opening 84tea",
+      "placeholders": {
+        "fullName": "John Doe",
+        "idNumber": "012345678901",
+        "phone": "0912 345 678",
+        "email": "email@example.com",
+        "currentAddress": "House number, street, district, city",
+        "currentOccupation": "e.g. Self-employed, Office worker...",
+        "preferredLocation": "e.g. Old Quarter Hanoi, District 1 HCM...",
+        "motivation": "Share your motivation and expectations..."
+      },
+      "options": {
+        "choose": "Choose...",
+        "none": "None",
+        "years": "{count} years",
+        "plus": "Over {count}",
+        "notHave": "No premises yet",
+        "notSure": "Not decided",
+        "month": "next month"
+      }
+    },
+    "confirm": {
+      "title": "Information Summary:",
+      "terms": "I have read and agree to 84tea's <link>Franchise Terms</link>",
+      "training": "I am willing to participate in 2-week training before store opening",
+      "info": "I confirm the above information is accurate"
+    },
+    "buttons": {
+      "back": "← Back",
+      "next": "Continue →",
+      "sending": "Sending...",
+      "submit": "Submit Application"
+    }
+  },
   "RefundPage": {
     "title": "Return & Refund Policy",
     "highlight": {
