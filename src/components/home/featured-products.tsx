@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { ProductCardGlass } from "@/components/products/product-card-glass";
 import { getFeaturedProducts } from "@/lib/data/products-service";
+import { StaggerGrid, StaggerItem } from "@/components/home/stagger-grid";
 
 export async function FeaturedProducts() {
   const featuredProducts = await getFeaturedProducts();
@@ -24,11 +25,13 @@ export async function FeaturedProducts() {
           </Typography>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StaggerGrid className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredProducts.map((product) => (
-            <ProductCardGlass key={product.id} product={product} />
+            <StaggerItem key={product.id}>
+              <ProductCardGlass product={product} />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
 
         <div className="mt-12 text-center">
           <Button variant="outlined" size="lg" asChild>

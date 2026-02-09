@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 export function StorySectionAnimated() {
   const t = useTranslations("Story");
@@ -79,7 +80,7 @@ export function StorySectionAnimated() {
               className="text-center"
             >
               <div className="mb-2 font-display text-5xl font-bold text-primary md:text-6xl">
-                {stat.value}
+                <AnimatedCounter value={stat.value} />
               </div>
               <div className="text-sm font-medium uppercase tracking-wider text-on-surface/60">
                 {stat.label}
