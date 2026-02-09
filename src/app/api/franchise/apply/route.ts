@@ -1,25 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { limiter, getClientIP } from "@/lib/rate-limit";
-import { z } from "zod";
-
-const franchiseApplySchema = z.object({
-  fullName: z.string().min(2).max(100),
-  idNumber: z.string().min(9).max(12),
-  birthDate: z.string().min(1),
-  email: z.string().email().max(255),
-  phone: z.string().regex(/^[0-9]{10,11}$/),
-  currentAddress: z.string().min(5).max(500),
-  fbExperience: z.string().max(50).optional(),
-  managementExperience: z.string().max(50).optional(),
-  availableCapital: z.string().min(1).max(50),
-  currentOccupation: z.string().max(200).optional(),
-  preferredLocation: z.string().max(500).optional(),
-  city: z.string().min(1).max(100),
-  spaceSize: z.string().max(50).optional(),
-  expectedOpenDate: z.string().max(50).optional(),
-  motivation: z.string().max(2000).optional(),
-});
+import { franchiseApplySchema } from "@/lib/validation";
 
 function getSupabaseClient() {
   return createClient(
