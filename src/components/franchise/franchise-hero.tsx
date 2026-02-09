@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -12,9 +13,15 @@ export function FranchiseHero() {
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-surface-variant">
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-tertiary to-tertiary/50 z-10" />
-        {/* Placeholder for business image */}
-        <div className="w-full h-full bg-tertiary animate-pulse-slow" />
+        <div className="absolute inset-0 bg-gradient-to-r from-tertiary/90 to-tertiary/50 z-10" />
+        <Image
+          src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&q=80"
+          alt="Modern tea shop storefront"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          quality={80}
+        />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">

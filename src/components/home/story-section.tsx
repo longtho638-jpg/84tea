@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
@@ -13,38 +14,17 @@ export function StorySection() {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="relative order-2 md:order-1">
-            <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-variant relative">
-              {/* Vietnamese tea artisan atmosphere */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `
-                    linear-gradient(160deg,
-                      #0d3911 0%,
-                      #1b5e20 20%,
-                      #2e7d32 40%,
-                      #4e342e 60%,
-                      #6d4c41 75%,
-                      #c5a962 90%,
-                      #f5e6ba 100%
-                    )`,
-                }}
-              >
-                {/* Tea leaf texture overlay */}
-                <div
-                  className="absolute inset-0 opacity-20"
-                  style={{
-                    background: `
-                      radial-gradient(circle at 30% 20%, rgba(165,214,167,0.5) 0%, transparent 40%),
-                      radial-gradient(circle at 70% 60%, rgba(197,169,98,0.4) 0%, transparent 35%),
-                      radial-gradient(circle at 50% 80%, rgba(78,52,46,0.3) 0%, transparent 45%)`,
-                  }}
-                />
-                {/* Decorative tea icon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-8xl opacity-20 select-none">🍃</span>
-                </div>
-              </div>
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=1000&fit=crop&q=80"
+                alt="Vietnamese tea ceremony with traditional clay teapot"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={80}
+              />
+              {/* Subtle overlay for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-scrim/20 to-transparent" />
             </div>
             {/* Decorative element */}
             <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-secondary-container rounded-full -z-10 blur-3xl" />
