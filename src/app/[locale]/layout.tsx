@@ -10,7 +10,7 @@ import { AuthProvider } from "@/lib/auth-context";
 import ErrorBoundary from "@/components/react-error-boundary-wrapper";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { routing } from "@/i18n/routing";
-import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
+import { generateOrganizationJsonLd, generateWebsiteJsonLd } from "@/lib/seo/structured-data";
 import { SEO_CONFIG } from "@/lib/seo-constants";
 import "../globals.css";
 

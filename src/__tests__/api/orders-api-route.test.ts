@@ -75,6 +75,8 @@ const validOrderBody = {
 describe('POST /api/orders', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    process.env.NEXT_PUBLIC_SUPABASE_URL = 'http://localhost:54321';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'mock-key';
     mockSingle.mockResolvedValue({
       data: {
         id: 'uuid-123',
@@ -101,7 +103,7 @@ describe('POST /api/orders', () => {
     const res = await POST(createRequest('POST', { total: 100 }));
     const json = await res.json();
     expect(res.status).toBe(400);
-    expect(json.error).toBe('Validation failed');
+    expect(json.error).toBe('Dữ liệu đơn hàng không hợp lệ');
     expect(json.details).toBeDefined();
   });
 
@@ -110,7 +112,7 @@ describe('POST /api/orders', () => {
       ...validOrderBody,
       customerInfo: { name: 'A', phone: '1', address: 'x', city: '' },
     }));
-    expect((await res.json()).error).toBe('Validation failed');
+    expect((await res.json()).error).toBe('Dữ liệu đơn hàng không hợp lệ');
     expect(res.status).toBe(400);
   });
 
@@ -125,7 +127,7 @@ describe('POST /api/orders', () => {
     const res = await POST(createRequest('POST', validOrderBody));
     const json = await res.json();
     expect(res.status).toBe(400);
-    expect(json.error).toContain('invalid or unavailable');
+    expect(json.error).toContain('Một hoặc nhiều sản phẩm không hợp lệ hoặc đã hết hàng');
   });
 
   it('returns 400 on price mismatch (tampering)', async () => {
@@ -135,7 +137,7 @@ describe('POST /api/orders', () => {
     }));
     const json = await res.json();
     expect(res.status).toBe(400);
-    expect(json.error).toContain('Price mismatch');
+    expect(json.error).toContain('Phát hiện sai lệch về giá');
   });
 
   it('returns 500 on database error', async () => {
@@ -177,9 +179,11 @@ describe('GET /api/orders', () => {
     expect(json.success).toBe(true);
   });
 
-  it('fetches order by orderCode', async () => {
+  it('returns 403 when fetching by orderCode (IDOR protection)', async () => {
     const res = await GET(createRequest('GET', undefined, { orderCode: '1234567890' }));
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(403);
+    const json = await res.json();
+    expect(json.error).toBe('Vui lòng sử dụng đường dẫn theo dõi đơn hàng trong email (hoặc cung cấp ID đơn hàng).');
   });
 
   it('returns 404 when order not found', async () => {

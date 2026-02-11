@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   try {
     try {
       await strictLimiter.check(10, `order:${getClientIP(request)}`);
-    } catch (error) {
+    } catch {
       // Log rate limit
       return NextResponse.json(
         { error: "Bạn đã thử đặt hàng quá nhiều lần. Vui lòng thử lại sau ít phút." },
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     try {
       validatedItems = await validateCartItems(mappedItems);
       serverTotal = calculateOrderTotal(validatedItems);
-    } catch (error) {
+    } catch {
       // Invalid cart data
       return NextResponse.json(
         { error: "Một hoặc nhiều sản phẩm không hợp lệ hoặc đã hết hàng. Vui lòng kiểm tra lại giỏ hàng." },
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
   try {
     try {
       await limiter.check(60, `order-get:${getClientIP(request)}`);
-    } catch (error) {
+    } catch {
       return NextResponse.json(
         { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau." },
         { status: 429 }
@@ -173,7 +173,12 @@ export async function GET(request: NextRequest) {
     if (orderId) {
       query.eq("id", orderId);
     } else if (orderCode) {
-      query.eq("order_code", Number(orderCode));
+      // IDOR FIX: Disable insecure lookup by short orderCode
+      // Use the UUID (id) sent via email instead
+      return NextResponse.json(
+        { error: "Vui lòng sử dụng đường dẫn theo dõi đơn hàng trong email (hoặc cung cấp ID đơn hàng)." },
+        { status: 403 }
+      );
     }
 
     const { data, error } = await query.single();
@@ -198,7 +203,7 @@ export async function GET(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }

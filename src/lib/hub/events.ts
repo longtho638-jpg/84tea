@@ -9,7 +9,7 @@ import { isHubEnabled } from './config';
 
 export async function trackEvent(
   event: string,
-  properties: Record<string, unknown> = {}
+  _properties: Record<string, unknown> = {}
 ): Promise<void> {
   if (!isHubEnabled()) {
     return;

@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     };
   }
 
-  componentDidCatch(_error: Error, _errorInfo: React.ErrorInfo): void {
+  componentDidCatch(): void {
     // Error tracking service integration point (e.g. Sentry)
   }
 

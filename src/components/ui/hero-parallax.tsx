@@ -2,6 +2,7 @@
 
 import { useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 export function HeroParallax() {
@@ -23,13 +24,16 @@ export function HeroParallax() {
         style={{ y }}
         className="absolute inset-0 z-0"
       >
-        <div
-          className="h-[120%] w-full bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/images/hero-tea-hills.png')",
-            backgroundPosition: "center 40%",
-          }}
-        >
+        <div className="relative h-[120%] w-full">
+          <Image
+            src="/images/hero-tea-hills.png"
+            alt="Vietnamese tea hills parallax background"
+            fill
+            priority
+            className="object-cover object-[center_40%]"
+            sizes="100vw"
+            quality={90}
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-surface" />
         </div>
       </motion.div>

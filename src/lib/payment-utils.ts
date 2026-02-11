@@ -1,32 +1,5 @@
-import crypto from 'crypto';
+import { logger } from './logger';
 import { createClient } from '@supabase/supabase-js';
-
-/**
- * Verify PayOS webhook signature using HMAC-SHA256
- * @param payload - Raw webhook payload string
- * @param signature - Signature from webhook headers
- * @param secret - PayOS checksum key
- * @returns boolean indicating if signature is valid
- */
-export function verifyPayOSSignature(
-  payload: string,
-  signature: string,
-  secret: string
-): boolean {
-  try {
-    const hmac = crypto.createHmac('sha256', secret);
-    hmac.update(payload);
-    const expectedSignature = hmac.digest('hex');
-
-    // Use timing-safe comparison to prevent timing attacks
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expectedSignature)
-    );
-  } catch {
-    return false;
-  }
-}
 
 interface PaymentEventData {
   [key: string]: unknown;
@@ -46,7 +19,7 @@ export async function logPaymentEvent(
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-      console.error('Missing Supabase credentials for payment logging');
+      logger.error('Missing Supabase credentials for payment logging');
       return; // Non-critical, skip logging
     }
 

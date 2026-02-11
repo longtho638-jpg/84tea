@@ -5,8 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
 import { useAuth } from "@/lib/auth-context";
-import { AuthModal } from "./auth-modal";
+
+const AuthModal = dynamic(() => import("./auth-modal").then(mod => mod.AuthModal), {
+  ssr: false,
+});
 
 export function AuthButton({
   className,

@@ -18,6 +18,7 @@ export function FranchiseHero() {
           src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&q=80"
           alt="Modern tea shop storefront"
           fill
+          priority
           className="object-cover"
           sizes="100vw"
           quality={80}

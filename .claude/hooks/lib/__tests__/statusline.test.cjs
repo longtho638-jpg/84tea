@@ -1,16 +1,6 @@
-#!/usr/bin/env node
-'use strict';
-
-/**
- * Comprehensive Tests for Statusline Implementation
- * Modules tested: colors, transcript-parser, config-counter, statusline
- * Run: node .claude/hooks/lib/__tests__/statusline.test.cjs
- */
-
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const { execSync } = require('child_process');
 
 // Import modules
 const {
@@ -39,651 +29,547 @@ const {
   countHooksInFile
 } = require('../config-counter.cjs');
 
-// Test framework
-let passed = 0;
-let failed = 0;
-const failures = [];
+describe('Statusline Tests', () => {
 
-function test(name, fn) {
-  try {
-    fn();
-    console.log(`✓ ${name}`);
-    passed++;
-  } catch (e) {
-    console.log(`✗ ${name}`);
-    console.log(`  Error: ${e.message}`);
-    failed++;
-    failures.push({ name, error: e.message });
-  }
-}
+  // ============================================================================
+  // TEST 1: Module Load Test
+  // ============================================================================
+  describe('Module Load', () => {
+    test('colors.cjs exports required functions', () => {
+      expect(typeof green).toBe('function');
+      expect(typeof yellow).toBe('function');
+      expect(typeof red).toBe('function');
+      expect(typeof cyan).toBe('function');
+      expect(typeof magenta).toBe('function');
+      expect(typeof dim).toBe('function');
+      expect(typeof coloredBar).toBe('function');
+      expect(typeof getContextColor).toBe('function');
+      expect(RESET).toBe('\x1b[0m');
+    });
 
-function assertEquals(actual, expected, msg = '') {
-  if (actual !== expected) {
-    throw new Error(`${msg}\n  Expected: ${JSON.stringify(expected)}\n  Actual: ${JSON.stringify(actual)}`);
-  }
-}
+    test('transcript-parser.cjs exports required functions', () => {
+      expect(typeof parseTranscript).toBe('function');
+      expect(typeof processEntry).toBe('function');
+      expect(typeof extractTarget).toBe('function');
+    });
 
-function assertTrue(condition, msg = '') {
-  if (!condition) {
-    throw new Error(`${msg}\n  Expected: true, got: ${condition}`);
-  }
-}
+    test('config-counter.cjs exports required functions', () => {
+      expect(typeof countConfigs).toBe('function');
+      expect(typeof countRulesInDir).toBe('function');
+      expect(typeof countMcpServersInFile).toBe('function');
+      expect(typeof countHooksInFile).toBe('function');
+    });
+  });
 
-function assertFalse(condition, msg = '') {
-  if (condition) {
-    throw new Error(`${msg}\n  Expected: false, got: ${condition}`);
-  }
-}
+  // ============================================================================
+  // TEST 2: Colors Test
+  // ============================================================================
+  describe('Colors', () => {
+    test('green() wraps text with color codes or returns plain text', () => {
+      const text = 'success';
+      const result = green(text);
+      expect(result === text || result.includes(text)).toBe(true);
+    });
 
-function assertContains(actual, search, msg = '') {
-  if (!actual.includes(search)) {
-    throw new Error(`${msg}\n  Expected to contain: ${search}\n  Actual: ${actual}`);
-  }
-}
+    test('yellow() returns valid output', () => {
+      const result = yellow('warning');
+      expect(result.length).toBeGreaterThanOrEqual(7);
+    });
 
-function assertMatch(actual, regex, msg = '') {
-  if (!regex.test(actual)) {
-    throw new Error(`${msg}\n  Pattern: ${regex}\n  Actual: ${actual}`);
-  }
-}
+    test('red() returns valid output', () => {
+      const result = red('error');
+      expect(result.length).toBeGreaterThanOrEqual(5);
+    });
 
-// ============================================================================
-// TEST 1: Module Load Test
-// ============================================================================
+    test('cyan() returns valid output', () => {
+      const result = cyan('info');
+      expect(result.length).toBeGreaterThanOrEqual(4);
+    });
 
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 1: Module Load Test');
-console.log('═══════════════════════════════════════════════════════\n');
+    test('magenta() returns valid output', () => {
+      const result = magenta('debug');
+      expect(result.length).toBeGreaterThanOrEqual(5);
+    });
 
-test('colors.cjs exports required functions', () => {
-  assertTrue(typeof green === 'function', 'green should be function');
-  assertTrue(typeof yellow === 'function', 'yellow should be function');
-  assertTrue(typeof red === 'function', 'red should be function');
-  assertTrue(typeof cyan === 'function', 'cyan should be function');
-  assertTrue(typeof magenta === 'function', 'magenta should be function');
-  assertTrue(typeof dim === 'function', 'dim should be function');
-  assertTrue(typeof coloredBar === 'function', 'coloredBar should be function');
-  assertTrue(typeof getContextColor === 'function', 'getContextColor should be function');
-  assertTrue(RESET === '\x1b[0m', 'RESET should be proper escape code');
-});
+    test('dim() returns valid output', () => {
+      const result = dim('dim text');
+      expect(result.length).toBeGreaterThanOrEqual(8);
+    });
 
-test('transcript-parser.cjs exports required functions', () => {
-  assertTrue(typeof parseTranscript === 'function', 'parseTranscript should be function');
-  assertTrue(typeof processEntry === 'function', 'processEntry should be function');
-  assertTrue(typeof extractTarget === 'function', 'extractTarget should be function');
-});
+    test('shouldUseColor is boolean', () => {
+      expect(typeof shouldUseColor).toBe('boolean');
+    });
+  });
 
-test('config-counter.cjs exports required functions', () => {
-  assertTrue(typeof countConfigs === 'function', 'countConfigs should be function');
-  assertTrue(typeof countRulesInDir === 'function', 'countRulesInDir should be function');
-  assertTrue(typeof countMcpServersInFile === 'function', 'countMcpServersInFile should be function');
-  assertTrue(typeof countHooksInFile === 'function', 'countHooksInFile should be function');
-});
+  // ============================================================================
+  // TEST 3: Context Color Thresholds
+  // ============================================================================
+  describe('Context Color Thresholds', () => {
+    test('getContextColor(50%) returns GREEN', () => {
+      expect(getContextColor(50)).toBe('\x1b[32m');
+    });
 
-// ============================================================================
-// TEST 2: Colors Test
-// ============================================================================
+    test('getContextColor(75%) returns YELLOW', () => {
+      expect(getContextColor(75)).toBe('\x1b[33m');
+    });
 
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 2: Colors Test');
-console.log('═══════════════════════════════════════════════════════\n');
+    test('getContextColor(90%) returns RED', () => {
+      expect(getContextColor(90)).toBe('\x1b[31m');
+    });
 
-test('green() wraps text with color codes or returns plain text', () => {
-  const text = 'success';
-  const result = green(text);
-  assertTrue(
-    result === text || result.includes(text),
-    'green() should return colored or plain text'
-  );
-});
+    test('getContextColor(69%) returns GREEN (below 70%)', () => {
+      expect(getContextColor(69)).toBe('\x1b[32m');
+    });
 
-test('yellow() returns valid output', () => {
-  const result = yellow('warning');
-  assertTrue(result.length >= 7, 'yellow() should return non-empty string');
-});
+    test('getContextColor(70%) returns YELLOW (exactly 70%)', () => {
+      expect(getContextColor(70)).toBe('\x1b[33m');
+    });
 
-test('red() returns valid output', () => {
-  const result = red('error');
-  assertTrue(result.length >= 5, 'red() should return non-empty string');
-});
+    test('getContextColor(85%) returns RED (exactly 85%)', () => {
+      expect(getContextColor(85)).toBe('\x1b[31m');
+    });
+  });
 
-test('cyan() returns valid output', () => {
-  const result = cyan('info');
-  assertTrue(result.length >= 4, 'cyan() should return non-empty string');
-});
+  // ============================================================================
+  // TEST 4: Colored Bar Rendering
+  // ============================================================================
+  describe('Colored Bar Rendering', () => {
+    test('coloredBar(0) renders empty bar', () => {
+      const bar = coloredBar(0);
+      expect(bar.includes('▱')).toBe(true);
+    });
 
-test('magenta() returns valid output', () => {
-  const result = magenta('debug');
-  assertTrue(result.length >= 5, 'magenta() should return non-empty string');
-});
+    test('coloredBar(50) renders half-filled bar', () => {
+      const bar = coloredBar(50, 12);
+      expect(bar.length).toBeGreaterThanOrEqual(6);
+    });
 
-test('dim() returns valid output', () => {
-  const result = dim('dim text');
-  assertTrue(result.length >= 8, 'dim() should return non-empty string');
-});
+    test('coloredBar(100) renders full bar', () => {
+      const bar = coloredBar(100, 12);
+      expect(bar.length).toBeGreaterThanOrEqual(12);
+    });
 
-test('shouldUseColor is boolean', () => {
-  assertTrue(
-    typeof shouldUseColor === 'boolean',
-    'shouldUseColor should be boolean'
-  );
-});
+    test('coloredBar clamping: negative percent treated as 0', () => {
+      const bar = coloredBar(-10, 12);
+      expect(bar.includes('▱')).toBe(true);
+    });
 
-// ============================================================================
-// TEST 3: Context Color Thresholds
-// ============================================================================
+    test('coloredBar clamping: >100 percent treated as 100', () => {
+      const bar = coloredBar(150, 12);
+      expect(bar.length).toBeGreaterThanOrEqual(10);
+    });
 
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 3: Context Color Thresholds');
-console.log('═══════════════════════════════════════════════════════\n');
+    test('coloredBar respects custom width', () => {
+      const bar6 = coloredBar(50, 6);
+      const bar20 = coloredBar(50, 20);
+      expect(bar6.length).toBeLessThan(bar20.length);
+    });
+  });
 
-test('getContextColor(50%) returns GREEN', () => {
-  const color = getContextColor(50);
-  assertEquals(color, '\x1b[32m', 'Should return GREEN for 50%');
-});
+  // ============================================================================
+  // TEST 5: Transcript Parser - Empty/Non-existent
+  // ============================================================================
+  describe('Transcript Parser - Empty/Non-existent', () => {
+    test('parseTranscript returns empty result for non-existent file', async () => {
+      const result = await parseTranscript('/tmp/nonexistent-transcript-12345.jsonl');
+      expect(result.tools.length).toBe(0);
+      expect(result.agents.length).toBe(0);
+      expect(result.todos.length).toBe(0);
+    });
 
-test('getContextColor(75%) returns YELLOW', () => {
-  const color = getContextColor(75);
-  assertEquals(color, '\x1b[33m', 'Should return YELLOW for 75%');
-});
+    test('parseTranscript returns empty result for null path', async () => {
+      const result = await parseTranscript(null);
+      expect(result.tools.length).toBe(0);
+      expect(result.agents.length).toBe(0);
+      expect(result.todos.length).toBe(0);
+    });
 
-test('getContextColor(90%) returns RED', () => {
-  const color = getContextColor(90);
-  assertEquals(color, '\x1b[31m', 'Should return RED for 90%');
-});
+    test('parseTranscript returns empty result for undefined path', async () => {
+      const result = await parseTranscript(undefined);
+      expect(result.tools.length).toBe(0);
+      expect(result.agents.length).toBe(0);
+      expect(result.todos.length).toBe(0);
+    });
+  });
 
-test('getContextColor(69%) returns GREEN (below 70%)', () => {
-  const color = getContextColor(69);
-  assertEquals(color, '\x1b[32m', 'Should return GREEN for 69%');
-});
+  // ============================================================================
+  // TEST 6: Transcript Parser - Real JSONL File
+  // ============================================================================
+  describe('Transcript Parser - Real JSONL File', () => {
+    let tmpTranscript;
 
-test('getContextColor(70%) returns YELLOW (exactly 70%)', () => {
-  const color = getContextColor(70);
-  assertEquals(color, '\x1b[33m', 'Should return YELLOW for exactly 70%');
-});
-
-test('getContextColor(85%) returns RED (exactly 85%)', () => {
-  const color = getContextColor(85);
-  assertEquals(color, '\x1b[31m', 'Should return RED for exactly 85%');
-});
-
-// ============================================================================
-// TEST 4: Colored Bar Rendering
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 4: Colored Bar Rendering');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('coloredBar(0) renders empty bar', () => {
-  const bar = coloredBar(0);
-  assertTrue(bar.includes('▱'), 'Empty bar should contain empty blocks (▱)');
-});
-
-test('coloredBar(50) renders half-filled bar', () => {
-  const bar = coloredBar(50, 12);
-  assertTrue(bar.length >= 6, 'Half-filled bar should have content');
-});
-
-test('coloredBar(100) renders full bar', () => {
-  const bar = coloredBar(100, 12);
-  assertTrue(bar.length >= 12, 'Full bar should be substantial length');
-});
-
-test('coloredBar clamping: negative percent treated as 0', () => {
-  const bar = coloredBar(-10, 12);
-  assertTrue(bar.includes('▱'), 'Negative percent should show empty bar (▱)');
-});
-
-test('coloredBar clamping: >100 percent treated as 100', () => {
-  const bar = coloredBar(150, 12);
-  assertTrue(bar.length >= 10, '>100 percent should show full bar');
-});
-
-test('coloredBar respects custom width', () => {
-  const bar6 = coloredBar(50, 6);
-  const bar20 = coloredBar(50, 20);
-  assertTrue(bar6.length < bar20.length, 'Width=6 should be shorter than width=20');
-});
-
-// ============================================================================
-// TEST 5: Transcript Parser - Empty/Non-existent
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 5: Transcript Parser - Empty/Non-existent');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('parseTranscript returns empty result for non-existent file', async () => {
-  const result = await parseTranscript('/tmp/nonexistent-transcript-12345.jsonl');
-  assertEquals(result.tools.length, 0, 'tools should be empty array');
-  assertEquals(result.agents.length, 0, 'agents should be empty array');
-  assertEquals(result.todos.length, 0, 'todos should be empty array');
-});
-
-test('parseTranscript returns empty result for null path', async () => {
-  const result = await parseTranscript(null);
-  assertEquals(result.tools.length, 0, 'tools should be empty array');
-  assertEquals(result.agents.length, 0, 'agents should be empty array');
-  assertEquals(result.todos.length, 0, 'todos should be empty array');
-});
-
-test('parseTranscript returns empty result for undefined path', async () => {
-  const result = await parseTranscript(undefined);
-  assertEquals(result.tools.length, 0, 'tools should be empty array');
-  assertEquals(result.agents.length, 0, 'agents should be empty array');
-  assertEquals(result.todos.length, 0, 'todos should be empty array');
-});
-
-// ============================================================================
-// TEST 6: Transcript Parser - Real JSONL File
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 6: Transcript Parser - Real JSONL File');
-console.log('═══════════════════════════════════════════════════════\n');
-
-// Create temporary test transcript
-const tmpTranscript = path.join(os.tmpdir(), `test-transcript-${Date.now()}.jsonl`);
-const sampleTranscriptData = [
-  {
-    timestamp: '2026-01-06T12:00:00Z',
-    message: {
-      content: [
+    beforeEach(() => {
+      tmpTranscript = path.join(os.tmpdir(), `test-transcript-${Date.now()}.jsonl`);
+      const sampleTranscriptData = [
         {
-          type: 'tool_use',
-          id: 'tool-1',
-          name: 'Read',
-          input: { file_path: '/home/user/file.txt' }
-        }
-      ]
-    }
-  },
-  {
-    timestamp: '2026-01-06T12:01:00Z',
-    message: {
-      content: [
+          timestamp: '2026-01-06T12:00:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_use',
+                id: 'tool-1',
+                name: 'Read',
+                input: { file_path: '/home/user/file.txt' }
+              }
+            ]
+          }
+        },
         {
-          type: 'tool_result',
-          tool_use_id: 'tool-1',
-          is_error: false
-        }
-      ]
-    }
-  },
-  {
-    timestamp: '2026-01-06T12:02:00Z',
-    message: {
-      content: [
+          timestamp: '2026-01-06T12:01:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_result',
+                tool_use_id: 'tool-1',
+                is_error: false
+              }
+            ]
+          }
+        },
         {
-          type: 'tool_use',
-          id: 'tool-2',
-          name: 'Bash',
-          input: { command: 'git status' }
-        }
-      ]
-    }
-  },
-  {
-    timestamp: '2026-01-06T12:03:00Z',
-    message: {
-      content: [
+          timestamp: '2026-01-06T12:02:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_use',
+                id: 'tool-2',
+                name: 'Bash',
+                input: { command: 'git status' }
+              }
+            ]
+          }
+        },
         {
-          type: 'tool_use',
-          id: 'agent-1',
-          name: 'Task',
-          input: { subagent_type: 'researcher', model: 'claude-opus', description: 'Research topic' }
-        }
-      ]
-    }
-  },
-  {
-    timestamp: '2026-01-06T12:04:00Z',
-    message: {
-      content: [
+          timestamp: '2026-01-06T12:03:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_use',
+                id: 'agent-1',
+                name: 'Task',
+                input: { subagent_type: 'researcher', model: 'claude-opus', description: 'Research topic' }
+              }
+            ]
+          }
+        },
         {
-          type: 'tool_result',
-          tool_use_id: 'agent-1',
-          is_error: false
-        }
-      ]
-    }
-  },
-  {
-    timestamp: '2026-01-06T12:05:00Z',
-    message: {
-      content: [
+          timestamp: '2026-01-06T12:04:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_result',
+                tool_use_id: 'agent-1',
+                is_error: false
+              }
+            ]
+          }
+        },
         {
-          type: 'tool_use',
-          id: 'todo-1',
-          name: 'TodoWrite',
-          input: {
-            todos: [
-              { content: 'First task', status: 'completed', activeForm: 'Completing first task' },
-              { content: 'Second task', status: 'in_progress', activeForm: 'Working on second task' }
+          timestamp: '2026-01-06T12:05:00Z',
+          message: {
+            content: [
+              {
+                type: 'tool_use',
+                id: 'todo-1',
+                name: 'TodoWrite',
+                input: {
+                  todos: [
+                    { content: 'First task', status: 'completed', activeForm: 'Completing first task' },
+                    { content: 'Second task', status: 'in_progress', activeForm: 'Working on second task' }
+                  ]
+                }
+              }
             ]
           }
         }
-      ]
-    }
-  }
-];
+      ];
+      fs.writeFileSync(tmpTranscript, sampleTranscriptData.map(d => JSON.stringify(d)).join('\n'));
+    });
 
-fs.writeFileSync(tmpTranscript, sampleTranscriptData.map(d => JSON.stringify(d)).join('\n'));
-
-test('parseTranscript reads valid JSONL file', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  assertTrue(Array.isArray(result.tools), 'tools should be array');
-  assertTrue(Array.isArray(result.agents), 'agents should be array');
-  assertTrue(Array.isArray(result.todos), 'todos should be array');
-});
-
-test('parseTranscript tracks tools correctly', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  assertTrue(result.tools.length >= 2, 'Should track at least 2 tools');
-  const toolNames = result.tools.map(t => t.name);
-  assertContains(toolNames.join(','), 'Read', 'Should contain Read tool');
-  assertContains(toolNames.join(','), 'Bash', 'Should contain Bash tool');
-});
-
-test('parseTranscript marks tool status correctly', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  const completedTools = result.tools.filter(t => t.status === 'completed');
-  assertTrue(completedTools.length > 0, 'Should have at least one completed tool');
-});
-
-test('parseTranscript tracks agents correctly', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  assertTrue(result.agents.length > 0, 'Should track agents');
-  const agent = result.agents[0];
-  assertEquals(agent.type, 'researcher', 'Should capture agent type');
-  assertEquals(agent.model, 'claude-opus', 'Should capture agent model');
-});
-
-test('parseTranscript tracks todos correctly', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  assertTrue(result.todos.length >= 2, 'Should track todos');
-  const inProgressTodos = result.todos.filter(t => t.status === 'in_progress');
-  assertTrue(inProgressTodos.length > 0, 'Should have in_progress todo');
-});
-
-test('parseTranscript extracts targets from tools', async () => {
-  const result = await parseTranscript(tmpTranscript);
-  const readTool = result.tools.find(t => t.name === 'Read');
-  if (readTool) {
-    assertTrue(readTool.target, 'Read tool should have target');
-    assertContains(readTool.target, 'file.txt', 'Should contain file path');
-  }
-});
-
-// ============================================================================
-// TEST 7: Extract Target Function
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 7: Extract Target Function');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('extractTarget: Read tool', () => {
-  const target = extractTarget('Read', { file_path: '/home/user/file.txt' });
-  assertEquals(target, '/home/user/file.txt', 'Should extract file_path');
-});
-
-test('extractTarget: Write tool', () => {
-  const target = extractTarget('Write', { file_path: '/home/user/output.txt' });
-  assertEquals(target, '/home/user/output.txt', 'Should extract file_path from Write');
-});
-
-test('extractTarget: Edit tool', () => {
-  const target = extractTarget('Edit', { path: '/home/user/config.json' });
-  assertEquals(target, '/home/user/config.json', 'Should extract path from Edit');
-});
-
-test('extractTarget: Glob tool', () => {
-  const target = extractTarget('Glob', { pattern: '**/*.js' });
-  assertEquals(target, '**/*.js', 'Should extract pattern from Glob');
-});
-
-test('extractTarget: Grep tool', () => {
-  const target = extractTarget('Grep', { pattern: 'function.*test' });
-  assertEquals(target, 'function.*test', 'Should extract pattern from Grep');
-});
-
-test('extractTarget: Bash tool (short command)', () => {
-  const target = extractTarget('Bash', { command: 'ls -la' });
-  assertEquals(target, 'ls -la', 'Should extract short command');
-});
-
-test('extractTarget: Bash tool (long command truncated)', () => {
-  const longCmd = 'npm install --save-dev @types/node @types/jest @types/react @types/react-dom @types/webpack';
-  const target = extractTarget('Bash', { command: longCmd });
-  assertTrue(target.endsWith('...'), 'Should truncate long command with ...');
-  assertTrue(target.length <= 33, 'Should be max 30 chars + ...');
-});
-
-test('extractTarget: Unknown tool returns null', () => {
-  const target = extractTarget('UnknownTool', { someParam: 'value' });
-  assertEquals(target, null, 'Should return null for unknown tools');
-});
-
-test('extractTarget: Null input returns null', () => {
-  const target = extractTarget('Read', null);
-  assertEquals(target, null, 'Should return null for null input');
-});
-
-// ============================================================================
-// TEST 8: Config Counter - Edge Cases
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 8: Config Counter - Edge Cases');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('countRulesInDir: returns 0 for non-existent directory', () => {
-  const count = countRulesInDir('/tmp/nonexistent-rules-dir-12345');
-  assertEquals(count, 0, 'Should return 0 for non-existent directory');
-});
-
-test('countRulesInDir: handles empty directory', () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
-  try {
-    const count = countRulesInDir(tmpDir);
-    assertEquals(count, 0, 'Should return 0 for empty directory');
-  } finally {
-    fs.rmdirSync(tmpDir);
-  }
-});
-
-test('countRulesInDir: counts .md files only', () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
-  try {
-    fs.writeFileSync(path.join(tmpDir, 'rule1.md'), '# Rule 1');
-    fs.writeFileSync(path.join(tmpDir, 'rule2.md'), '# Rule 2');
-    fs.writeFileSync(path.join(tmpDir, 'ignore.txt'), 'ignore');
-    const count = countRulesInDir(tmpDir);
-    assertEquals(count, 2, 'Should count only .md files');
-  } finally {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
-  }
-});
-
-test('countRulesInDir: handles nested directories', () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
-  try {
-    fs.mkdirSync(path.join(tmpDir, 'nested'));
-    fs.writeFileSync(path.join(tmpDir, 'rule1.md'), '# Rule 1');
-    fs.writeFileSync(path.join(tmpDir, 'nested', 'rule2.md'), '# Rule 2');
-    const count = countRulesInDir(tmpDir);
-    assertEquals(count, 2, 'Should count .md files in nested directories');
-  } finally {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
-  }
-});
-
-test('countConfigs: returns object with expected properties', () => {
-  const result = countConfigs('/tmp');
-  assertTrue(typeof result === 'object', 'Should return object');
-  assertTrue('claudeMdCount' in result, 'Should have claudeMdCount');
-  assertTrue('rulesCount' in result, 'Should have rulesCount');
-  assertTrue('mcpCount' in result, 'Should have mcpCount');
-  assertTrue('hooksCount' in result, 'Should have hooksCount');
-});
-
-test('countConfigs: all counts are numbers', () => {
-  const result = countConfigs('/tmp');
-  assertEquals(typeof result.claudeMdCount, 'number', 'claudeMdCount should be number');
-  assertEquals(typeof result.rulesCount, 'number', 'rulesCount should be number');
-  assertEquals(typeof result.mcpCount, 'number', 'mcpCount should be number');
-  assertEquals(typeof result.hooksCount, 'number', 'hooksCount should be number');
-});
-
-test('countConfigs: handles null/undefined cwd gracefully', () => {
-  const result1 = countConfigs(null);
-  assertEquals(typeof result1, 'object', 'Should handle null cwd');
-
-  const result2 = countConfigs(undefined);
-  assertEquals(typeof result2, 'object', 'Should handle undefined cwd');
-});
-
-// ============================================================================
-// TEST 9: Fallback Error Handling
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 9: Fallback Error Handling');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('processEntry handles entry without timestamp', () => {
-  const toolMap = new Map();
-  const agentMap = new Map();
-  const latestTodos = [];
-  const result = { sessionStart: null };
-
-  const entry = {
-    message: {
-      content: [
-        {
-          type: 'tool_use',
-          id: 'tool-1',
-          name: 'Bash',
-          input: { command: 'ls' }
+    afterEach(() => {
+      try {
+        if (fs.existsSync(tmpTranscript)) {
+          fs.unlinkSync(tmpTranscript);
         }
-      ]
-    }
-  };
-
-  processEntry(entry, toolMap, agentMap, latestTodos, result);
-  assertTrue(toolMap.has('tool-1'), 'Should process entry without timestamp');
-});
-
-test('processEntry handles missing content array', () => {
-  const toolMap = new Map();
-  const agentMap = new Map();
-  const latestTodos = [];
-  const result = { sessionStart: null };
-
-  const entry = { timestamp: '2026-01-06T12:00:00Z' };
-  processEntry(entry, toolMap, agentMap, latestTodos, result);
-  assertEquals(toolMap.size, 0, 'Should handle missing content gracefully');
-});
-
-test('processEntry handles malformed tool_result', () => {
-  const toolMap = new Map();
-  const agentMap = new Map();
-  const latestTodos = [];
-  const result = { sessionStart: null };
-
-  const entry = {
-    timestamp: '2026-01-06T12:00:00Z',
-    message: {
-      content: [
-        { type: 'tool_result' } // missing tool_use_id
-      ]
-    }
-  };
-
-  processEntry(entry, toolMap, agentMap, latestTodos, result);
-  // Should not crash, just skip
-  assertEquals(toolMap.size, 0, 'Should handle malformed tool_result');
-});
-
-// ============================================================================
-// TEST 10: Performance Test
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST 10: Performance Test');
-console.log('═══════════════════════════════════════════════════════\n');
-
-test('parseTranscript processes 100 entries <100ms', async () => {
-  const largeTranscript = path.join(os.tmpdir(), `perf-transcript-${Date.now()}.jsonl`);
-  const lines = [];
-
-  for (let i = 0; i < 100; i++) {
-    lines.push(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      message: {
-        content: [
-          {
-            type: 'tool_use',
-            id: `tool-${i}`,
-            name: 'Bash',
-            input: { command: 'echo test' }
-          }
-        ]
+      } catch (e) {
+        // Ignore cleanup errors
       }
-    }));
-  }
+    });
 
-  fs.writeFileSync(largeTranscript, lines.join('\n'));
+    test('parseTranscript reads valid JSONL file', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      expect(Array.isArray(result.tools)).toBe(true);
+      expect(Array.isArray(result.agents)).toBe(true);
+      expect(Array.isArray(result.todos)).toBe(true);
+    });
 
-  try {
-    const start = Date.now();
-    await parseTranscript(largeTranscript);
-    const elapsed = Date.now() - start;
-    assertTrue(elapsed < 100, `Should parse 100 entries in <100ms, took ${elapsed}ms`);
-  } finally {
-    fs.unlinkSync(largeTranscript);
-  }
-});
+    test('parseTranscript tracks tools correctly', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      expect(result.tools.length).toBeGreaterThanOrEqual(2);
+      const toolNames = result.tools.map(t => t.name);
+      expect(toolNames).toContain('Read');
+      expect(toolNames).toContain('Bash');
+    });
 
-test('coloredBar(50, 12) renders in <1ms', () => {
-  const start = Date.now();
-  for (let i = 0; i < 1000; i++) {
-    coloredBar(50, 12);
-  }
-  const elapsed = Date.now() - start;
-  assertTrue(elapsed < 50, `1000 bar renders should be <50ms, took ${elapsed}ms`);
-});
+    test('parseTranscript marks tool status correctly', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      const completedTools = result.tools.filter(t => t.status === 'completed');
+      expect(completedTools.length).toBeGreaterThan(0);
+    });
 
-// ============================================================================
-// CLEANUP
-// ============================================================================
+    test('parseTranscript tracks agents correctly', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      expect(result.agents.length).toBeGreaterThan(0);
+      const agent = result.agents[0];
+      expect(agent.type).toBe('researcher');
+      expect(agent.model).toBe('claude-opus');
+    });
 
-try {
-  fs.unlinkSync(tmpTranscript);
-} catch {}
+    test('parseTranscript tracks todos correctly', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      expect(result.todos.length).toBeGreaterThanOrEqual(2);
+      const inProgressTodos = result.todos.filter(t => t.status === 'in_progress');
+      expect(inProgressTodos.length).toBeGreaterThan(0);
+    });
 
-// ============================================================================
-// SUMMARY
-// ============================================================================
-
-console.log('\n═══════════════════════════════════════════════════════');
-console.log('TEST SUMMARY');
-console.log('═══════════════════════════════════════════════════════\n');
-
-console.log(`Total Tests: ${passed + failed}`);
-console.log(`Passed: ${passed}`);
-console.log(`Failed: ${failed}`);
-
-if (failed > 0) {
-  console.log('\nFailed Tests:');
-  failures.forEach(f => {
-    console.log(`  ✗ ${f.name}`);
-    console.log(`    ${f.error.split('\n')[0]}`);
+    test('parseTranscript extracts targets from tools', async () => {
+      const result = await parseTranscript(tmpTranscript);
+      const readTool = result.tools.find(t => t.name === 'Read');
+      if (readTool) {
+        expect(readTool.target).toBeTruthy();
+        expect(readTool.target).toContain('file.txt');
+      }
+    });
   });
-  process.exit(1);
-} else {
-  console.log('\n✓ All tests passed!');
-  process.exit(0);
-}
+
+  // ============================================================================
+  // TEST 7: Extract Target Function
+  // ============================================================================
+  describe('Extract Target Function', () => {
+    test('extractTarget: Read tool', () => {
+      const target = extractTarget('Read', { file_path: '/home/user/file.txt' });
+      expect(target).toBe('/home/user/file.txt');
+    });
+
+    test('extractTarget: Write tool', () => {
+      const target = extractTarget('Write', { file_path: '/home/user/output.txt' });
+      expect(target).toBe('/home/user/output.txt');
+    });
+
+    test('extractTarget: Edit tool', () => {
+      const target = extractTarget('Edit', { path: '/home/user/config.json' });
+      expect(target).toBe('/home/user/config.json');
+    });
+
+    test('extractTarget: Glob tool', () => {
+      const target = extractTarget('Glob', { pattern: '**/*.js' });
+      expect(target).toBe('**/*.js');
+    });
+
+    test('extractTarget: Grep tool', () => {
+      const target = extractTarget('Grep', { pattern: 'function.*test' });
+      expect(target).toBe('function.*test');
+    });
+
+    test('extractTarget: Bash tool (short command)', () => {
+      const target = extractTarget('Bash', { command: 'ls -la' });
+      expect(target).toBe('ls -la');
+    });
+
+    test('extractTarget: Bash tool (long command truncated)', () => {
+      const longCmd = 'npm install --save-dev @types/node @types/jest @types/react @types/react-dom @types/webpack';
+      const target = extractTarget('Bash', { command: longCmd });
+      expect(target.endsWith('...')).toBe(true);
+      expect(target.length).toBeLessThanOrEqual(33);
+    });
+
+    test('extractTarget: Unknown tool returns null', () => {
+      const target = extractTarget('UnknownTool', { someParam: 'value' });
+      expect(target).toBe(null);
+    });
+
+    test('extractTarget: Null input returns null', () => {
+      const target = extractTarget('Read', null);
+      expect(target).toBe(null);
+    });
+  });
+
+  // ============================================================================
+  // TEST 8: Config Counter - Edge Cases
+  // ============================================================================
+  describe('Config Counter - Edge Cases', () => {
+    test('countRulesInDir: returns 0 for non-existent directory', () => {
+      const count = countRulesInDir('/tmp/nonexistent-rules-dir-12345');
+      expect(count).toBe(0);
+    });
+
+    test('countRulesInDir: handles empty directory', () => {
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
+      try {
+        const count = countRulesInDir(tmpDir);
+        expect(count).toBe(0);
+      } finally {
+        fs.rmdirSync(tmpDir);
+      }
+    });
+
+    test('countRulesInDir: counts .md files only', () => {
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
+      try {
+        fs.writeFileSync(path.join(tmpDir, 'rule1.md'), '# Rule 1');
+        fs.writeFileSync(path.join(tmpDir, 'rule2.md'), '# Rule 2');
+        fs.writeFileSync(path.join(tmpDir, 'ignore.txt'), 'ignore');
+        const count = countRulesInDir(tmpDir);
+        expect(count).toBe(2);
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+      }
+    });
+
+    test('countRulesInDir: handles nested directories', () => {
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rules-'));
+      try {
+        fs.mkdirSync(path.join(tmpDir, 'nested'));
+        fs.writeFileSync(path.join(tmpDir, 'rule1.md'), '# Rule 1');
+        fs.writeFileSync(path.join(tmpDir, 'nested', 'rule2.md'), '# Rule 2');
+        const count = countRulesInDir(tmpDir);
+        expect(count).toBe(2);
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+      }
+    });
+
+    test('countConfigs: returns object with expected properties', () => {
+      const result = countConfigs('/tmp');
+      expect(typeof result).toBe('object');
+      expect(result).toHaveProperty('claudeMdCount');
+      expect(result).toHaveProperty('rulesCount');
+      expect(result).toHaveProperty('mcpCount');
+      expect(result).toHaveProperty('hooksCount');
+    });
+
+    test('countConfigs: all counts are numbers', () => {
+      const result = countConfigs('/tmp');
+      expect(typeof result.claudeMdCount).toBe('number');
+      expect(typeof result.rulesCount).toBe('number');
+      expect(typeof result.mcpCount).toBe('number');
+      expect(typeof result.hooksCount).toBe('number');
+    });
+
+    test('countConfigs: handles null/undefined cwd gracefully', () => {
+      const result1 = countConfigs(null);
+      expect(typeof result1).toBe('object');
+
+      const result2 = countConfigs(undefined);
+      expect(typeof result2).toBe('object');
+    });
+  });
+
+  // ============================================================================
+  // TEST 9: Fallback Error Handling
+  // ============================================================================
+  describe('Fallback Error Handling', () => {
+    test('processEntry handles entry without timestamp', () => {
+      const toolMap = new Map();
+      const agentMap = new Map();
+      const latestTodos = [];
+      const result = { sessionStart: null };
+
+      const entry = {
+        message: {
+          content: [
+            {
+              type: 'tool_use',
+              id: 'tool-1',
+              name: 'Bash',
+              input: { command: 'ls' }
+            }
+          ]
+        }
+      };
+
+      processEntry(entry, toolMap, agentMap, latestTodos, result);
+      expect(toolMap.has('tool-1')).toBe(true);
+    });
+
+    test('processEntry handles missing content array', () => {
+      const toolMap = new Map();
+      const agentMap = new Map();
+      const latestTodos = [];
+      const result = { sessionStart: null };
+
+      const entry = { timestamp: '2026-01-06T12:00:00Z' };
+      processEntry(entry, toolMap, agentMap, latestTodos, result);
+      expect(toolMap.size).toBe(0);
+    });
+
+    test('processEntry handles malformed tool_result', () => {
+      const toolMap = new Map();
+      const agentMap = new Map();
+      const latestTodos = [];
+      const result = { sessionStart: null };
+
+      const entry = {
+        timestamp: '2026-01-06T12:00:00Z',
+        message: {
+          content: [
+            { type: 'tool_result' } // missing tool_use_id
+          ]
+        }
+      };
+
+      processEntry(entry, toolMap, agentMap, latestTodos, result);
+      // Should not crash, just skip
+      expect(toolMap.size).toBe(0);
+    });
+  });
+
+  // ============================================================================
+  // TEST 10: Performance Test
+  // ============================================================================
+  describe('Performance Test', () => {
+    test('parseTranscript processes 100 entries <100ms', async () => {
+      const largeTranscript = path.join(os.tmpdir(), `perf-transcript-${Date.now()}.jsonl`);
+      const lines = [];
+
+      for (let i = 0; i < 100; i++) {
+        lines.push(JSON.stringify({
+          timestamp: new Date().toISOString(),
+          message: {
+            content: [
+              {
+                type: 'tool_use',
+                id: `tool-${i}`,
+                name: 'Bash',
+                input: { command: 'echo test' }
+              }
+            ]
+          }
+        }));
+      }
+
+      fs.writeFileSync(largeTranscript, lines.join('\n'));
+
+      try {
+        const start = Date.now();
+        await parseTranscript(largeTranscript);
+        const elapsed = Date.now() - start;
+        expect(elapsed).toBeLessThan(100);
+      } finally {
+        if (fs.existsSync(largeTranscript)) {
+          fs.unlinkSync(largeTranscript);
+        }
+      }
+    });
+
+    test('coloredBar(50, 12) renders in <1ms', () => {
+      const start = Date.now();
+      for (let i = 0; i < 1000; i++) {
+        coloredBar(50, 12);
+      }
+      const elapsed = Date.now() - start;
+      expect(elapsed).toBeLessThan(50); // 50ms for 1000 iterations = 0.05ms per iteration
+    });
+  });
+
+});

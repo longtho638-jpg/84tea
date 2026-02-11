@@ -460,12 +460,8 @@ export default function Module1Page() {
                     </Typography>
                   </div>
 
-                  <div className="prose prose-lg max-w-none text-on-surface-variant prose-headings:text-primary prose-headings:font-display prose-strong:text-on-surface">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: lesson.content.replace(/\n/g, "<br/>"),
-                      }}
-                    />
+                  <div className="prose prose-lg max-w-none text-on-surface-variant prose-headings:text-primary prose-headings:font-display prose-strong:text-on-surface whitespace-pre-wrap">
+                    {lesson.content}
                   </div>
 
                   <div className="flex justify-between mt-12 pt-6 border-t border-outline-variant">

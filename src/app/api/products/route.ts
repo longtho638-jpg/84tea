@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { productSchema } from "@/lib/validation";
 import { limiter, getClientIP } from "@/lib/rate-limit";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Supabase error fetching products:", error);
+      logger.error("Supabase error fetching products:", error);
       return NextResponse.json(
         { error: "Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau." },
         { status: 500 }
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error("Supabase error inserting product:", error);
+      logger.error("Supabase error inserting product:", error);
       return NextResponse.json(
         { error: "Không thể tạo sản phẩm mới. Vui lòng kiểm tra lại dữ liệu." },
         { status: 400 }

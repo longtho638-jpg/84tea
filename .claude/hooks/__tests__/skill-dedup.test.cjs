@@ -1,13 +1,3 @@
-#!/usr/bin/env node
-/**
- * Tests for skill-dedup.cjs hook
- * Run: node --test .claude/hooks/__tests__/skill-dedup.test.cjs
- *
- * Uses real temp directories (no mocks) to test actual filesystem behavior.
- */
-
-const { describe, it, beforeEach, afterEach } = require('node:test');
-const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -18,9 +8,6 @@ const {
   resolvePaths,
   handleSessionStart,
   handleSessionEnd,
-  doShadow,
-  restoreOrphanedSkills,
-  cleanupShadowedDir,
   SKIP_DIRS
 } = require('../skill-dedup.cjs');
 
@@ -51,7 +38,9 @@ function skillExists(skillsRoot, name) {
 
 /** Remove temp dir recursively */
 function cleanup(tmpDir) {
-  fs.rmSync(tmpDir, { recursive: true, force: true });
+  if (fs.existsSync(tmpDir)) {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
 }
 
 // -- Unit Tests: listSkillNames ----------------------------------------------
@@ -68,25 +57,25 @@ describe('listSkillNames', () => {
   afterEach(() => cleanup(tmpDir));
 
   it('returns empty array for non-existent directory', () => {
-    assert.deepStrictEqual(listSkillNames('/nonexistent/path'), []);
+    expect(listSkillNames('/nonexistent/path')).toEqual([]);
   });
 
   it('returns empty array for empty directory', () => {
-    assert.deepStrictEqual(listSkillNames(globalDir), []);
+    expect(listSkillNames(globalDir)).toEqual([]);
   });
 
   it('returns skill names that have SKILL.md', () => {
     createSkill(globalDir, 'cook');
     createSkill(globalDir, 'brainstorm');
     const result = listSkillNames(globalDir);
-    assert.deepStrictEqual(result.sort(), ['brainstorm', 'cook']);
+    expect(result.sort()).toEqual(['brainstorm', 'cook']);
   });
 
   it('ignores directories without SKILL.md', () => {
     createSkill(globalDir, 'valid-skill');
     fs.mkdirSync(path.join(globalDir, 'no-skill-md'));
     const result = listSkillNames(globalDir);
-    assert.deepStrictEqual(result, ['valid-skill']);
+    expect(result).toEqual(['valid-skill']);
   });
 
   it('ignores infrastructure directories (.venv, node_modules, etc.)', () => {
@@ -97,14 +86,14 @@ describe('listSkillNames', () => {
       fs.writeFileSync(path.join(dir, 'SKILL.md'), '# skip');
     }
     const result = listSkillNames(globalDir);
-    assert.deepStrictEqual(result, ['real-skill']);
+    expect(result).toEqual(['real-skill']);
   });
 
   it('handles files (not directories) gracefully', () => {
     createSkill(globalDir, 'real-skill');
     fs.writeFileSync(path.join(globalDir, 'not-a-dir.txt'), 'test');
     const result = listSkillNames(globalDir);
-    assert.deepStrictEqual(result, ['real-skill']);
+    expect(result).toEqual(['real-skill']);
   });
 });
 
@@ -112,26 +101,25 @@ describe('listSkillNames', () => {
 
 describe('findOverlaps', () => {
   it('returns empty array when no overlaps', () => {
-    assert.deepStrictEqual(findOverlaps(['a', 'b'], ['c', 'd']), []);
+    expect(findOverlaps(['a', 'b'], ['c', 'd'])).toEqual([]);
   });
 
   it('finds overlapping names', () => {
-    assert.deepStrictEqual(
-      findOverlaps(['cook', 'brainstorm', 'git'], ['cook', 'seo', 'brainstorm']),
-      ['cook', 'brainstorm']
-    );
+    expect(
+      findOverlaps(['cook', 'brainstorm', 'git'], ['cook', 'seo', 'brainstorm'])
+    ).toEqual(['cook', 'brainstorm']);
   });
 
   it('returns empty array when global is empty', () => {
-    assert.deepStrictEqual(findOverlaps([], ['cook']), []);
+    expect(findOverlaps([], ['cook'])).toEqual([]);
   });
 
   it('returns empty array when local is empty', () => {
-    assert.deepStrictEqual(findOverlaps(['cook'], []), []);
+    expect(findOverlaps(['cook'], [])).toEqual([]);
   });
 
   it('handles identical lists', () => {
-    assert.deepStrictEqual(findOverlaps(['a', 'b'], ['a', 'b']), ['a', 'b']);
+    expect(findOverlaps(['a', 'b'], ['a', 'b'])).toEqual(['a', 'b']);
   });
 });
 
@@ -140,10 +128,10 @@ describe('findOverlaps', () => {
 describe('resolvePaths', () => {
   it('computes shadowed dir and manifest paths correctly', () => {
     const result = resolvePaths('/global', '/local');
-    assert.strictEqual(result.globalDir, '/global');
-    assert.strictEqual(result.localDir, '/local');
-    assert.strictEqual(result.shadowedDir, '/local/.shadowed');
-    assert.strictEqual(result.manifestFile, '/local/.shadowed/.dedup-manifest.json');
+    expect(result.globalDir).toBe('/global');
+    expect(result.localDir).toBe('/local');
+    expect(result.shadowedDir).toBe('/local/.shadowed');
+    expect(result.manifestFile).toBe('/local/.shadowed/.dedup-manifest.json');
   });
 });
 
@@ -151,15 +139,15 @@ describe('resolvePaths', () => {
 
 describe('SKIP_DIRS', () => {
   it('contains expected infrastructure directories', () => {
-    assert.ok(SKIP_DIRS.has('.shadowed'));
-    assert.ok(SKIP_DIRS.has('.venv'));
-    assert.ok(SKIP_DIRS.has('node_modules'));
-    assert.ok(SKIP_DIRS.has('__pycache__'));
+    expect(SKIP_DIRS.has('.shadowed')).toBeTruthy();
+    expect(SKIP_DIRS.has('.venv')).toBeTruthy();
+    expect(SKIP_DIRS.has('node_modules')).toBeTruthy();
+    expect(SKIP_DIRS.has('__pycache__')).toBeTruthy();
   });
 
   it('does not contain regular skill names', () => {
-    assert.ok(!SKIP_DIRS.has('cook'));
-    assert.ok(!SKIP_DIRS.has('brainstorm'));
+    expect(SKIP_DIRS.has('cook')).toBeFalsy();
+    expect(SKIP_DIRS.has('brainstorm')).toBeFalsy();
   });
 });
 
@@ -179,22 +167,22 @@ describe('handleSessionStart', () => {
   it('does nothing when no global skills exist', () => {
     createSkill(paths.localDir, 'cook');
     const result = handleSessionStart(paths);
-    assert.deepStrictEqual(result.shadowed, []);
-    assert.ok(skillExists(paths.localDir, 'cook'));
+    expect(result.shadowed).toEqual([]);
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
   });
 
   it('does nothing when no local skills exist', () => {
     createSkill(paths.globalDir, 'cook');
     const result = handleSessionStart(paths);
-    assert.deepStrictEqual(result.shadowed, []);
+    expect(result.shadowed).toEqual([]);
   });
 
   it('does nothing when no overlaps', () => {
     createSkill(paths.globalDir, 'engineer-only');
     createSkill(paths.localDir, 'marketing-only');
     const result = handleSessionStart(paths);
-    assert.deepStrictEqual(result.shadowed, []);
-    assert.ok(skillExists(paths.localDir, 'marketing-only'));
+    expect(result.shadowed).toEqual([]);
+    expect(skillExists(paths.localDir, 'marketing-only')).toBeTruthy();
   });
 
   it('shadows overlapping local skills', () => {
@@ -207,14 +195,14 @@ describe('handleSessionStart', () => {
     const result = handleSessionStart(paths);
 
     // Overlapping skills moved to .shadowed
-    assert.deepStrictEqual(result.shadowed.sort(), ['brainstorm', 'cook']);
-    assert.ok(!skillExists(paths.localDir, 'cook'));
-    assert.ok(!skillExists(paths.localDir, 'brainstorm'));
-    assert.ok(skillExists(paths.shadowedDir, 'cook'));
-    assert.ok(skillExists(paths.shadowedDir, 'brainstorm'));
+    expect(result.shadowed.sort()).toEqual(['brainstorm', 'cook']);
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
+    expect(skillExists(paths.localDir, 'brainstorm')).toBeFalsy();
+    expect(skillExists(paths.shadowedDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.shadowedDir, 'brainstorm')).toBeTruthy();
 
     // Non-overlapping skill untouched
-    assert.ok(skillExists(paths.localDir, 'seo'));
+    expect(skillExists(paths.localDir, 'seo')).toBeTruthy();
   });
 
   it('writes a manifest file with shadowed skill names', () => {
@@ -223,12 +211,12 @@ describe('handleSessionStart', () => {
 
     handleSessionStart(paths);
 
-    assert.ok(fs.existsSync(paths.manifestFile));
+    expect(fs.existsSync(paths.manifestFile)).toBeTruthy();
     const manifest = JSON.parse(fs.readFileSync(paths.manifestFile, 'utf8'));
-    assert.deepStrictEqual(manifest.skills, ['cook']);
-    assert.ok(manifest.shadowedAt);
-    assert.strictEqual(manifest.globalDir, paths.globalDir);
-    assert.strictEqual(manifest.localDir, paths.localDir);
+    expect(manifest.skills).toEqual(['cook']);
+    expect(manifest.shadowedAt).toBeDefined();
+    expect(manifest.globalDir).toBe(paths.globalDir);
+    expect(manifest.localDir).toBe(paths.localDir);
   });
 
   it('recovers from crashed previous session before shadowing', () => {
@@ -241,8 +229,8 @@ describe('handleSessionStart', () => {
     const result = handleSessionStart(paths);
 
     // Should have restored cook first, then re-shadowed it
-    assert.ok(skillExists(paths.shadowedDir, 'cook'));
-    assert.ok(!skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.shadowedDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
   });
 });
 
@@ -261,7 +249,7 @@ describe('handleSessionEnd', () => {
 
   it('does nothing when no .shadowed directory exists', () => {
     const result = handleSessionEnd(paths);
-    assert.deepStrictEqual(result.restored, []);
+    expect(result.restored).toEqual([]);
   });
 
   it('restores shadowed skills from manifest', () => {
@@ -277,11 +265,11 @@ describe('handleSessionEnd', () => {
 
     const result = handleSessionEnd(paths);
 
-    assert.deepStrictEqual(result.restored.sort(), ['brainstorm', 'cook']);
-    assert.ok(skillExists(paths.localDir, 'cook'));
-    assert.ok(skillExists(paths.localDir, 'brainstorm'));
-    assert.ok(skillExists(paths.localDir, 'seo'));
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(result.restored.sort()).toEqual(['brainstorm', 'cook']);
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'brainstorm')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'seo')).toBeTruthy();
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('cleans up .shadowed directory after restore', () => {
@@ -291,8 +279,8 @@ describe('handleSessionEnd', () => {
 
     handleSessionEnd(paths);
 
-    assert.ok(!fs.existsSync(paths.shadowedDir));
-    assert.ok(!fs.existsSync(paths.manifestFile));
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
+    expect(fs.existsSync(paths.manifestFile)).toBeFalsy();
   });
 
   it('handles corrupt manifest by restoring orphaned skills', () => {
@@ -302,9 +290,9 @@ describe('handleSessionEnd', () => {
 
     const result = handleSessionEnd(paths);
 
-    assert.deepStrictEqual(result.restored, ['cook']);
-    assert.ok(skillExists(paths.localDir, 'cook'));
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(result.restored).toEqual(['cook']);
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('handles orphaned .shadowed dir without manifest', () => {
@@ -315,10 +303,10 @@ describe('handleSessionEnd', () => {
 
     const result = handleSessionEnd(paths);
 
-    assert.deepStrictEqual(result.restored.sort(), ['brainstorm', 'cook']);
-    assert.ok(skillExists(paths.localDir, 'cook'));
-    assert.ok(skillExists(paths.localDir, 'brainstorm'));
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(result.restored.sort()).toEqual(['brainstorm', 'cook']);
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'brainstorm')).toBeTruthy();
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('skips restore if local skill already exists (no overwrite)', () => {
@@ -330,10 +318,10 @@ describe('handleSessionEnd', () => {
     const result = handleSessionEnd(paths);
 
     // Should not overwrite existing local
-    assert.deepStrictEqual(result.restored, []);
+    expect(result.restored).toEqual([]);
     // Local version preserved
     const content = fs.readFileSync(path.join(paths.localDir, 'cook', 'SKILL.md'), 'utf8');
-    assert.strictEqual(content, '# Cook local version');
+    expect(content).toBe('# Cook local version');
   });
 });
 
@@ -361,28 +349,28 @@ describe('full session cycle', () => {
 
     // --- SessionStart ---
     const startResult = handleSessionStart(paths);
-    assert.deepStrictEqual(startResult.shadowed.sort(), ['brainstorm', 'cook']);
+    expect(startResult.shadowed.sort()).toEqual(['brainstorm', 'cook']);
 
     // During session: only non-overlapping local + global are visible
-    assert.ok(!skillExists(paths.localDir, 'cook'));
-    assert.ok(!skillExists(paths.localDir, 'brainstorm'));
-    assert.ok(skillExists(paths.localDir, 'seo'));
-    assert.ok(skillExists(paths.shadowedDir, 'cook'));
-    assert.ok(skillExists(paths.shadowedDir, 'brainstorm'));
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
+    expect(skillExists(paths.localDir, 'brainstorm')).toBeFalsy();
+    expect(skillExists(paths.localDir, 'seo')).toBeTruthy();
+    expect(skillExists(paths.shadowedDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.shadowedDir, 'brainstorm')).toBeTruthy();
 
     // --- SessionEnd ---
     const endResult = handleSessionEnd(paths);
-    assert.deepStrictEqual(endResult.restored.sort(), ['brainstorm', 'cook']);
+    expect(endResult.restored.sort()).toEqual(['brainstorm', 'cook']);
 
     // After session: everything back to original
-    assert.ok(skillExists(paths.localDir, 'cook'));
-    assert.ok(skillExists(paths.localDir, 'brainstorm'));
-    assert.ok(skillExists(paths.localDir, 'seo'));
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'brainstorm')).toBeTruthy();
+    expect(skillExists(paths.localDir, 'seo')).toBeTruthy();
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
 
     // Content preserved
     const cookContent = fs.readFileSync(path.join(paths.localDir, 'cook', 'SKILL.md'), 'utf8');
-    assert.strictEqual(cookContent, '# Cook v2.0.0');
+    expect(cookContent).toBe('# Cook v2.0.0');
   });
 
   it('multiple sessions cycle without corruption', () => {
@@ -391,24 +379,24 @@ describe('full session cycle', () => {
 
     // Session 1
     handleSessionStart(paths);
-    assert.ok(!skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
     handleSessionEnd(paths);
-    assert.ok(skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
 
     // Session 2
     handleSessionStart(paths);
-    assert.ok(!skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
     handleSessionEnd(paths);
-    assert.ok(skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
 
     // Session 3
     handleSessionStart(paths);
-    assert.ok(!skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
     handleSessionEnd(paths);
-    assert.ok(skillExists(paths.localDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
 
     // Filesystem clean
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('handles crash recovery: SessionStart after crashed session', () => {
@@ -417,23 +405,23 @@ describe('full session cycle', () => {
 
     // Session 1: start but don't end (simulating crash)
     handleSessionStart(paths);
-    assert.ok(skillExists(paths.shadowedDir, 'cook'));
+    expect(skillExists(paths.shadowedDir, 'cook')).toBeTruthy();
 
     // Session 2: start should recover from crash first
     handleSessionStart(paths);
 
     // cook should still be shadowed (recovered then re-shadowed)
-    assert.ok(!skillExists(paths.localDir, 'cook'));
-    assert.ok(skillExists(paths.shadowedDir, 'cook'));
+    expect(skillExists(paths.localDir, 'cook')).toBeFalsy();
+    expect(skillExists(paths.shadowedDir, 'cook')).toBeTruthy();
 
     // End session 2: everything clean
     handleSessionEnd(paths);
-    assert.ok(skillExists(paths.localDir, 'cook'));
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
 
     // Content preserved through crash recovery
     const content = fs.readFileSync(path.join(paths.localDir, 'cook', 'SKILL.md'), 'utf8');
-    assert.strictEqual(content, '# Original local');
+    expect(content).toBe('# Original local');
   });
 
   it('no-op when only global skills installed (no local kit)', () => {
@@ -441,8 +429,8 @@ describe('full session cycle', () => {
     // No local skills dir content
 
     const result = handleSessionStart(paths);
-    assert.deepStrictEqual(result.shadowed, []);
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(result.shadowed).toEqual([]);
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('no-op when only local skills installed (no global kit)', () => {
@@ -450,7 +438,7 @@ describe('full session cycle', () => {
     // No global skills
 
     const result = handleSessionStart(paths);
-    assert.deepStrictEqual(result.shadowed, []);
+    expect(result.shadowed).toEqual([]);
   });
 });
 
@@ -475,16 +463,16 @@ describe('edge cases', () => {
     }
 
     const startResult = handleSessionStart(paths);
-    assert.strictEqual(startResult.shadowed.length, 39);
+    expect(startResult.shadowed.length).toBe(39);
 
     const endResult = handleSessionEnd(paths);
-    assert.strictEqual(endResult.restored.length, 39);
+    expect(endResult.restored.length).toBe(39);
 
     // All restored
     for (const name of skillNames) {
-      assert.ok(skillExists(paths.localDir, name));
+      expect(skillExists(paths.localDir, name)).toBeTruthy();
     }
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('preserves skill directory contents (not just SKILL.md)', () => {
@@ -499,17 +487,17 @@ describe('edge cases', () => {
     handleSessionEnd(paths);
 
     // All files preserved
-    assert.ok(fs.existsSync(path.join(paths.localDir, 'cook', 'SKILL.md')));
-    assert.ok(fs.existsSync(path.join(paths.localDir, 'cook', 'README.md')));
-    assert.ok(fs.existsSync(path.join(paths.localDir, 'cook', 'scripts', 'run.sh')));
+    expect(fs.existsSync(path.join(paths.localDir, 'cook', 'SKILL.md'))).toBeTruthy();
+    expect(fs.existsSync(path.join(paths.localDir, 'cook', 'README.md'))).toBeTruthy();
+    expect(fs.existsSync(path.join(paths.localDir, 'cook', 'scripts', 'run.sh'))).toBeTruthy();
   });
 
   it('handles empty .shadowed directory on SessionEnd', () => {
     fs.mkdirSync(paths.shadowedDir, { recursive: true });
     // Empty .shadowed, no manifest
     const result = handleSessionEnd(paths);
-    assert.deepStrictEqual(result.restored, []);
-    assert.ok(!fs.existsSync(paths.shadowedDir));
+    expect(result.restored).toEqual([]);
+    expect(fs.existsSync(paths.shadowedDir)).toBeFalsy();
   });
 
   it('handles manifest referencing skills not in .shadowed', () => {
@@ -521,7 +509,7 @@ describe('edge cases', () => {
     // ghost-skill doesn't exist in .shadowed
 
     const result = handleSessionEnd(paths);
-    assert.deepStrictEqual(result.restored, ['cook']);
-    assert.ok(skillExists(paths.localDir, 'cook'));
+    expect(result.restored).toEqual(['cook']);
+    expect(skillExists(paths.localDir, 'cook')).toBeTruthy();
   });
 });

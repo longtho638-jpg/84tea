@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { TopAppBar } from "./top-app-bar";
-import { NavigationDrawer } from "./navigation-drawer";
 import { BottomNavigation } from "./bottom-navigation";
+
+const NavigationDrawer = dynamic(
+  () => import("./navigation-drawer").then((mod) => mod.NavigationDrawer),
+  { ssr: false }
+);
 
 interface MainLayoutProps {
   children: React.ReactNode;

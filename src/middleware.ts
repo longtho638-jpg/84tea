@@ -69,9 +69,23 @@ export async function middleware(request: NextRequest) {
 
   // 5. Add security headers to API routes
   if (request.nextUrl.pathname.startsWith('/api/')) {
+    // Apply security headers
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('X-Frame-Options', 'DENY');
     response.headers.set('Cache-Control', 'no-store, max-age=0');
+
+    // Apply CORS headers
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+    // Handle OPTIONS request for CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, {
+        status: 200,
+        headers: response.headers,
+      });
+    }
   }
 
   return response;

@@ -87,11 +87,11 @@ describe('POST /api/payment/webhook', () => {
     const res = await POST(createWebhookRequest({ invalid: true }));
     const json = await res.json();
     expect(res.status).toBe(400);
-    expect(json.error).toBe('Invalid webhook payload');
+    expect(json.error).toBe('Dữ liệu Webhook không hợp lệ');
   });
 
   it('returns 400 when missing signature', async () => {
-    const { signature: _, ...noSig } = validWebhookBody;
+    const { signature: _signature, ...noSig } = validWebhookBody;
     const res = await POST(createWebhookRequest(noSig));
     expect(res.status).toBe(400);
   });

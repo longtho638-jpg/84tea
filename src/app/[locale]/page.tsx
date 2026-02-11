@@ -1,7 +1,4 @@
 import dynamic from "next/dynamic";
-import { FeaturedProducts } from "@/components/home/featured-products";
-import { ProcessSection } from "@/components/home/process-section";
-import { CTASection } from "@/components/home/cta-section";
 import { MainLayout, FooterSection } from "@/components/layout";
 import { generatePageMetadata } from "@/lib/metadata";
 import { getTranslations } from "next-intl/server";
@@ -31,6 +28,21 @@ const HeroParallax = dynamic(
 
 const StorySectionAnimated = dynamic(
   () => import("@/components/home/story-section-animated").then((mod) => ({ default: mod.StorySectionAnimated })),
+  { loading: () => null }
+);
+
+const FeaturedProducts = dynamic(
+  () => import("@/components/home/featured-products").then((mod) => ({ default: mod.FeaturedProducts })),
+  { loading: () => null }
+);
+
+const ProcessSection = dynamic(
+  () => import("@/components/home/process-section").then((mod) => ({ default: mod.ProcessSection })),
+  { loading: () => null }
+);
+
+const CTASection = dynamic(
+  () => import("@/components/home/cta-section").then((mod) => ({ default: mod.CTASection })),
   { loading: () => null }
 );
 

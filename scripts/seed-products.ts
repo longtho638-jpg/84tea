@@ -10,6 +10,12 @@ import { createClient } from '@supabase/supabase-js';
 import productsData from '../src/data/products.json';
 import type { Database } from '../src/types/database.types';
 
+const logger = {
+  info: (msg: string, ...args: unknown[]) => console.log(msg, ...args),
+  warn: (msg: string, ...args: unknown[]) => console.warn(msg, ...args),
+  error: (msg: string, ...args: unknown[]) => console.error(msg, ...args),
+};
+
 const products = productsData;
 
 // Validate environment variables
@@ -17,9 +23,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('❌ Missing environment variables:');
-  console.error('  - NEXT_PUBLIC_SUPABASE_URL');
-  console.error('  - SUPABASE_SERVICE_ROLE_KEY');
+  logger.error('❌ Missing environment variables:');
+  logger.error('  - NEXT_PUBLIC_SUPABASE_URL');
+  logger.error('  - SUPABASE_SERVICE_ROLE_KEY');
   process.exit(1);
 }
 
@@ -45,7 +51,7 @@ function mapType(name: string): 'green' | 'black' | 'white' | 'oolong' | 'herbal
 }
 
 async function seedProducts() {
-  console.log('🌱 Starting product seeding...\n');
+  logger.info('🌱 Starting product seeding...\n');
 
   // Transform static data to database format
   const productsToInsert = products.map(p => ({
@@ -70,11 +76,12 @@ async function seedProducts() {
     reviews_count: 0,
   }));
 
-  console.log(`📦 Prepared ${productsToInsert.length} products for insertion\n`);
+  logger.info(`📦 Prepared ${productsToInsert.length} products for insertion\n`);
 
   // Upsert products (insert or update based on slug)
   const { data, error } = await supabase
     .from('products')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .upsert(productsToInsert as any, {
       onConflict: 'slug',
       ignoreDuplicates: false
@@ -82,32 +89,33 @@ async function seedProducts() {
     .select();
 
   if (error) {
-    console.error('❌ Seeding failed:', error);
+    logger.error('❌ Seeding failed:', error);
     process.exit(1);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const insertedProducts = data as any[];
-  console.log('✅ Successfully seeded products:\n');
+  logger.info('✅ Successfully seeded products:\n');
   insertedProducts?.forEach((product, index) => {
-    console.log(`  ${index + 1}. ${product.name} (${product.slug})`);
+    logger.info(`  ${index + 1}. ${product.name} (${product.slug})`);
   });
 
-  console.log(`\n📊 Summary:`);
-  console.log(`   Total products: ${insertedProducts?.length || 0}`);
-  console.log(`   Featured: ${insertedProducts?.filter(p => p.featured).length || 0}`);
-  console.log(`   Categories: ${[...new Set(insertedProducts?.map(p => p.category))].join(', ')}`);
+  logger.info(`\n📊 Summary:`);
+  logger.info(`   Total products: ${insertedProducts?.length || 0}`);
+  logger.info(`   Featured: ${insertedProducts?.filter(p => p.featured).length || 0}`);
+  logger.info(`   Categories: ${[...new Set(insertedProducts?.map(p => p.category))].join(', ')}`);
 
-  console.log('\n🎉 Product seeding completed!');
-  console.log('\n📝 Next steps:');
-  console.log('   1. Upload actual product images to Supabase Storage');
-  console.log('   2. Update image URLs in database');
-  console.log('   3. Verify products appear on website');
-  console.log('   4. Test product filtering and search\n');
+  logger.info('\n🎉 Product seeding completed!');
+  logger.info('\n📝 Next steps:');
+  logger.info('   1. Upload actual product images to Supabase Storage');
+  logger.info('   2. Update image URLs in database');
+  logger.info('   3. Verify products appear on website');
+  logger.info('   4. Test product filtering and search\n');
 }
 
 // Execute seeding
 seedProducts()
   .catch((err) => {
-    console.error('💥 Unexpected error:', err);
+    logger.error('💥 Unexpected error:', err);
     process.exit(1);
   });

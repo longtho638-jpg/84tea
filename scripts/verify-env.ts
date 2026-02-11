@@ -13,6 +13,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const logger = {
+  log: (msg: string, ...args: unknown[]) => console.log(msg, ...args),
+  info: (msg: string, ...args: unknown[]) => console.info(msg, ...args),
+  warn: (msg: string, ...args: unknown[]) => console.warn(msg, ...args),
+  error: (msg: string, ...args: unknown[]) => console.error(msg, ...args),
+};
+
 // ---------------------------------------------------------------------------
 // Environment variable registry - derived from grep of process.env in src/
 // ---------------------------------------------------------------------------
@@ -76,14 +83,14 @@ function maskValue(value: string): string {
 }
 
 function verify(): void {
-  console.log('=== 84tea Environment Verification ===\n');
+  logger.log('=== 84tea Environment Verification ===\n');
 
   const envPath = path.resolve(__dirname, '../.env.local');
   const envMap = loadEnvFile(envPath);
   const fileExists = fs.existsSync(envPath);
 
   if (!fileExists) {
-    console.warn('WARNING: .env.local not found. Checking process.env only.\n');
+    logger.warn('WARNING: .env.local not found. Checking process.env only.\n');
   }
 
   const missing: EnvVarSpec[] = [];
@@ -108,34 +115,34 @@ function verify(): void {
 
   // Present
   if (present.length > 0) {
-    console.log(`OK (${present.length}):`);
+    logger.log(`OK (${present.length}):`);
     for (const s of present) {
       const val = envMap.get(s.key) || process.env[s.key] || '';
-      console.log(`  [+] ${s.key} = ${maskValue(val)}`);
+      logger.log(`  [+] ${s.key} = ${maskValue(val)}`);
     }
-    console.log();
+    logger.log('');
   }
 
   // Optional missing
   if (empty.length > 0) {
-    console.log(`OPTIONAL (${empty.length} not set):`);
+    logger.log(`OPTIONAL (${empty.length} not set):`);
     for (const s of empty) {
-      console.log(`  [~] ${s.key} - ${s.description}`);
+      logger.log(`  [~] ${s.key} - ${s.description}`);
     }
-    console.log();
+    logger.log('');
   }
 
   // Required missing
   if (missing.length > 0) {
-    console.error(`MISSING (${missing.length} required):`);
+    logger.error(`MISSING (${missing.length} required):`);
     for (const s of missing) {
-      console.error(`  [!] ${s.key} - ${s.description} [${s.scope}]`);
+      logger.error(`  [!] ${s.key} - ${s.description} [${s.scope}]`);
     }
-    console.error('\nSet these in .env.local before deploying to production.');
+    logger.error('\nSet these in .env.local before deploying to production.');
     process.exit(1);
   }
 
-  console.log('Verification complete. All required variables present.');
+  logger.log('Verification complete. All required variables present.');
 }
 
 verify();

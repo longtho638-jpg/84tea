@@ -3,22 +3,18 @@
  * WOW Protocol: Rich Snippets for Search Engines
  */
 
+import { Product } from '@/types/product';
 import { SEO_CONFIG } from '../seo-constants';
 
-export interface Product {
-  name: { vi: string; en: string };
-  description: { vi: string; en: string };
-  image_url: string;
-  price: number;
-  slug: string;
-}
-
 export function generateProductJsonLd(product: Product, locale: string) {
+  const name = typeof product.name === 'string' ? product.name : product.name[locale as 'vi' | 'en'] || product.name.vi;
+  const description = typeof product.description === 'string' ? product.description : product.description[locale as 'vi' | 'en'] || product.description.vi;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.name[locale as 'vi' | 'en'],
-    description: product.description[locale as 'vi' | 'en'],
+    name,
+    description,
     image: product.image_url,
     brand: {
       '@type': 'Brand',
@@ -28,9 +24,10 @@ export function generateProductJsonLd(product: Product, locale: string) {
       '@type': 'Offer',
       price: product.price,
       priceCurrency: 'VND',
-      availability: 'https://schema.org/InStock',
+      availability: product.in_stock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: `${SEO_CONFIG.siteUrl}/${locale}/products/${product.slug}`,
     },
+    // Mock rating for now, connect to real reviews later
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',

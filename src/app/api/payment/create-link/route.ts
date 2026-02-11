@@ -3,11 +3,27 @@ import { getPayOS } from "@/lib/payos";
 import { validateCartItems, calculateOrderTotal, logPaymentEvent } from "@/lib/payment-utils";
 import { strictLimiter, getClientIP } from "@/lib/rate-limit";
 import { paymentLinkSchema } from "@/lib/validation";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(req: Request) {
   try {
+    // 1. Authentication Check (SECURITY_RISK FIX)
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      await logPaymentEvent('payment_failed', {
+        error: 'Unauthorized access attempt',
+        ip: getClientIP(req)
+      });
+      return NextResponse.json(
+        { error: "Unauthorized. Please login to continue." },
+        { status: 401 }
+      );
+    }
+
     try {
-      await strictLimiter.check(10, `payment:${getClientIP(req)}`);
+      await strictLimiter.check(10, `payment:${user.id}`); // Rate limit per user, not just IP
     } catch {
       return NextResponse.json(
         { error: "Too many payment attempts. Please try again later." },
@@ -45,7 +61,7 @@ export async function POST(req: Request) {
       await logPaymentEvent('payment_failed', {
         error: 'Price validation failed',
         details: errorMessage,
-        clientItems: items
+        userId: user.id
       });
 
       return NextResponse.json(
@@ -59,7 +75,8 @@ export async function POST(req: Request) {
       await logPaymentEvent('payment_failed', {
         error: 'Price tampering detected',
         clientAmount: amount,
-        serverAmount: serverCalculatedTotal
+        serverAmount: serverCalculatedTotal,
+        userId: user.id
       });
       return NextResponse.json(
         { error: "Price mismatch detected. Please refresh and try again." },
@@ -90,10 +107,16 @@ export async function POST(req: Request) {
     const payOS = getPayOS();
     const paymentLink = await payOS.paymentRequests.create(paymentLinkData);
 
+    // PII Masking for Logs (SECURITY_RISK FIX)
+    const maskEmail = (email?: string) => email ? email.replace(/^(.)(.*)(.@.*)$/, (_, a, b, c) => a + '*'.repeat(Math.max(0, b.length)) + c) : undefined;
+    const maskPhone = (phone?: string) => phone ? phone.replace(/.(?=.{4})/g, '*') : undefined;
+
     await logPaymentEvent('payment_created', {
       orderCode: numericOrderCode,
       amount: serverCalculatedTotal,
-      buyerEmail
+      buyerEmail: maskEmail(buyerEmail),
+      buyerPhone: maskPhone(buyerPhone),
+      userId: user.id
     });
 
     return NextResponse.json({

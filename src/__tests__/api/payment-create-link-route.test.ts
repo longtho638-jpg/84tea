@@ -27,7 +27,14 @@ jest.mock('@/lib/payos', () => ({
   })),
 }));
 
+// Mock Supabase
+const mockGetUser = jest.fn();
+jest.mock('@/lib/supabase/server', () => ({
+  createClient: jest.fn(),
+}));
+
 import { POST } from '@/app/api/payment/create-link/route';
+import { createClient } from '@/lib/supabase/server';
 import { strictLimiter } from '@/lib/rate-limit';
 import { validateCartItems, logPaymentEvent } from '@/lib/payment-utils';
 
@@ -57,6 +64,15 @@ describe('POST /api/payment/create-link', () => {
     mockCreate.mockResolvedValue({
       checkoutUrl: 'https://pay.payos.vn/checkout/123',
       orderCode: 1234567890,
+    });
+    (createClient as jest.Mock).mockResolvedValue({
+      auth: {
+        getUser: mockGetUser,
+      },
+    });
+    mockGetUser.mockResolvedValue({
+      data: { user: { id: 'test-user-id', email: 'test@example.com' } },
+      error: null,
     });
   });
 

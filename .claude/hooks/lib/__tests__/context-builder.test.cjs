@@ -1,18 +1,3 @@
-#!/usr/bin/env node
-/**
- * Tests for context-builder.cjs - rules/workflows backward compatibility
- * Run: node --test .claude/hooks/lib/__tests__/context-builder.test.cjs
- *
- * Issue #337: Rename workflows/ to rules/ with backward compatibility
- * Key scenarios:
- * - resolveRulesPath() checks rules/ first
- * - Falls back to workflows/ if rules/ not found
- * - resolveWorkflowPath alias works
- * - Both directories: rules/ wins
- */
-
-const { describe, it, before, after } = require('node:test');
-const assert = require('node:assert');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -58,11 +43,11 @@ describe('context-builder.cjs', () => {
     let originalCwd;
     let tempDir;
 
-    before(() => {
+    beforeEach(() => {
       originalCwd = process.cwd();
     });
 
-    after(() => {
+    afterEach(() => {
       process.chdir(originalCwd);
       if (tempDir) cleanupTempDir(tempDir);
     });
@@ -74,7 +59,7 @@ describe('context-builder.cjs', () => {
       // Use a unique filename that won't exist in global ~/.claude/
       const uniqueFilename = `nonexistent-${Date.now()}-${Math.random().toString(36).slice(2)}.md`;
       const result = contextBuilder.resolveRulesPath(uniqueFilename);
-      assert.strictEqual(result, null, 'Should return null when file does not exist');
+      expect(result).toBeNull();
     });
 
     it('finds file in rules/ directory (new location)', () => {
@@ -83,18 +68,17 @@ describe('context-builder.cjs', () => {
       process.chdir(tempDir);
 
       const result = contextBuilder.resolveRulesPath('development-rules.md');
-      assert.strictEqual(result, '.claude/rules/development-rules.md',
-        'Should find file in rules/ directory');
+      expect(result).toBe('.claude/rules/development-rules.md');
     });
 
     it('falls back to workflows/ when rules/ does not exist', () => {
       tempDir = createTempDir(['.claude/workflows']);
-      createTestFile(path.join(tempDir, '.claude/workflows'), 'development-rules.md');
+      const testFile = 'unique-workflow-file-' + Date.now() + '.md';
+      createTestFile(path.join(tempDir, '.claude/workflows'), testFile);
       process.chdir(tempDir);
 
-      const result = contextBuilder.resolveRulesPath('development-rules.md');
-      assert.strictEqual(result, '.claude/workflows/development-rules.md',
-        'Should fall back to workflows/ directory');
+      const result = contextBuilder.resolveRulesPath(testFile);
+      expect(result).toBe(`.claude/workflows/${testFile}`);
     });
 
     it('prefers rules/ over workflows/ when both exist', () => {
@@ -104,8 +88,7 @@ describe('context-builder.cjs', () => {
       process.chdir(tempDir);
 
       const result = contextBuilder.resolveRulesPath('development-rules.md');
-      assert.strictEqual(result, '.claude/rules/development-rules.md',
-        'Should prefer rules/ over workflows/');
+      expect(result).toBe('.claude/rules/development-rules.md');
     });
 
     it('finds file in workflows/ when rules/ exists but file is only in workflows/', () => {
@@ -115,8 +98,7 @@ describe('context-builder.cjs', () => {
       process.chdir(tempDir);
 
       const result = contextBuilder.resolveRulesPath('legacy-file.md');
-      assert.strictEqual(result, '.claude/workflows/legacy-file.md',
-        'Should find file in workflows/ when not in rules/');
+      expect(result).toBe('.claude/workflows/legacy-file.md');
     });
 
     it('handles custom configDirName parameter', () => {
@@ -125,8 +107,7 @@ describe('context-builder.cjs', () => {
       process.chdir(tempDir);
 
       const result = contextBuilder.resolveRulesPath('development-rules.md', '.opencode');
-      assert.strictEqual(result, '.opencode/rules/development-rules.md',
-        'Should use custom configDirName');
+      expect(result).toBe('.opencode/rules/development-rules.md');
     });
 
   });
@@ -134,13 +115,11 @@ describe('context-builder.cjs', () => {
   describe('resolveWorkflowPath alias', () => {
 
     it('resolveWorkflowPath is exported and callable', () => {
-      assert.ok(typeof contextBuilder.resolveWorkflowPath === 'function',
-        'resolveWorkflowPath should be exported');
+      expect(typeof contextBuilder.resolveWorkflowPath).toBe('function');
     });
 
     it('resolveWorkflowPath is alias for resolveRulesPath', () => {
-      assert.strictEqual(contextBuilder.resolveWorkflowPath, contextBuilder.resolveRulesPath,
-        'resolveWorkflowPath should be same function as resolveRulesPath');
+      expect(contextBuilder.resolveWorkflowPath).toBe(contextBuilder.resolveRulesPath);
     });
 
     it('resolveWorkflowPath works identically to resolveRulesPath', () => {
@@ -152,8 +131,7 @@ describe('context-builder.cjs', () => {
       try {
         const rulesResult = contextBuilder.resolveRulesPath('test.md');
         const workflowResult = contextBuilder.resolveWorkflowPath('test.md');
-        assert.strictEqual(rulesResult, workflowResult,
-          'Both functions should return same result');
+        expect(rulesResult).toBe(workflowResult);
       } finally {
         process.chdir(originalCwd);
         cleanupTempDir(tempDir);
@@ -166,11 +144,11 @@ describe('context-builder.cjs', () => {
     let tempDir;
     let originalHome;
 
-    before(() => {
+    beforeEach(() => {
       originalHome = os.homedir;
     });
 
-    after(() => {
+    afterEach(() => {
       if (tempDir) cleanupTempDir(tempDir);
     });
 
@@ -185,8 +163,7 @@ describe('context-builder.cjs', () => {
         // Should return null since local doesn't exist and we can't control global
         const result = contextBuilder.resolveRulesPath('nonexistent-file.md');
         // Result depends on whether global ~/.claude/rules exists
-        assert.ok(result === null || typeof result === 'string',
-          'Should return null or valid path');
+        expect(result === null || typeof result === 'string').toBeTruthy();
       } finally {
         process.chdir(originalCwd);
         cleanupTempDir(tempDir);
@@ -199,11 +176,11 @@ describe('context-builder.cjs', () => {
     let tempDir;
     let originalCwd;
 
-    before(() => {
+    beforeEach(() => {
       originalCwd = process.cwd();
     });
 
-    after(() => {
+    afterEach(() => {
       process.chdir(originalCwd);
       if (tempDir) cleanupTempDir(tempDir);
     });
@@ -215,9 +192,9 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(result.content, 'Should have content');
-      assert.ok(Array.isArray(result.lines), 'Should have lines array');
-      assert.ok(result.sections, 'Should have sections object');
+      expect(result.content).toBeDefined();
+      expect(Array.isArray(result.lines)).toBeTruthy();
+      expect(result.sections).toBeDefined();
     });
 
     it('includes devRulesPath when rules/ exists', () => {
@@ -227,9 +204,10 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(result.content.includes('rules/development-rules.md') ||
-                result.content.includes('development-rules'),
-        'Should reference dev rules file');
+      expect(
+        result.content.includes('rules/development-rules.md') ||
+        result.content.includes('development-rules')
+      ).toBeTruthy();
     });
 
     it('includes devRulesPath when only workflows/ exists (backward compat)', () => {
@@ -239,9 +217,10 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(result.content.includes('workflows/development-rules.md') ||
-                result.content.includes('development-rules'),
-        'Should reference dev rules file from workflows/');
+      expect(
+        result.content.includes('workflows/development-rules.md') ||
+        result.content.includes('development-rules')
+      ).toBeTruthy();
     });
 
   });
@@ -250,20 +229,20 @@ describe('context-builder.cjs', () => {
 
     it('buildSessionSection returns array of lines', () => {
       const lines = contextBuilder.buildSessionSection({});
-      assert.ok(Array.isArray(lines), 'Should return array');
-      assert.ok(lines.some(l => l.includes('Session')), 'Should include Session header');
+      expect(Array.isArray(lines)).toBeTruthy();
+      expect(lines.some(l => l.includes('Session'))).toBeTruthy();
     });
 
     it('buildRulesSection returns array with Rules header', () => {
       const lines = contextBuilder.buildRulesSection({});
-      assert.ok(Array.isArray(lines), 'Should return array');
-      assert.ok(lines.some(l => l.includes('Rules')), 'Should include Rules header');
+      expect(Array.isArray(lines)).toBeTruthy();
+      expect(lines.some(l => l.includes('Rules'))).toBeTruthy();
     });
 
     it('buildModularizationSection returns array with Modularization', () => {
       const lines = contextBuilder.buildModularizationSection();
-      assert.ok(Array.isArray(lines), 'Should return array');
-      assert.ok(lines.some(l => l.includes('Modularization')), 'Should include Modularization');
+      expect(Array.isArray(lines)).toBeTruthy();
+      expect(lines.some(l => l.includes('Modularization'))).toBeTruthy();
     });
 
     it('buildPathsSection includes paths', () => {
@@ -272,9 +251,9 @@ describe('context-builder.cjs', () => {
         plansPath: '/test/plans',
         docsPath: '/test/docs'
       });
-      assert.ok(Array.isArray(lines), 'Should return array');
-      assert.ok(lines.some(l => l.includes('Reports')), 'Should include Reports');
-      assert.ok(lines.some(l => l.includes('Plans')), 'Should include Plans');
+      expect(Array.isArray(lines)).toBeTruthy();
+      expect(lines.some(l => l.includes('Reports'))).toBeTruthy();
+      expect(lines.some(l => l.includes('Plans'))).toBeTruthy();
     });
 
     it('buildNamingSection includes naming patterns', () => {
@@ -283,8 +262,8 @@ describe('context-builder.cjs', () => {
         plansPath: '/plans',
         namePattern: '{date}-{slug}'
       });
-      assert.ok(Array.isArray(lines), 'Should return array');
-      assert.ok(lines.some(l => l.includes('Naming')), 'Should include Naming');
+      expect(Array.isArray(lines)).toBeTruthy();
+      expect(lines.some(l => l.includes('Naming'))).toBeTruthy();
     });
 
   });
@@ -293,11 +272,11 @@ describe('context-builder.cjs', () => {
     let tempDir;
     let originalCwd;
 
-    before(() => {
+    beforeEach(() => {
       originalCwd = process.cwd();
     });
 
-    after(() => {
+    afterEach(() => {
       process.chdir(originalCwd);
       if (tempDir) cleanupTempDir(tempDir);
     });
@@ -314,8 +293,8 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(Array.isArray(result.sections.context), 'context should be array');
-      assert.strictEqual(result.sections.context.length, 0, 'context section should be empty');
+      expect(Array.isArray(result.sections.context)).toBeTruthy();
+      expect(result.sections.context.length).toBe(0);
     });
 
     it('disables usage section when usage-context-awareness: false', () => {
@@ -330,8 +309,8 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(Array.isArray(result.sections.usage), 'usage should be array');
-      assert.strictEqual(result.sections.usage.length, 0, 'usage section should be empty');
+      expect(Array.isArray(result.sections.usage)).toBeTruthy();
+      expect(result.sections.usage.length).toBe(0);
     });
 
     it('disables both sections when both hooks false', () => {
@@ -347,8 +326,8 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.strictEqual(result.sections.context.length, 0, 'context section should be empty');
-      assert.strictEqual(result.sections.usage.length, 0, 'usage section should be empty');
+      expect(result.sections.context.length).toBe(0);
+      expect(result.sections.usage.length).toBe(0);
     });
 
     it('enables sections by default when hooks undefined', () => {
@@ -359,9 +338,8 @@ describe('context-builder.cjs', () => {
 
       const result = contextBuilder.buildReminderContext({});
 
-      assert.ok(Array.isArray(result.sections.context), 'context should be array');
-      assert.ok(Array.isArray(result.sections.usage), 'usage should be array');
-      // Enabled sections may be empty or populated - just verify they exist
+      expect(Array.isArray(result.sections.context)).toBeTruthy();
+      expect(Array.isArray(result.sections.usage)).toBeTruthy();
     });
 
   });
@@ -389,8 +367,7 @@ describe('context-builder.cjs', () => {
       ];
 
       for (const exportName of requiredExports) {
-        assert.ok(typeof contextBuilder[exportName] === 'function',
-          `Should export ${exportName}`);
+        expect(typeof contextBuilder[exportName]).toBe('function');
       }
     });
 
@@ -400,11 +377,11 @@ describe('context-builder.cjs', () => {
     let tempDir;
     let originalCwd;
 
-    before(() => {
+    beforeEach(() => {
       originalCwd = process.cwd();
     });
 
-    after(() => {
+    afterEach(() => {
       process.chdir(originalCwd);
       if (tempDir) cleanupTempDir(tempDir);
     });
@@ -429,20 +406,21 @@ describe('context-builder.cjs', () => {
 
       for (const file of files) {
         const result = contextBuilder.resolveRulesPath(file);
-        assert.ok(result !== null, `Should resolve ${file}`);
-        assert.ok(result.includes('rules/'), `${file} should be in rules/`);
+        expect(result).not.toBeNull();
+        expect(result.includes('rules/')).toBeTruthy();
       }
     });
 
     it('resolves legacy @workflows/ references via fallback', () => {
       // Test that legacy references still work
       tempDir = createTempDir(['.claude/workflows']);
-      createTestFile(path.join(tempDir, '.claude/workflows'), 'primary-workflow.md');
+      const testFile = 'unique-legacy-workflow-' + Date.now() + '.md';
+      createTestFile(path.join(tempDir, '.claude/workflows'), testFile);
       process.chdir(tempDir);
 
-      const result = contextBuilder.resolveRulesPath('primary-workflow.md');
-      assert.ok(result !== null, 'Should resolve legacy workflow file');
-      assert.ok(result.includes('workflows/'), 'Should find in workflows/');
+      const result = contextBuilder.resolveRulesPath(testFile);
+      expect(result).not.toBeNull();
+      expect(result.includes('workflows/')).toBeTruthy();
     });
 
   });

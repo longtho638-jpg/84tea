@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { logPaymentEvent } from "@/lib/payment-utils";
 import { webhookSchema } from "@/lib/validation";
 import type { Webhook } from "@payos/node";
+import { logger } from "@/lib/logger";
 
 function getSupabaseClient() {
   return createClient(
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
           .single();
 
         if (fetchError) {
-          console.error("Supabase error fetching order in webhook:", fetchError);
+          logger.error("Supabase error fetching order in webhook:", fetchError);
           await logPaymentEvent('payment_failed', {
             orderCode: verifiedData.orderCode,
             error: 'Order not found',
@@ -83,7 +84,7 @@ export async function POST(req: Request) {
           .eq("order_code", verifiedData.orderCode);
 
         if (updateError) {
-          console.error("Supabase error updating order in webhook:", updateError);
+          logger.error("Supabase error updating order in webhook:", updateError);
           await logPaymentEvent('payment_failed', {
             orderCode: verifiedData.orderCode,
             error: 'Database update failed',
@@ -106,7 +107,7 @@ export async function POST(req: Request) {
       message: "Đã nhận Webhook",
     });
   } catch (error) {
-    console.error("Webhook processing error:", error);
+    logger.error("Webhook processing error:", error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     await logPaymentEvent('payment_failed', {
       error: 'Webhook processing failed',

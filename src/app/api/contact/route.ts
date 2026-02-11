@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { contactSchema } from "@/lib/validation";
 import { limiter, getClientIP } from "@/lib/rate-limit";
+import { logger } from "@/lib/logger";
 
 function getSupabaseClient() {
   return createClient(
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
     try {
       await limiter.check(10, `contact:${getClientIP(request)}`);
     } catch (error) {
-      console.error("Rate limit exceeded for contact form:", error);
+      logger.error("Rate limit exceeded for contact form:", error);
       return NextResponse.json(
         { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút." },
         { status: 429 }
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Supabase error submitting contact message:", error);
+      logger.error("Supabase error submitting contact message:", error);
       return NextResponse.json(
         { error: "Không thể gửi tin nhắn. Vui lòng thử lại sau." },
         { status: 500 }
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Unexpected error in contact form:", error);
+    logger.error("Unexpected error in contact form:", error);
     return NextResponse.json(
       { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }

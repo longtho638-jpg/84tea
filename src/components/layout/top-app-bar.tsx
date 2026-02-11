@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { CartButton } from "@/components/cart";
+import { CartButton } from "@/components/cart/cart-button";
 import { AuthButton } from "@/components/auth/auth-button";
 import { cn } from "@/lib/utils";
 

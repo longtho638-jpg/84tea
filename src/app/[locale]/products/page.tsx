@@ -1,9 +1,14 @@
+import dynamic from "next/dynamic";
 import { getTranslations } from "next-intl/server";
 import { Typography } from "@/components/ui/typography";
 import { MainLayout, FooterSection } from "@/components/layout";
-import { ProductListing } from "@/components/products/product-listing";
 import { getProducts } from "@/lib/data/products-service";
 import { generatePageMetadata } from "@/lib/metadata";
+
+const ProductListing = dynamic(
+  () => import("@/components/products/product-listing").then((mod) => mod.ProductListing),
+  { ssr: true }
+);
 
 export async function generateMetadata({
   params,

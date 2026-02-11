@@ -274,17 +274,17 @@ describe('webhookSchema', () => {
   });
 
   it('rejects missing signature', () => {
-    const { signature: _, ...noSig } = validWebhook;
+    const { signature: _signature, ...noSig } = validWebhook;
     expect(webhookSchema.safeParse(noSig).success).toBe(false);
   });
 
   it('rejects missing data.orderCode', () => {
-    const { orderCode: _, ...noOrderCode } = validWebhook.data;
+    const { orderCode: _orderCode, ...noOrderCode } = validWebhook.data;
     expect(webhookSchema.safeParse({ ...validWebhook, data: noOrderCode }).success).toBe(false);
   });
 
   it('rejects missing data.amount', () => {
-    const { amount: _, ...noAmount } = validWebhook.data;
+    const { amount: _amount, ...noAmount } = validWebhook.data;
     expect(webhookSchema.safeParse({ ...validWebhook, data: noAmount }).success).toBe(false);
   });
 

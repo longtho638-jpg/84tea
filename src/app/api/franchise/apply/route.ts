@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { limiter, getClientIP } from "@/lib/rate-limit";
 import { franchiseApplySchema } from "@/lib/validation";
+import { logger } from "@/lib/logger";
 
 function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     try {
       await limiter.check(5, `franchise:${getClientIP(request)}`);
     } catch (error) {
-      console.error("Rate limit exceeded for franchise application:", error);
+      logger.error("Rate limit exceeded for franchise application:", error);
       return NextResponse.json(
         { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút." },
         { status: 429 }
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Supabase error submitting franchise application:", error);
+      logger.error("Supabase error submitting franchise application:", error);
       return NextResponse.json(
         { error: "Không thể gửi đơn đăng ký. Vui lòng thử lại sau." },
         { status: 500 }
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Unexpected error in franchise application:", error);
+    logger.error("Unexpected error in franchise application:", error);
     return NextResponse.json(
       { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
