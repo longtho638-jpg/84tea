@@ -16,7 +16,7 @@
       "vi": "Trà lên men từ lá cổ thụ hàng trăm năm tuổi, hương thơm thuần khiết",
       "en": "Fermented tea from ancient trees, pure aroma and smooth taste"
     },
-    "images": ["shan-tuyet-6g.jpg"],
+    "images": ["shan-tuyet.png"],
     "featured": true,
     "hero": true,
     "stock": 100
@@ -38,7 +38,7 @@
       "vi": "Lục trà lên men, vị thanh mát và bổ dưỡng",
       "en": "Fermented green tea, refreshing and nutritious"
     },
-    "images": ["luc-tra-80g.jpg"],
+    "images": ["green-tea.png"],
     "featured": true,
     "hero": false,
     "stock": 200
@@ -60,7 +60,7 @@
       "vi": "Trà từ cây cổ thụ cao nguyên, lên men theo phương pháp cổ truyền",
       "en": "Highland ancient tree tea, traditionally fermented"
     },
-    "images": ["tra-co-thu-80g.jpg"],
+    "images": ["loose-leaf.png"],
     "featured": true,
     "hero": false,
     "stock": 150
@@ -82,7 +82,7 @@
       "vi": "Bánh trà ép thủ công, men sống bảo tồn hương vị đậm đà",
       "en": "Hand-pressed tea cake with live cultures"
     },
-    "images": ["men-song-banh.jpg"],
+    "images": ["tea-cake.png"],
     "featured": false,
     "hero": false,
     "stock": 50
@@ -104,7 +104,7 @@
       "vi": "Phiên bản giới hạn dành cho người sưu tầm",
       "en": "Limited collector's edition"
     },
-    "images": ["men-song-soi.jpg"],
+    "images": ["loose-leaf.png"],
     "featured": false,
     "hero": false,
     "stock": 20

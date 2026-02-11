@@ -16,7 +16,7 @@ export function StorySection() {
           <div className="relative order-2 md:order-1">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=1000&fit=crop&q=80"
+                src="/images/brand/tea-ceremony.png"
                 alt="Vietnamese tea ceremony with traditional clay teapot"
                 fill
                 className="object-cover"

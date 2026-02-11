@@ -26,7 +26,7 @@ export function HeroParallax() {
         <div
           className="h-[120%] w-full bg-cover bg-center"
           style={{
-            backgroundImage: "url('/images/tea-plantation.jpg')",
+            backgroundImage: "url('/images/hero-tea-hills.png')",
             backgroundPosition: "center 40%",
           }}
         >

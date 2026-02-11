@@ -7,8 +7,10 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import { products } from '../src/lib/products-data';
+import productsData from '../src/data/products.json';
 import type { Database } from '../src/types/database.types';
+
+const products = productsData;
 
 // Validate environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -47,33 +49,33 @@ async function seedProducts() {
 
   // Transform static data to database format
   const productsToInsert = products.map(p => ({
-    slug: p.slug,
-    name: p.name,
-    description: p.description,
-    long_description: p.descriptionFull,
-    price: p.priceVnd || Math.round(p.price * 14285), // Convert USD to VND if needed
+    slug: p.id,
+    name: p.name.vi,
+    description: p.description.vi,
+    long_description: p.description.vi, // Use description as fallback
+    price: p.price.vnd,
     original_price: null,
     weight: p.weight,
-    image: p.image, // Will be replaced with actual URLs later
-    images: null,
+    image: p.images[0] ? `/images/products/${p.images[0]}` : null,
+    images: p.images.map(img => `/images/products/${img}`),
     category: mapCategory(p.category),
-    type: mapType(p.name),
-    origin: p.origin || 'Tây Bắc, Việt Nam',
-    harvest: p.harvest || null,
-    taste: p.brewing || null,
-    tags: p.benefits ? p.benefits.slice(0, 5) : null, // Use benefits as tags
-    in_stock: true,
+    type: mapType(p.name.vi),
+    origin: 'Tây Bắc, Việt Nam',
+    harvest: null,
+    taste: null,
+    tags: null,
+    in_stock: p.stock > 0,
     featured: p.featured || false,
-    rating: 0 as number,
+    rating: 0,
     reviews_count: 0,
-  })) as Database['public']['Tables']['products']['Insert'][];
+  }));
 
   console.log(`📦 Prepared ${productsToInsert.length} products for insertion\n`);
 
   // Upsert products (insert or update based on slug)
   const { data, error } = await supabase
     .from('products')
-    .upsert(productsToInsert, {
+    .upsert(productsToInsert as any, {
       onConflict: 'slug',
       ignoreDuplicates: false
     })
@@ -84,15 +86,16 @@ async function seedProducts() {
     process.exit(1);
   }
 
+  const insertedProducts = data as any[];
   console.log('✅ Successfully seeded products:\n');
-  data?.forEach((product, index) => {
+  insertedProducts?.forEach((product, index) => {
     console.log(`  ${index + 1}. ${product.name} (${product.slug})`);
   });
 
   console.log(`\n📊 Summary:`);
-  console.log(`   Total products: ${data?.length || 0}`);
-  console.log(`   Featured: ${data?.filter(p => p.featured).length || 0}`);
-  console.log(`   Categories: ${[...new Set(data?.map(p => p.category))].join(', ')}`);
+  console.log(`   Total products: ${insertedProducts?.length || 0}`);
+  console.log(`   Featured: ${insertedProducts?.filter(p => p.featured).length || 0}`);
+  console.log(`   Categories: ${[...new Set(insertedProducts?.map(p => p.category))].join(', ')}`);
 
   console.log('\n🎉 Product seeding completed!');
   console.log('\n📝 Next steps:');
