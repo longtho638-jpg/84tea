@@ -14,9 +14,10 @@ export async function POST(request: Request) {
   try {
     try {
       await limiter.check(10, `contact:${getClientIP(request)}`);
-    } catch {
+    } catch (error) {
+      console.error("Rate limit exceeded for contact form:", error);
       return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
+        { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút." },
         { status: 429 }
       );
     }
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { error: "Dữ liệu liên hệ không hợp lệ", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
@@ -41,19 +42,18 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Contact form error:", error.message);
+      console.error("Supabase error submitting contact message:", error);
       return NextResponse.json(
-        { error: "Failed to submit message" },
+        { error: "Không thể gửi tin nhắn. Vui lòng thử lại sau." },
         { status: 500 }
       );
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    console.error("Contact API error:", message);
+  } catch (error) {
+    console.error("Unexpected error in contact form:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
     );
   }

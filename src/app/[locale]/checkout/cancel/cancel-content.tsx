@@ -19,7 +19,7 @@ export default function CheckoutCancelContent() {
           <Card className="animate-in fade-in slide-in-from-bottom-4 duration-700">
             <CardContent className="pt-12 pb-12 px-8 sm:px-12">
               <div className="w-24 h-24 mx-auto mb-6 bg-error-container rounded-full flex items-center justify-center">
-                <span className="material-symbols-rounded text-5xl text-on-error-container">
+                <span className="material-symbols-rounded text-5xl text-on-error-container" aria-hidden="true">
                   close
                 </span>
               </div>

@@ -83,7 +83,7 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
 
         {error && (
           <div className="text-sm text-error bg-error-container p-3 rounded-lg flex items-center gap-2">
-            <span className="material-symbols-rounded text-lg">error</span>
+            <span className="material-symbols-rounded text-lg" aria-hidden="true">error</span>
             {error}
           </div>
         )}
@@ -95,11 +95,11 @@ export function ProfileSetupForm({ onComplete }: ProfileSetupFormProps) {
           className="w-full"
         >
           {isSubmitting ? (
-            <span className="material-symbols-rounded animate-spin mr-2">
+            <span className="material-symbols-rounded animate-spin mr-2" aria-hidden="true">
               progress_activity
             </span>
           ) : (
-            <span className="material-symbols-rounded mr-2">save</span>
+            <span className="material-symbols-rounded mr-2" aria-hidden="true">save</span>
           )}
           {t("update")}
         </Button>

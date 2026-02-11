@@ -46,13 +46,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
-        console.error("Error fetching profile:", error);
+        // Profile fetch failed, user will see default state
       } else {
         setProfile(data);
       }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      console.error("Unexpected error fetching profile:", message);
+    } catch {
+      // Unexpected error fetching profile, silently handled
     }
   }, [supabase]);
 
@@ -93,9 +92,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (session?.user) {
           await fetchProfile(session.user.id);
         }
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
-        console.error("Error checking auth session:", message);
+      } catch {
+        // Auth session check failed, will show unauthenticated state
       } finally {
         setIsLoading(false);
       }

@@ -1,0 +1,25 @@
+{
+  "$schema": "./schemas/log.schema.json",
+  "version": "2.4.0",
+  "project": "84tea",
+  "_meta": {
+    "schemaVersion": "2.4.0",
+    "totalEntries": 1,
+    "firstEntry": "2026-02-11T09:50:03Z",
+    "lastEntry": "2026-02-11T09:50:03Z",
+    "entriesPruned": 0
+  },
+  "entries": [
+    {
+      "id": "log_d4f032c895f6",
+      "timestamp": "2026-02-11T09:50:03Z",
+      "sessionId": null,
+      "action": "system_initialized",
+      "actor": "system",
+      "taskId": null,
+      "before": null,
+      "after": null,
+      "details": "CLEO system initialized for project: 84tea"
+    }
+  ]
+}

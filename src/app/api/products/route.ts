@@ -41,13 +41,15 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("Supabase error fetching products:", error);
+      return NextResponse.json(
+        { error: "Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ products, count });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error("Products API Error:", message);
+  } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -100,13 +102,15 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error("Supabase error inserting product:", error);
+      return NextResponse.json(
+        { error: "Không thể tạo sản phẩm mới. Vui lòng kiểm tra lại dữ liệu." },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({ product: data }, { status: 201 });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error("Products API Error:", message);
+  } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

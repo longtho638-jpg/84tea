@@ -23,7 +23,10 @@
     "contact": "Liên hệ",
     "buyNow": "Mua ngay",
     "orderNow": "Đặt Hàng",
-    "cart": "Giỏ hàng"
+    "cart": "Giỏ hàng",
+    "mainNavigation": "Điều hướng chính",
+    "skipToContent": "Bỏ qua đến nội dung chính",
+    "toggleMenu": "Mở/đóng menu"
   },
   "Hero": {
     "subtitle": "Di sản trà Việt",
@@ -167,7 +170,8 @@
     },
     "Card": {
       "addToCart": "Thêm vào giỏ",
-      "originDefault": "Việt Nam"
+      "originDefault": "Việt Nam",
+      "viewDetails": "Xem chi tiết"
     },
     "Detail": {
       "Breadcrumb": {
@@ -202,7 +206,8 @@
       },
       "Actions": {
         "addToCart": "Thêm vào giỏ hàng",
-        "added": "Đã thêm vào giỏ"
+        "added": "Đã thêm vào giỏ",
+        "addToFavorites": "Thêm vào yêu thích"
       },
       "Gallery": {
         "altMain": "Ảnh sản phẩm",
@@ -219,6 +224,10 @@
     "title": "Giỏ hàng",
     "ariaLabel": "Giỏ hàng",
     "ariaLabelWithCount": "Giỏ hàng ({count} sản phẩm)",
+    "closeCart": "Đóng giỏ hàng",
+    "decreaseQuantity": "Giảm số lượng",
+    "increaseQuantity": "Tăng số lượng",
+    "removeItem": "Xóa sản phẩm",
     "empty": {
       "message": "Giỏ hàng của bạn đang trống",
       "cta": "Khám phá Trà Cổ Thụ"

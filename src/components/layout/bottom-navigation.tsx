@@ -18,7 +18,7 @@ export function BottomNavigation() {
 
   return (
     <nav
-      aria-label="Điều hướng chính"
+      aria-label={t("mainNavigation")}
       className={cn(
         "md:hidden fixed bottom-0 left-0 right-0 z-40",
         "bg-surface-container shadow-elevation-3 border-t border-outline-variant",

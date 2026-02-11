@@ -112,9 +112,7 @@ export default function CheckoutContent() {
       // Redirect to PayOS checkout
       window.location.href = paymentData.checkoutUrl;
 
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      console.error("Payment error:", message);
+    } catch {
       alert(t("Payment.error"));
     } finally {
       setIsProcessing(false);
@@ -256,7 +254,7 @@ export default function CheckoutContent() {
                           <option value="Cần Thơ">Cần Thơ</option>
                           <option value="Khác">Khác</option>
                         </select>
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none material-symbols-rounded text-on-surface-variant">
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none material-symbols-rounded text-on-surface-variant" aria-hidden="true">
                           expand_more
                         </span>
                       </div>
@@ -291,7 +289,7 @@ export default function CheckoutContent() {
                   <CardContent>
                     <div className="flex items-center gap-4 p-4 bg-primary-container/20 rounded-xl border-2 border-primary">
                       <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-on-primary">
-                        <span className="material-symbols-rounded text-2xl">
+                        <span className="material-symbols-rounded text-2xl" aria-hidden="true">
                           account_balance
                         </span>
                       </div>
@@ -310,7 +308,7 @@ export default function CheckoutContent() {
                         </Typography>
                       </div>
                       <div className="ml-auto text-primary">
-                        <span className="material-symbols-rounded">check_circle</span>
+                        <span className="material-symbols-rounded" aria-hidden="true">check_circle</span>
                       </div>
                     </div>
 
@@ -405,7 +403,7 @@ export default function CheckoutContent() {
                           variant="body-small"
                           className="text-on-secondary-container flex items-start gap-2"
                         >
-                          <span className="material-symbols-rounded text-secondary text-lg">
+                          <span className="material-symbols-rounded text-secondary text-lg" aria-hidden="true">
                             lightbulb
                           </span>
                           <span>
@@ -429,7 +427,7 @@ export default function CheckoutContent() {
                     >
                       {isProcessing ? (
                         <div className="flex items-center gap-2">
-                          <span className="material-symbols-rounded animate-spin">
+                          <span className="material-symbols-rounded animate-spin" aria-hidden="true">
                             progress_activity
                           </span>
                           {t("Payment.processing")}

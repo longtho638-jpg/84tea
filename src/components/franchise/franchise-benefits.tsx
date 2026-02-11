@@ -54,7 +54,7 @@ export function FranchiseBenefits() {
             <Card key={index} variant="outlined" className="hover:border-primary transition-colors duration-300">
               <CardContent className="p-8">
                 <div className="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center mb-6 text-on-secondary-container">
-                  <span className="material-symbols-rounded text-3xl">{item.icon}</span>
+                  <span className="material-symbols-rounded text-3xl" aria-hidden="true">{item.icon}</span>
                 </div>
                 <Typography variant="title-large" className="mb-3 text-on-surface font-bold">
                   {t(`items.${item.key}.title`)}

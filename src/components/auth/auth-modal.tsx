@@ -91,7 +91,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         return (
           <div className="flex flex-col items-center justify-center py-8 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center">
-              <span className="material-symbols-rounded text-4xl text-primary">mail</span>
+              <span className="material-symbols-rounded text-4xl text-primary" aria-hidden="true">mail</span>
             </div>
             <div className="text-center space-y-2">
               <h3 className="text-xl font-bold text-primary">{t("checkEmail")}</h3>
@@ -135,7 +135,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               className="w-full py-6 flex items-center gap-3 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-surface-container-high opacity-0 group-hover:opacity-10 transition-opacity" />
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                   fill="#4285F4"
@@ -184,7 +184,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
               {error && (
                 <div className="text-sm text-error bg-error-container p-3 rounded-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
-                  <span className="material-symbols-rounded text-lg">error</span>
+                  <span className="material-symbols-rounded text-lg" aria-hidden="true">error</span>
                   {error}
                 </div>
               )}
@@ -196,9 +196,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 className="w-full h-12 text-base font-medium shadow-elevation-1 hover:shadow-elevation-2 transition-all"
               >
                 {isSubmitting ? (
-                  <span className="material-symbols-rounded animate-spin mr-2">progress_activity</span>
+                  <span className="material-symbols-rounded animate-spin mr-2" aria-hidden="true">progress_activity</span>
                 ) : (
-                  <span className="material-symbols-rounded mr-2">mail</span>
+                  <span className="material-symbols-rounded mr-2" aria-hidden="true">mail</span>
                 )}
                 {t("sendLink")}
               </Button>

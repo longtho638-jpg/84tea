@@ -23,9 +23,7 @@ export function verifyPayOSSignature(
       Buffer.from(signature),
       Buffer.from(expectedSignature)
     );
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('Signature verification error:', message);
+  } catch {
     return false;
   }
 }
@@ -44,10 +42,15 @@ export async function logPaymentEvent(
   data: PaymentEventData
 ) {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-    );
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase credentials for payment logging');
+      return; // Non-critical, skip logging
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     await supabase.from('payment_logs').insert({
       event,
@@ -79,10 +82,14 @@ export interface ValidatedItem {
  * @returns Validated items with correct prices
  */
 export async function validateCartItems(cartItems: CartItem[]): Promise<ValidatedItem[]> {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing required Supabase credentials for cart validation');
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
   const validatedItems: ValidatedItem[] = [];
 

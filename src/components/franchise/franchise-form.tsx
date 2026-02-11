@@ -26,21 +26,21 @@ export function FranchiseForm() {
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <span className="material-symbols-rounded text-secondary-container text-2xl">phone_in_talk</span>
+                  <span className="material-symbols-rounded text-secondary-container text-2xl" aria-hidden="true">phone_in_talk</span>
                   <div>
                     <Typography variant="title-small" className="font-bold block mb-1">{t("contact.hotline")}</Typography>
                     <Typography variant="body-medium">+84 988 030 204</Typography>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <span className="material-symbols-rounded text-secondary-container text-2xl">mail</span>
+                  <span className="material-symbols-rounded text-secondary-container text-2xl" aria-hidden="true">mail</span>
                   <div>
                     <Typography variant="title-small" className="font-bold block mb-1">{t("contact.email")}</Typography>
                     <Typography variant="body-medium">franchise@84tea.vn</Typography>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <span className="material-symbols-rounded text-secondary-container text-2xl">location_on</span>
+                  <span className="material-symbols-rounded text-secondary-container text-2xl" aria-hidden="true">location_on</span>
                   <div>
                     <Typography variant="title-small" className="font-bold block mb-1">{t("contact.office")}</Typography>
                     <Typography variant="body-medium">{t("contact.officeAddress")}</Typography>
@@ -51,7 +51,7 @@ export function FranchiseForm() {
 
             <div className="mt-12">
                <div className="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-4">
-                 <span className="material-symbols-rounded text-3xl text-on-secondary-container">chat</span>
+                 <span className="material-symbols-rounded text-3xl text-on-secondary-container" aria-hidden="true">chat</span>
                </div>
                <Typography variant="body-small" className="italic text-on-primary">
                  {t("quote")}

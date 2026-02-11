@@ -23,7 +23,10 @@
     "contact": "Contact",
     "buyNow": "Buy Now",
     "orderNow": "Order Now",
-    "cart": "Cart"
+    "cart": "Cart",
+    "mainNavigation": "Main navigation",
+    "skipToContent": "Skip to main content",
+    "toggleMenu": "Toggle menu"
   },
   "Hero": {
     "subtitle": "Vietnamese Tea Heritage",
@@ -167,7 +170,8 @@
     },
     "Card": {
       "addToCart": "Add to Cart",
-      "originDefault": "Vietnam"
+      "originDefault": "Vietnam",
+      "viewDetails": "View details"
     },
     "Detail": {
       "Breadcrumb": {
@@ -202,7 +206,8 @@
       },
       "Actions": {
         "addToCart": "Add to Cart",
-        "added": "Added to Cart"
+        "added": "Added to Cart",
+        "addToFavorites": "Add to favorites"
       },
       "Gallery": {
         "altMain": "Product Image",
@@ -219,6 +224,10 @@
     "title": "Cart",
     "ariaLabel": "Cart",
     "ariaLabelWithCount": "Cart ({count} items)",
+    "closeCart": "Close cart",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "removeItem": "Remove item",
     "empty": {
       "message": "Your cart is empty",
       "cta": "Explore Ancient Tea"

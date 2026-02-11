@@ -32,7 +32,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <span className="ml-auto material-symbols-rounded text-base">chevron_right</span>
+    <span className="ml-auto material-symbols-rounded text-base" aria-hidden="true">chevron_right</span>
   </DropdownMenuPrimitive.SubTrigger>
 ))
 DropdownMenuSubTrigger.displayName =
@@ -105,7 +105,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <span className="material-symbols-rounded text-base">check</span>
+        <span className="material-symbols-rounded text-base" aria-hidden="true">check</span>
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -128,7 +128,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <span className="material-symbols-rounded text-base">radio_button_checked</span>
+        <span className="material-symbols-rounded text-base" aria-hidden="true">radio_button_checked</span>
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

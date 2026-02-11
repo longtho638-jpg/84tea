@@ -41,7 +41,6 @@ export async function POST(req: Request) {
       serverCalculatedTotal = calculateOrderTotal(validatedItems);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      console.error("Price validation failed:", errorMessage);
 
       await logPaymentEvent('payment_failed', {
         error: 'Price validation failed',
@@ -56,8 +55,7 @@ export async function POST(req: Request) {
     }
 
     // Reject price tampering
-    if (amount && Math.abs(amount - serverCalculatedTotal) > 1000) {
-      console.error(`Price mismatch: client=${amount}, server=${serverCalculatedTotal}`);
+    if (amount && amount !== serverCalculatedTotal) {
       await logPaymentEvent('payment_failed', {
         error: 'Price tampering detected',
         clientAmount: amount,
@@ -110,7 +108,7 @@ export async function POST(req: Request) {
       details: errorMessage
     });
     return NextResponse.json(
-      { error: errorMessage },
+      { error: "Đã có lỗi xảy ra trong quá trình tạo liên kết thanh toán. Vui lòng thử lại sau." },
       { status: 500 }
     );
   }

@@ -159,7 +159,7 @@ function BenefitCard({ icon, title, description }: { icon: string; title: string
   return (
     <Card className="p-6 text-center space-y-4 bg-surface hover:shadow-md transition-shadow border-none shadow-sm">
       <div className="w-12 h-12 rounded-full bg-primary-container/30 text-primary flex items-center justify-center mx-auto">
-        <span className="material-symbols-rounded text-2xl">{icon}</span>
+        <span className="material-symbols-rounded text-2xl" aria-hidden="true">{icon}</span>
       </div>
       <h3 className="text-xl font-bold text-on-surface">{title}</h3>
       <p className="text-sm text-on-surface-variant leading-relaxed">{description}</p>
@@ -185,7 +185,7 @@ function TierCard({ name, color, requirement, benefits, isPopular, popularLabel 
       <ul className="space-y-4 mb-8 flex-1">
         {benefits.map((benefit, i) => (
           <li key={i} className="flex items-start gap-3 text-sm text-on-surface-variant">
-            <span className="material-symbols-rounded text-primary text-lg shrink-0">check_circle</span>
+            <span className="material-symbols-rounded text-primary text-lg shrink-0" aria-hidden="true">check_circle</span>
             <span>{benefit}</span>
           </li>
         ))}

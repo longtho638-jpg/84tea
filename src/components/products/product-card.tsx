@@ -76,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
               });
             }}
           >
-            <span className="material-symbols-rounded mr-2">shopping_bag</span>
+            <span className="material-symbols-rounded mr-2" aria-hidden="true">shopping_bag</span>
             {t("addToCart")}
           </Button>
         </div>
@@ -115,8 +115,8 @@ export function ProductCard({ product }: ProductCardProps) {
             </Typography>
           </div>
 
-          <Link href={`/products/${product.slug}`} className="text-on-surface-variant hover:text-primary transition-colors p-2 -mr-2 rounded-full hover:bg-surface-variant min-h-[44px] min-w-[44px] flex items-center justify-center">
-            <span className="material-symbols-rounded">arrow_forward</span>
+          <Link href={`/products/${product.slug}`} className="text-on-surface-variant hover:text-primary transition-colors p-2 -mr-2 rounded-full hover:bg-surface-variant min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label={`${t("viewDetails")} ${productName}`}>
+            <span className="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
           </Link>
         </div>
       </CardContent>

@@ -95,9 +95,7 @@ export default function FranchiseApplyPage() {
       }
 
       setSubmitted(true);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      console.error("Franchise apply error:", message);
+    } catch {
       alert("Có lỗi xảy ra. Vui lòng thử lại sau.");
     } finally {
       setIsSubmitting(false);

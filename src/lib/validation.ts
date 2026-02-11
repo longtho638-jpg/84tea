@@ -18,7 +18,7 @@ export const orderSchema = z.object({
       price: z.number().positive(),
       weight: z.string().max(50).optional(),
       image: z.string().max(2048).optional(),
-    })
+    }).strict()
   ).min(1).max(50),
   total: z.number().positive(),
   customerInfo: z.object({
@@ -28,9 +28,9 @@ export const orderSchema = z.object({
     address: z.string().min(5).max(500),
     city: z.string().min(1).max(100),
     note: z.string().max(500).optional().or(z.literal('')),
-  }),
+  }).strict(),
   paymentMethod: z.string().max(20).optional(),
-});
+}).strict();
 
 /**
  * Contact form schema
@@ -41,7 +41,7 @@ export const contactSchema = z.object({
   phone: z.string().regex(/^[0-9]{10,11}$/).optional(),
   message: z.string().min(10).max(1000),
   subject: z.enum(['general', 'order', 'wholesale', 'franchise', 'partnership', 'feedback', 'support']),
-});
+}).strict();
 
 /**
  * Franchise inquiry schema
@@ -98,13 +98,13 @@ export const paymentLinkSchema = z.object({
       name: z.string().min(1).max(200),
       quantity: z.number().int().min(1).max(99),
       price: z.number().positive(),
-    })
+    }).strict()
   ).min(1).max(50),
   buyerName: z.string().max(100).optional(),
   buyerPhone: z.string().max(15).optional(),
   buyerEmail: z.string().email().max(255).optional().or(z.literal('')),
   buyerAddress: z.string().max(500).optional(),
-});
+}).strict();
 
 /**
  * Webhook body schema (basic structure validation before PayOS SDK verify)

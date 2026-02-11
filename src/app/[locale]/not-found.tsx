@@ -10,7 +10,7 @@ export default function NotFound() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-surface text-on-surface px-4">
       <div className="max-w-md w-full text-center animate-fade-in-up">
         <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-surface-variant flex items-center justify-center">
-          <span className="material-symbols-rounded text-6xl text-on-surface-variant">
+          <span className="material-symbols-rounded text-6xl text-on-surface-variant" aria-hidden="true">
             explore_off
           </span>
         </div>
@@ -21,7 +21,7 @@ export default function NotFound() {
           href="/"
           className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-all shadow-elevation-1 hover:shadow-elevation-2"
         >
-          <span className="material-symbols-rounded text-xl">home</span>
+          <span className="material-symbols-rounded text-xl" aria-hidden="true">home</span>
           {t("returnHome")}
         </Link>
       </div>

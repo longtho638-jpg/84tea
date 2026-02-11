@@ -29,7 +29,7 @@ export function LoyaltyPointsHistoryList({ transactions, className }: LoyaltyPoi
       <div className={twMerge('rounded-2xl bg-white p-6 shadow-md border border-gray-200', className)}>
         <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('Dashboard.history')}</h3>
         <div className="text-center py-12 text-gray-500">
-          <span className="material-symbols-rounded text-5xl mb-3 block opacity-50">
+          <span className="material-symbols-rounded text-5xl mb-3 block opacity-50" aria-hidden="true">
             history
           </span>
           <p>{t('Dashboard.emptyHistory')}</p>
@@ -61,7 +61,7 @@ export function LoyaltyPointsHistoryList({ transactions, className }: LoyaltyPoi
                     isPositive ? 'bg-primary-container text-primary' : 'bg-error-container text-error'
                   )}
                 >
-                  <span className="material-symbols-rounded text-xl">{icon}</span>
+                  <span className="material-symbols-rounded text-xl" aria-hidden="true">{icon}</span>
                 </div>
 
                 <div className="flex-1 min-w-0">

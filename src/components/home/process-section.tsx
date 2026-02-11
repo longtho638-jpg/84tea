@@ -54,7 +54,7 @@ export function ProcessSection() {
               className="relative flex flex-col items-center text-center group"
             >
               <div className="w-24 h-24 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center mb-6 z-10 transition-colors group-hover:border-primary group-hover:bg-primary-container group-hover:text-on-primary-container">
-                <span className="material-symbols-rounded text-4xl text-primary group-hover:text-inherit transition-colors">
+                <span className="material-symbols-rounded text-4xl text-primary group-hover:text-inherit transition-colors" aria-hidden="true">
                   {step.icon}
                 </span>
                 <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-sm">

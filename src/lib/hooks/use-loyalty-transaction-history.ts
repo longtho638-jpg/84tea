@@ -39,7 +39,6 @@ export function useLoyaltyTransactionHistory(userId: string | null) {
 
         setTransactions(data || []);
       } catch (err) {
-        console.error('Error fetching loyalty transactions:', err);
         setError(err instanceof Error ? err : new Error('Failed to fetch transactions'));
       } finally {
         setLoading(false);

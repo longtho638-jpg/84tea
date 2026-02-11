@@ -79,7 +79,7 @@ export function StorySection() {
               <Button variant="text" className="pl-0 text-primary hover:text-secondary transition-colors" asChild>
                 <Link href="/story" className="flex items-center gap-2">
                   {t("cta")}
-                  <span className="material-symbols-rounded">arrow_forward</span>
+                  <span className="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
                 </Link>
               </Button>
             </div>

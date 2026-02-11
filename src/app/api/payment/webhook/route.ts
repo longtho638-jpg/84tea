@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const structureCheck = webhookSchema.safeParse(rawBody);
     if (!structureCheck.success) {
       return NextResponse.json(
-        { error: "Invalid webhook payload" },
+        { error: "Dữ liệu Webhook không hợp lệ" },
         { status: 400 }
       );
     }
@@ -48,14 +48,14 @@ export async function POST(req: Request) {
           .single();
 
         if (fetchError) {
-          console.error("Failed to fetch order:", fetchError);
+          console.error("Supabase error fetching order in webhook:", fetchError);
           await logPaymentEvent('payment_failed', {
             orderCode: verifiedData.orderCode,
             error: 'Order not found',
             details: fetchError
           });
           return NextResponse.json(
-            { error: "Order not found" },
+            { error: "Không tìm thấy đơn hàng" },
             { status: 404 }
           );
         }
@@ -83,14 +83,14 @@ export async function POST(req: Request) {
           .eq("order_code", verifiedData.orderCode);
 
         if (updateError) {
-          console.error("Failed to update order status:", updateError);
+          console.error("Supabase error updating order in webhook:", updateError);
           await logPaymentEvent('payment_failed', {
             orderCode: verifiedData.orderCode,
             error: 'Database update failed',
             details: updateError
           });
           return NextResponse.json(
-            { error: "Processing failed" },
+            { error: "Xử lý đơn hàng thất bại" },
             { status: 500 }
           );
         }
@@ -103,17 +103,17 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Webhook received",
+      message: "Đã nhận Webhook",
     });
   } catch (error) {
+    console.error("Webhook processing error:", error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error("Webhook error:", errorMessage);
     await logPaymentEvent('payment_failed', {
       error: 'Webhook processing failed',
       details: errorMessage
     });
     return NextResponse.json(
-      { error: "Webhook processing failed" },
+      { error: "Xử lý Webhook thất bại" },
       { status: 400 }
     );
   }

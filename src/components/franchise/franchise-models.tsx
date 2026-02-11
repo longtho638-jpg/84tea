@@ -60,7 +60,7 @@ export function FranchiseModels() {
                     {t(`items.${model.id}.title`)}
                   </Typography>
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-rounded text-lg">square_foot</span>
+                    <span className="material-symbols-rounded text-lg" aria-hidden="true">square_foot</span>
                     <Typography variant="body-medium">{model.area}</Typography>
                   </div>
                 </div>
@@ -82,7 +82,7 @@ export function FranchiseModels() {
                     <ul className="space-y-3">
                       {[0, 1, 2, 3].map((idx) => (
                         <li key={idx} className="flex items-start gap-3">
-                          <span className="material-symbols-rounded text-primary text-xl shrink-0">check_circle</span>
+                          <span className="material-symbols-rounded text-primary text-xl shrink-0" aria-hidden="true">check_circle</span>
                           <Typography variant="body-medium" className="text-on-surface">
                             {t(`items.${model.id}.features.${idx}`)}
                           </Typography>

@@ -4,19 +4,24 @@ import { limiter, getClientIP } from "@/lib/rate-limit";
 import { franchiseApplySchema } from "@/lib/validation";
 
 function getSupabaseClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
-  );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing required Supabase credentials');
+  }
+
+  return createClient(supabaseUrl, supabaseKey);
 }
 
 export async function POST(request: Request) {
   try {
     try {
       await limiter.check(5, `franchise:${getClientIP(request)}`);
-    } catch {
+    } catch (error) {
+      console.error("Rate limit exceeded for franchise application:", error);
       return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
+        { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút." },
         { status: 429 }
       );
     }
@@ -26,7 +31,7 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { error: "Dữ liệu đăng ký không hợp lệ", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
@@ -55,19 +60,18 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Franchise apply error:", error.message);
+      console.error("Supabase error submitting franchise application:", error);
       return NextResponse.json(
-        { error: "Failed to submit application" },
+        { error: "Không thể gửi đơn đăng ký. Vui lòng thử lại sau." },
         { status: 500 }
       );
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    console.error("Franchise apply API error:", message);
+  } catch (error) {
+    console.error("Unexpected error in franchise application:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
     );
   }

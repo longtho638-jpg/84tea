@@ -38,7 +38,16 @@ export function HeaderNavigation() {
           ? "glass border-b border-outline-variant py-2"
           : "bg-transparent py-4"
       )}
+      aria-label={t("mainNavigation")}
     >
+      {/* Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-full focus:shadow-elevation-2"
+      >
+        {t("skipToContent")}
+      </a>
+
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Logo variant="color" />
@@ -73,13 +82,15 @@ export function HeaderNavigation() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-on-surface hover:bg-surface-variant/50 active:bg-surface-variant rounded-lg transition-colors"
-            aria-label="Toggle menu"
+            aria-label={t("toggleMenu")}
+            aria-expanded={mobileMenuOpen}
           >
             <svg
               className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               {mobileMenuOpen ? (
                 <path
@@ -103,7 +114,7 @@ export function HeaderNavigation() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-surface border-t border-outline-variant h-screen">
+        <div className="md:hidden bg-surface border-t border-outline-variant h-screen" role="menu">
           <div className="px-6 py-4 space-y-4">
             {navLinks.map((link) => (
               <Link

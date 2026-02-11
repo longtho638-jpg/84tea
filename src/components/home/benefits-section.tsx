@@ -36,7 +36,7 @@ export function BenefitsSection() {
           {BENEFITS.map((item, index) => (
             <div key={index} className="flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-6 text-on-secondary-container">
-                <span className="material-symbols-rounded text-3xl">{item.icon}</span>
+                <span className="material-symbols-rounded text-3xl" aria-hidden="true">{item.icon}</span>
               </div>
               <Typography variant="title-large" className="mb-3 font-display">
                 {item.title}

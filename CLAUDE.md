@@ -1,9 +1,18 @@
-# 84TEA - Vietnamese Ancient Tea Brand Guidelines
+<!-- CLEO:START -->
+@.cleo/templates/AGENT-INJECTION.md
+<!-- CLEO:END -->
 
-## 🎯 PROJECT MISSION
+# 84TEA — 第十一篇 九地 (Jiu Di) — E-Commerce Franchise
 
-Bootstrap 84tea với Material Design 3 (MD3) 100/100 chuẩn.
-Chuẩn hoá nhận diện thương hiệu trà cổ thụ Việt Nam dành cho nhượng quyền SEA.
+> **Inherits**: `../../CLAUDE.md` (Root Constitution)
+> **Domain**: Vietnamese Ancient Tea Brand — Multi-terrain franchise (Kiosk/Express/Lounge)
+> **Binh Phap**: 九地 — Nine Terrains of retail: kiosk, express, lounge, online, SEA expansion
+> **Stack**: Next.js 16 + React 19 + Tailwind CSS 4 + PayOS
+
+## PROJECT MISSION
+
+Bootstrap 84tea with Material Design 3 (MD3) 100/100 standard.
+Standardize Vietnamese ancient tea brand identity for SEA franchise licensing.
 
 ---
 

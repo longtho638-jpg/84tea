@@ -18,7 +18,7 @@ export function CTASection() {
       </div>
 
       <div className="container relative z-10 px-6 text-center max-w-3xl mx-auto">
-        <span className="material-symbols-rounded text-6xl text-primary mb-6 animate-bounce-slow">mail</span>
+        <span className="material-symbols-rounded text-6xl text-primary mb-6 animate-bounce-slow" aria-hidden="true">mail</span>
 
         <Typography variant="headline-medium" className="mb-4 font-display text-on-surface">
           {t("headline")}
@@ -33,6 +33,7 @@ export function CTASection() {
             type="email"
             placeholder={t("emailPlaceholder")}
             className="bg-surface text-on-surface border-outline"
+            aria-label={t("emailPlaceholder")}
           />
           <Button type="submit" variant="filled">
             {t("subscribe")}

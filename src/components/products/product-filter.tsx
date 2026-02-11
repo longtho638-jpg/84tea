@@ -29,7 +29,7 @@ export function ProductFilter({
     <div className="bg-surface p-6 rounded-2xl border border-outline-variant sticky top-24">
       <div className="flex items-center justify-between mb-6">
         <Typography variant="title-medium" className="font-bold flex items-center gap-2">
-          <span className="material-symbols-rounded text-primary">filter_list</span>
+          <span className="material-symbols-rounded text-primary" aria-hidden="true">filter_list</span>
           {t("title")}
         </Typography>
         <button
@@ -58,7 +58,7 @@ export function ProductFilter({
                     : 'border-outline group-hover:border-primary'
                 }`}>
                   {activeCategory === category.id && (
-                    <span className="material-symbols-rounded text-sm font-bold">check</span>
+                    <span className="material-symbols-rounded text-sm font-bold" aria-hidden="true">check</span>
                   )}
                 </div>
                 <input

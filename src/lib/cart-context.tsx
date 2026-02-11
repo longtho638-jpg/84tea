@@ -49,9 +49,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         if (savedCart) {
           setItems(JSON.parse(savedCart));
         }
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
-        console.error("Failed to parse cart from localStorage:", message);
+      } catch {
+        // Invalid cart data in localStorage, reset to empty
       } finally {
         setIsInitialized(true);
       }

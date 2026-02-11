@@ -55,7 +55,7 @@ export function AuthButton({
                 <span className="text-xs text-on-surface-variant truncate">{user.email}</span>
                 {profile?.loyalty_points !== undefined && (
                   <div className="flex items-center gap-1 mt-0.5 text-primary">
-                    <span className="material-symbols-rounded text-[10px]">stars</span>
+                    <span className="material-symbols-rounded text-[10px]" aria-hidden="true">stars</span>
                     <span className="text-xs font-semibold">{profile.loyalty_points.toLocaleString()} {t("points")}</span>
                   </div>
                 )}
@@ -64,13 +64,13 @@ export function AuthButton({
 
            <Link href="/profile">
              <Button variant="outlined" className="w-full justify-start">
-               <span className="material-symbols-rounded mr-2">person</span>
+               <span className="material-symbols-rounded mr-2" aria-hidden="true">person</span>
                {t("account")}
              </Button>
            </Link>
 
            <Button variant="text" className="w-full justify-start text-error" onClick={() => signOut()}>
-             <span className="material-symbols-rounded mr-2">logout</span>
+             <span className="material-symbols-rounded mr-2" aria-hidden="true">logout</span>
              {t("logout")}
            </Button>
         </div>
@@ -81,7 +81,7 @@ export function AuthButton({
       return (
         <Link href="/profile">
           <Button variant={variant} className={className}>
-            <span className="material-symbols-rounded mr-2">person</span>
+            <span className="material-symbols-rounded mr-2" aria-hidden="true">person</span>
             {children || t("profile")}
           </Button>
         </Link>
@@ -119,7 +119,7 @@ export function AuthButton({
           className={`rounded-full ${className}`}
           aria-label={t("login")}
         >
-          <span className="material-symbols-rounded">person</span>
+          <span className="material-symbols-rounded" aria-hidden="true">person</span>
         </Button>
       ) : (
         <Button
@@ -127,7 +127,7 @@ export function AuthButton({
           onClick={() => setIsModalOpen(true)}
           className={className}
         >
-          {variant !== "outlined" && variant !== "filled" && <span className="material-symbols-rounded mr-2">login</span>}
+          {variant !== "outlined" && variant !== "filled" && <span className="material-symbols-rounded mr-2" aria-hidden="true">login</span>}
           {children || t("login")}
         </Button>
       )}

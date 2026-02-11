@@ -18,7 +18,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           {children}
         </select>
         <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-          <span className="material-symbols-rounded">expand_more</span>
+          <span className="material-symbols-rounded" aria-hidden="true">expand_more</span>
         </span>
       </div>
     )

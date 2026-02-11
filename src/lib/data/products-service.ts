@@ -26,7 +26,6 @@ export const getProducts = cache(async (): Promise<Product[]> => {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching products:', error);
     return [];
   }
 
@@ -130,7 +129,6 @@ export async function getProductSlugsWithTimestamps(): Promise<
     .select('slug, updated_at, created_at');
 
   if (error) {
-    console.error('Error fetching product slugs:', error);
     return [];
   }
 

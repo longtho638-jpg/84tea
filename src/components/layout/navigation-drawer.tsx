@@ -93,7 +93,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
               className="p-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Close menu"
             >
-              <span className="material-symbols-rounded text-2xl text-on-surface">
+              <span className="material-symbols-rounded text-2xl text-on-surface" aria-hidden="true">
                 close
               </span>
             </button>
@@ -115,7 +115,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
                 "transition-colors group"
               )}
             >
-              <span className="material-symbols-rounded text-2xl group-hover:text-primary transition-colors">
+              <span className="material-symbols-rounded text-2xl group-hover:text-primary transition-colors" aria-hidden="true">
                 {link.icon}
               </span>
               <span className="font-medium">{link.label}</span>
@@ -127,7 +127,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
         <div className="p-4 mt-auto border-t border-outline-variant">
           <Link href="/products" onClick={onClose}>
             <Button variant="filled" className="w-full">
-              <span className="material-symbols-rounded text-xl">
+              <span className="material-symbols-rounded text-xl" aria-hidden="true">
                 shopping_bag
               </span>
               {t("buyNow")}

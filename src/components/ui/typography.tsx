@@ -46,13 +46,22 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ className, variant, color, as, ...props }, ref) => {
     const Component = as || "p";
 
-    // Auto-map variants to appropriate HTML tags if 'as' is not specified
+    // Auto-map variants to semantic heading levels for proper document hierarchy
     let FinalComponent = Component;
     if (!as) {
-      if (variant?.startsWith("display") || variant?.startsWith("headline")) {
-        FinalComponent = "h1";
-      } else if (variant?.startsWith("title")) {
-        FinalComponent = "h2";
+      const headingMap: Record<string, React.ElementType> = {
+        "display-large": "h1",
+        "display-medium": "h2",
+        "display-small": "h2",
+        "headline-large": "h2",
+        "headline-medium": "h3",
+        "headline-small": "h3",
+        "title-large": "h4",
+        "title-medium": "h5",
+        "title-small": "h6",
+      };
+      if (variant && variant in headingMap) {
+        FinalComponent = headingMap[variant];
       } else if (variant?.startsWith("label")) {
         FinalComponent = "span";
       }

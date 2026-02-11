@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 <div className="flex items-center gap-2 text-on-surface-variant mb-6">
                    {/* Rating placeholder */}
-                   <span className="material-symbols-rounded text-secondary fill-1">star</span>
+                   <span className="material-symbols-rounded text-secondary fill-1" aria-hidden="true">star</span>
                    <span className="font-bold text-on-surface">5.0</span>
                    <span className="text-outline-variant">|</span>
                    <span>10 {t("Stats.reviews")}</span>
@@ -149,19 +149,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {/* Trust Badges */}
                 <div className="flex flex-wrap gap-3 mt-6">
                   <div className="flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-2">
-                    <span className="material-symbols-rounded text-primary text-lg">eco</span>
+                    <span className="material-symbols-rounded text-primary text-lg" aria-hidden="true">eco</span>
                     <span className="text-sm font-semibold text-primary">
                       {t("TrustBadges.organic")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-secondary/10 border border-secondary/20 px-4 py-2">
-                    <span className="material-symbols-rounded text-secondary text-lg">landscape</span>
+                    <span className="material-symbols-rounded text-secondary text-lg" aria-hidden="true">landscape</span>
                     <span className="text-sm font-semibold text-secondary">
                       {t("TrustBadges.highland")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-tertiary/10 border border-tertiary/20 px-4 py-2">
-                    <span className="material-symbols-rounded text-tertiary text-lg">workspace_premium</span>
+                    <span className="material-symbols-rounded text-tertiary text-lg" aria-hidden="true">workspace_premium</span>
                     <span className="text-sm font-semibold text-tertiary">
                       {t("TrustBadges.premium")}
                     </span>
@@ -176,7 +176,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.weight && (
                 <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                   <div className="flex items-center gap-2 text-primary mb-1">
-                    <span className="material-symbols-rounded">scale</span>
+                    <span className="material-symbols-rounded" aria-hidden="true">scale</span>
                     <span className="font-bold text-sm uppercase">{t("Attributes.weight")}</span>
                   </div>
                   <p className="text-on-surface">{product.weight}</p>
@@ -186,7 +186,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.origin && (
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
-                      <span className="material-symbols-rounded">landscape</span>
+                      <span className="material-symbols-rounded" aria-hidden="true">landscape</span>
                       <span className="font-bold text-sm uppercase">{t("Attributes.origin")}</span>
                     </div>
                     <p className="text-on-surface">{product.origin}</p>
@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.harvest && (
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
-                      <span className="material-symbols-rounded">calendar_month</span>
+                      <span className="material-symbols-rounded" aria-hidden="true">calendar_month</span>
                       <span className="font-bold text-sm uppercase">{t("Attributes.harvest")}</span>
                     </div>
                     <p className="text-on-surface">{product.harvest}</p>
@@ -206,7 +206,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.taste && (
                   <div className="p-4 rounded-xl bg-surface-container border border-outline-variant">
                     <div className="flex items-center gap-2 text-primary mb-1">
-                      <span className="material-symbols-rounded">local_cafe</span>
+                      <span className="material-symbols-rounded" aria-hidden="true">local_cafe</span>
                       <span className="font-bold text-sm uppercase">{t("Attributes.taste")}</span>
                     </div>
                     <p className="text-on-surface">{product.taste}</p>
@@ -225,15 +225,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {/* Guarantee */}
               <div className="flex items-center gap-6 pt-4 text-xs text-on-surface-variant">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-rounded text-primary">verified_user</span>
+                  <span className="material-symbols-rounded text-primary" aria-hidden="true">verified_user</span>
                   {t("Guarantee.authentic")}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-rounded text-primary">local_shipping</span>
+                  <span className="material-symbols-rounded text-primary" aria-hidden="true">local_shipping</span>
                   {t("Guarantee.freeShipping")}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-rounded text-primary">assignment_return</span>
+                  <span className="material-symbols-rounded text-primary" aria-hidden="true">assignment_return</span>
                   {t("Guarantee.returnPolicy")}
                 </div>
               </div>
@@ -249,7 +249,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </Typography>
                 <Link href="/products">
                   <Button variant="text" className="text-primary">
-                    {t("Related.viewAll")} <span className="material-symbols-rounded ml-1">arrow_forward</span>
+                    {t("Related.viewAll")} <span className="material-symbols-rounded ml-1" aria-hidden="true">arrow_forward</span>
                   </Button>
                 </Link>
               </div>

@@ -5,10 +5,14 @@ import { strictLimiter, limiter, getClientIP } from "@/lib/rate-limit";
 import { orderSchema } from "@/lib/validation";
 
 function getSupabaseClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
-  );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing required Supabase credentials');
+  }
+
+  return createClient(supabaseUrl, supabaseKey);
 }
 
 interface OrderRow {
@@ -35,9 +39,10 @@ export async function POST(request: NextRequest) {
   try {
     try {
       await strictLimiter.check(10, `order:${getClientIP(request)}`);
-    } catch {
+    } catch (error) {
+      // Log rate limit
       return NextResponse.json(
-        { error: "Too many order attempts. Please try again later." },
+        { error: "Bạn đã thử đặt hàng quá nhiều lần. Vui lòng thử lại sau ít phút." },
         { status: 429 }
       );
     }
@@ -47,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { error: "Dữ liệu đơn hàng không hợp lệ", details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
@@ -67,19 +72,18 @@ export async function POST(request: NextRequest) {
     try {
       validatedItems = await validateCartItems(mappedItems);
       serverTotal = calculateOrderTotal(validatedItems);
-    } catch (e) {
-      console.error("Cart validation failed:", e);
+    } catch (error) {
+      // Invalid cart data
       return NextResponse.json(
-        { error: "One or more products are invalid or unavailable" },
+        { error: "Một hoặc nhiều sản phẩm không hợp lệ hoặc đã hết hàng. Vui lòng kiểm tra lại giỏ hàng." },
         { status: 400 }
       );
     }
 
     // Reject price tampering (> 1000 VND tolerance)
     if (Math.abs(serverTotal - total) > 1000) {
-      console.error(`Price mismatch: client=${total}, server=${serverTotal}`);
       return NextResponse.json(
-        { error: "Price mismatch detected. Please refresh and try again." },
+        { error: "Phát hiện sai lệch về giá. Vui lòng làm mới trang và thử lại." },
         { status: 400 }
       );
     }
@@ -116,9 +120,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error("Database error:", error);
       return NextResponse.json(
-        { error: "Failed to create order" },
+        { error: "Không thể tạo đơn hàng. Vui lòng thử lại sau." },
         { status: 500 }
       );
     }
@@ -134,11 +137,9 @@ export async function POST(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error("Order API error:", message);
+  } catch (error) {
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
     );
   }
@@ -148,9 +149,9 @@ export async function GET(request: NextRequest) {
   try {
     try {
       await limiter.check(60, `order-get:${getClientIP(request)}`);
-    } catch {
+    } catch (error) {
       return NextResponse.json(
-        { error: "Too many requests." },
+        { error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau." },
         { status: 429 }
       );
     }
@@ -161,7 +162,7 @@ export async function GET(request: NextRequest) {
 
     if (!orderId && !orderCode) {
       return NextResponse.json(
-        { error: "Order ID or order code is required" },
+        { error: "Cần cung cấp mã đơn hàng hoặc ID đơn hàng" },
         { status: 400 }
       );
     }
@@ -179,7 +180,7 @@ export async function GET(request: NextRequest) {
 
     if (error || !data) {
       return NextResponse.json(
-        { error: "Order not found" },
+        { error: "Không tìm thấy đơn hàng" },
         { status: 404 }
       );
     }
@@ -197,11 +198,9 @@ export async function GET(request: NextRequest) {
         createdAt: order.created_at,
       }
     });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error("Order API error:", message);
+  } catch (error) {
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau." },
       { status: 500 }
     );
   }

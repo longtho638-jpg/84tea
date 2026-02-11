@@ -34,7 +34,7 @@ export function Chip({
       {...props}
     >
       {icon && (
-        <span className="material-symbols-rounded text-lg">
+        <span className="material-symbols-rounded text-lg" aria-hidden="true">
           {icon}
         </span>
       )}
@@ -48,7 +48,7 @@ export function Chip({
           className="ml-1 -mr-2 p-2 rounded-full hover:bg-on-secondary-container/12 min-w-[36px] min-h-[36px] flex items-center justify-center"
           aria-label="Remove"
         >
-          <span className="material-symbols-rounded text-base">
+          <span className="material-symbols-rounded text-base" aria-hidden="true">
             close
           </span>
         </button>
@@ -72,7 +72,7 @@ export function FilterChips({ options, selected, onSelect }: FilterChipsProps) {
   return (
     <div
       role="group"
-      aria-label="Lọc theo danh mục sản phẩm"
+      aria-label="Filter by product category"
       className="flex flex-wrap gap-2"
     >
       {options.map((option) => (

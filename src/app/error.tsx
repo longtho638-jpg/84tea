@@ -11,8 +11,8 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log to error tracking service (Sentry, etc.) in production
-    console.error('Global error:', error);
+    // Error tracking service integration point (e.g. Sentry)
+    void error;
   }, [error]);
 
   return (
@@ -20,7 +20,7 @@ export default function Error({
       <div className="max-w-md w-full text-center animate-scale-in">
         <div className="bg-error-container rounded-[28px] p-10 shadow-elevation-3">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-error/10 flex items-center justify-center">
-            <span className="material-symbols-rounded text-5xl text-error">
+            <span className="material-symbols-rounded text-5xl text-error" aria-hidden="true">
               error_outline
             </span>
           </div>
@@ -41,7 +41,7 @@ export default function Error({
               variant="filled"
               className="min-w-[140px]"
             >
-              <span className="material-symbols-rounded text-xl mr-2">refresh</span>
+              <span className="material-symbols-rounded text-xl mr-2" aria-hidden="true">refresh</span>
               Thử lại
             </Button>
             <Button
@@ -49,7 +49,7 @@ export default function Error({
               variant="outlined"
               className="min-w-[140px] border-on-error-container/30 text-on-error-container hover:bg-on-error-container/8"
             >
-              <span className="material-symbols-rounded text-xl mr-2">home</span>
+              <span className="material-symbols-rounded text-xl mr-2" aria-hidden="true">home</span>
               Trang chủ
             </Button>
           </div>

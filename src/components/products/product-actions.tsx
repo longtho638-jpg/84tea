@@ -33,13 +33,13 @@ export function ProductActions({ product }: { product: Product }) {
         onClick={handleAddToCart}
         className="flex-1"
       >
-        <span className="material-symbols-rounded mr-2">
+        <span className="material-symbols-rounded mr-2" aria-hidden="true">
           {isAdded ? "check" : "shopping_bag"}
         </span>
         {isAdded ? t("added") : t("addToCart")}
       </Button>
-      <Button variant="outlined" size="lg" className="px-6">
-        <span className="material-symbols-rounded">favorite</span>
+      <Button variant="outlined" size="lg" className="px-6" aria-label={t("addToFavorites")}>
+        <span className="material-symbols-rounded" aria-hidden="true">favorite</span>
       </Button>
     </div>
   );

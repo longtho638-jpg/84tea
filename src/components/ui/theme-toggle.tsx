@@ -14,8 +14,8 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="text" size="icon" className="w-11 h-11 rounded-full">
-        <span className="material-symbols-rounded">light_mode</span>
+      <Button variant="text" size="icon" className="w-11 h-11 rounded-full" aria-label="Toggle theme">
+        <span className="material-symbols-rounded" aria-hidden="true">light_mode</span>
       </Button>
     );
   }
@@ -28,7 +28,7 @@ export function ThemeToggle() {
       className="w-11 h-11 rounded-full hover:bg-on-surface/8 active:bg-on-surface/12"
       aria-label="Toggle theme"
     >
-      <span className="material-symbols-rounded">
+      <span className="material-symbols-rounded" aria-hidden="true">
         {theme === "dark" ? "dark_mode" : "light_mode"}
       </span>
     </Button>

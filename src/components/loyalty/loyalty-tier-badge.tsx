@@ -30,7 +30,7 @@ export function TierBadge({ tier, className }: TierBadgeProps) {
         className
       )}
     >
-      <span className="material-symbols-rounded text-base">workspace_premium</span>
+      <span className="material-symbols-rounded text-base" aria-hidden="true">workspace_premium</span>
       <span>{tierInfo.name}</span>
     </div>
   );

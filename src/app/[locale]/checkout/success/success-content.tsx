@@ -31,7 +31,7 @@ function SuccessContentInner() {
       <Card className="animate-in fade-in slide-in-from-bottom-4 duration-700">
         <CardContent className="pt-12 pb-12 px-8 sm:px-12">
           <div className="w-24 h-24 mx-auto mb-6 bg-primary-container rounded-full flex items-center justify-center">
-            <span className="material-symbols-rounded text-5xl text-on-primary-container">
+            <span className="material-symbols-rounded text-5xl text-on-primary-container" aria-hidden="true">
               check
             </span>
           </div>
@@ -108,15 +108,15 @@ function SuccessContentInner() {
       {/* Trust badges */}
       <div className="mt-8 flex flex-wrap justify-center gap-6 text-on-surface-variant/70">
         <div className="flex items-center gap-2">
-          <span className="material-symbols-rounded text-sm">lock</span>
+          <span className="material-symbols-rounded text-sm" aria-hidden="true">lock</span>
           <span className="text-sm">{t("Trust.secure")}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="material-symbols-rounded text-sm">local_shipping</span>
+          <span className="material-symbols-rounded text-sm" aria-hidden="true">local_shipping</span>
           <span className="text-sm">{t("Trust.shipping")}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="material-symbols-rounded text-sm">assignment_return</span>
+          <span className="material-symbols-rounded text-sm" aria-hidden="true">assignment_return</span>
           <span className="text-sm">{t("Trust.return")}</span>
         </div>
       </div>
