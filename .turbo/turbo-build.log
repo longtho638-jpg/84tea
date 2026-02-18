@@ -2,4 +2,9 @@
 > 84tea@0.1.0 build /Users/macbookprom1/mekong-cli/apps/84tea
 > next build
 
- ELIFECYCLE  Command failed with exit code 130.
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...

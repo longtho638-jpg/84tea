@@ -30,7 +30,7 @@ function isProtectedRoute(pathname: string): boolean {
   );
 }
 
-export async function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   // 1. Run intl middleware first to handle routing
   const response = intlMiddleware(request as NextRequest);
 
