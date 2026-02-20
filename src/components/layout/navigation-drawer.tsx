@@ -75,7 +75,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
       <aside
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation menu"
+        aria-label={t("navigationMenu")}
         className={cn(
           "fixed top-0 left-0 bottom-0 z-50 w-80 max-w-[80vw]",
           "bg-surface-container-low shadow-elevation-1",
@@ -91,7 +91,7 @@ export function NavigationDrawer({ open, onClose }: NavigationDrawerProps) {
             <button
               onClick={onClose}
               className="p-2 rounded-full hover:bg-primary/8 active:bg-primary/12 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label="Close menu"
+              aria-label={t("closeMenu")}
             >
               <span className="material-symbols-rounded text-2xl text-on-surface" aria-hidden="true">
                 close

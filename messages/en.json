@@ -26,7 +26,11 @@
     "cart": "Cart",
     "mainNavigation": "Main navigation",
     "skipToContent": "Skip to main content",
-    "toggleMenu": "Toggle menu"
+    "toggleMenu": "Toggle menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "navigationMenu": "Navigation menu",
+    "toggleTheme": "Toggle theme"
   },
   "Hero": {
     "subtitle": "Vietnamese Tea Heritage",

@@ -26,7 +26,11 @@
     "cart": "Giỏ hàng",
     "mainNavigation": "Điều hướng chính",
     "skipToContent": "Bỏ qua đến nội dung chính",
-    "toggleMenu": "Mở/đóng menu"
+    "toggleMenu": "Mở/đóng menu",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu",
+    "navigationMenu": "Menu điều hướng",
+    "toggleTheme": "Chuyển đổi giao diện"
   },
   "Hero": {
     "subtitle": "Di sản trà Việt",
