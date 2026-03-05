@@ -46,6 +46,11 @@ const CTASection = dynamic(
   { loading: () => null }
 );
 
+const FeatureShowcase = dynamic(
+  () => import("@/components/home/feature-showcase").then((mod) => ({ default: mod.FeatureShowcase })),
+  { loading: () => null }
+);
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-surface flex flex-col">
@@ -54,6 +59,7 @@ export default function Home() {
         <StorySectionAnimated />
         <FeaturedProducts />
         <ProcessSection />
+        <FeatureShowcase />
         <CTASection />
         <FooterSection />
       </MainLayout>
